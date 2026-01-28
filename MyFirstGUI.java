@@ -13,6 +13,9 @@ public class MyFirstGUI {
     }
 }
 
+
+
+
 /*
 Component	A Component is the Abstract base class for about the non-menu user-interface controls of Java SWING. Components are representing an object with a graphical representation.
 Container	A Container is a component that can container Java SWING Components
