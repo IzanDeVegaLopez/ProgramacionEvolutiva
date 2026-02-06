@@ -1,5 +1,6 @@
 import javax.swing.*;
 import org.math.plot.*;
+
 public class main {
  public static void main(String[] args) {
   // define your data
