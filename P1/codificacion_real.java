@@ -1,3 +1,5 @@
+package codification;
+
 public class codificacion_real {
     float[] floatVec;
     public codificacion_real(int n) {

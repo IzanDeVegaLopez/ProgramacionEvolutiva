@@ -1,7 +1,7 @@
-
+package codification;
 import java.util.BitSet;
 
-public class codificacion_binaria {
+class codificacion_binaria {
     BitSet bitset;
     int sizeColumnas, sizeFilas;
     public codificacion_binaria(int nFilas, int nColumnas, int nCamaras) {
