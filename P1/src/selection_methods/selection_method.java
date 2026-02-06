@@ -1,7 +1,6 @@
+package selection_methods;
 import codification.codificacion_binaria;
 import codification.codificacion_real;
-
-package selection_method;
 
 interface bin_selection_method {
     public abstract int[] chooseEntities(codificacion_binaria[] cod);
