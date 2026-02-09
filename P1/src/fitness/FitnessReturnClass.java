@@ -3,11 +3,11 @@ package fitness;
 import java.util.ArrayList;
 
 public class FitnessReturnClass {
-    public int totalTiles;
+    public int totalValue;
     //[Camera][tileNumber][0==x,1==y]
     public ArrayList<ArrayList<int[]>> tilesInCameraI;
     public FitnessReturnClass(){
-        totalTiles = 0;
+        totalValue = 0;
         tilesInCameraI = new ArrayList<ArrayList<int[]>>(0);
     }
 }

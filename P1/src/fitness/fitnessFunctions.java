@@ -14,7 +14,7 @@ public class fitnessFunctions {
         for(int i = 0; i < cod.getNElems(); ++i){
             int[] value = cod.getElemI(i);
             ArrayList<int[]> resultInThisTile = getBinFitnessForOneCamera(m,value[0],value[1]);
-            ft.totalCameras += resultInThisTile.size();
+            ft.totalValue += resultInThisTile.size();
             ft.tilesInCameraI.add(resultInThisTile);
         }
         return ft;
