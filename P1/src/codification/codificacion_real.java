@@ -27,7 +27,7 @@ public class codificacion_real {
 
     // Muta el gen `elem` del cromosoma `elemIdx`.
     public void mutate_at(int elemIdx, int elem){
-        floatVec[elemIdx+elem] = (float)Math.random() * maxValues[elem];
+        floatVec[elemIdx*getSizeGenoma()+elem] = (float)Math.random() * maxValues[elem];
     }
 
 }
