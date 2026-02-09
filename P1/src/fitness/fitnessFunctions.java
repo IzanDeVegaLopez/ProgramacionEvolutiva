@@ -8,6 +8,8 @@ import java.util.ArrayList;
 public class fitnessFunctions {
     //returns all tiles affected
     public static FitnessReturnClass getBinFitness(Map m, codificacion_binaria cod){
+        m.resetTainted();
+
         FitnessReturnClass ft = new FitnessReturnClass();
         for(int i = 0; i < cod.getNElems(); ++i){
             int x=0,y=0;
@@ -31,9 +33,14 @@ public class fitnessFunctions {
         if(m.validTile(x,y)) {
             int[][] dir = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
             retVal.add(new int[]{x, y});
+            m.tainted[x][y] = true;
             for (int[] delta : dir) {
-                for (int i = 1; i < m.visionRange && m.validTile(x+delta[0]*i,y+delta[1]*i); ++i) {
-                    retVal.add(new int[]{x + delta[0] * i, y + delta[1] * i});
+                int newX,newY;
+                for (int i = 1; i < m.visionRange && m.validTile(newX = x+delta[0]*i,newY=y+delta[1]*i); ++i) {
+                    if(!m.tainted[newX][newY]) {
+                        retVal.add(new int[]{newX, newY});
+                        m.tainted[newX][newY] = true;
+                    }
                 }
             }
         }
