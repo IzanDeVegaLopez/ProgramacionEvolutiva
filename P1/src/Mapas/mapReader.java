@@ -82,8 +82,8 @@ public class mapReader {
 
             while(!myReader.hasNextInt())
                 myReader.next();
-            int width = myReader.nextInt(),
-                    height = myReader.nextInt();
+            int height = myReader.nextInt(),
+                    width = myReader.nextInt();
 
             b = new boolean[width][height];
             for(int i = 0; i < height; ++i){

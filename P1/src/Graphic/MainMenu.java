@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.BoxLayout;
 import java.lang.*;
+import Mapas.*;
 
 import org.math.plot.*;
 
@@ -34,11 +35,17 @@ public class MainMenu extends MyFrame{
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
+        pan.add(createMap(new Map[]{mapReader.readMap(mapReader.MUSEO)}));
+
         pan.add(createAllMenusDesplegables());
 
         pan.add(createCheckBox("Elitismo"));
 
         return pan;
+    }
+
+    MapRepresentation createMap(Map[] m){
+        return new MapRepresentation(m);
     }
 
     JPanel createAllMenusDesplegables(){
