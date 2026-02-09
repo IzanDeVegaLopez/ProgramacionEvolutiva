@@ -36,10 +36,7 @@ public class MainMenu extends MyFrame{
 
         pan.add(createAllMenusDesplegables());
 
-        pan.add(createCheckBox("Elitism"));
-        pan.add(createCheckBox("second checkbox"));
-        pan.add(createCheckBox("third checkbox"));
-
+        pan.add(createCheckBox("Elitismo"));
 
         return pan;
     }
@@ -77,6 +74,8 @@ public class MainMenu extends MyFrame{
         Checkbox chckBx = new Checkbox(s);
         chckBx.setSize(30,40);
         chckBx.setBackground(new Color(0,255,255));
+        chckBx.setMaximumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
+        chckBx.setMinimumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
         return chckBx;
     }
 
@@ -96,7 +95,7 @@ public class MainMenu extends MyFrame{
 
     Plot2DPanel createGraphicsMenu(){
         Plot2DPanel plot = new Plot2DPanel();
-        plot.setSize(100,100);
+        //plot.setSize(100,100);
         plot.addLegend("SOUTH");
         double test[][] ={
                 {0,1,2,3,4,5,2},
