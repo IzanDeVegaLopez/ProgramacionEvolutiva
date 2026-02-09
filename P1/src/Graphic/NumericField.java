@@ -7,9 +7,10 @@ import java.awt.event.*;
 
 public class NumericField extends MyPanel{
     int x=50, y=50;
+    public JTextField textField;
     public NumericField(int startValue){
         super(255,255,255);
-        JTextField textField = new JTextField("0", 10);
+        textField = new JTextField("0", 10);
         JButton incrementButton = new JButton("+");
         JButton decrementButton = new JButton("-");
 

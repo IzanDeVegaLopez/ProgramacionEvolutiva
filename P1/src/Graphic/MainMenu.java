@@ -3,7 +3,11 @@ package Graphic;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.BoxLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.*;
+
+import GeneticAlgorithm.*;
 import Mapas.*;
 import codification.*;
 
@@ -16,6 +20,10 @@ public class MainMenu extends MyFrame{
     int boxSizeY = 50;
     int labelSizeX = 460;
     int menuDesplegableSizeX = 300;
+    MapRepresentation mapRepresentation;
+    Plot2DPanel plot2D;
+    NumericField nGensField;
+    NumericField nIndInGenField;
 
     public MainMenu(int x,int y){
         super(x,y);
@@ -26,7 +34,8 @@ public class MainMenu extends MyFrame{
         //controls
         parent.add(createControlsMenu());
         //graphic
-        parent.add(createGraphicsMenu());
+        plot2D = createGraphicsMenu();
+        parent.add(plot2D);
 
         add(parent);
         pack();
@@ -39,11 +48,26 @@ public class MainMenu extends MyFrame{
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
-        pan.add(createMap(mapReader.MUSEO));
+        mapRepresentation = createMap(mapReader.MUSEO);
+        pan.add(mapRepresentation);
 
         pan.add(createAllMenusDesplegables());
 
         pan.add(createCheckBox("Elitismo"));
+
+        Button but = new Button("Start");
+        but.addActionListener(new ActionListener() {
+          @Override
+            public void actionPerformed(ActionEvent e) {
+              GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
+              g.plot2d = plot2D;
+              g.m = mapRepresentation.m;
+              g.nGen = Integer.parseInt(nGensField.textField.getText());
+              g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
+              GeneticAlgorithm ga = new GeneticAlgorithm(g);
+            }
+        });
+        pan.add(but);
 
         return pan;
     }
@@ -84,10 +108,10 @@ public class MainMenu extends MyFrame{
 
         //Tamaño Población
         panL.add(createLabel("Tamaño Población"));
-        panR.add(createNumericField(20));
+        panR.add(nIndInGenField = createNumericField(20));
         //Generaciones
         panL.add(createLabel("Número generaciones"));
-        panR.add(createNumericField(100));
+        panR.add(nGensField = createNumericField(100));
 
         //Porcentaje Mutación
         panL.add(createLabel("Porcentaje mutación (%)"));
@@ -136,12 +160,6 @@ public class MainMenu extends MyFrame{
         Plot2DPanel plot = new Plot2DPanel();
         //plot.setSize(100,100);
         plot.addLegend("SOUTH");
-        double test[][] ={
-                {0,1,2,3,4,5,2},
-                {0,1,2,3,5,6,7}
-        };
-        plot.addLinePlot("my plot", test);
-        //JLabel label = new JLabel("Hello, GUI World!", SwingConstants.CENTER);
         plot.setVisible(true);
         return plot;
     }
