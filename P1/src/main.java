@@ -1,5 +1,8 @@
 
 import javax.swing.*;
+
+import Mapas.Map;
+import Mapas.mapReader;
 import org.math.plot.*;
 import java.awt.*;
 import Graphic.*;
@@ -19,6 +22,8 @@ public class main {
    }
   });
   */
+
+  Map m = mapReader.readMap(mapReader.MUSEO);
 
   MainMenu mm = new MainMenu(800,600);
   /*
