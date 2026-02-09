@@ -35,7 +35,7 @@ public class MainMenu extends MyFrame{
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
-        pan.add(createMap(new Map[]{mapReader.readMap(mapReader.MUSEO)}));
+        pan.add(createMap(mapReader.MUSEO));
 
         pan.add(createAllMenusDesplegables());
 
@@ -44,8 +44,10 @@ public class MainMenu extends MyFrame{
         return pan;
     }
 
-    MapRepresentation createMap(Map[] m){
-        return new MapRepresentation(m);
+    MapRepresentation createMap(int mapId){
+        MapRepresentation m = new MapRepresentation(mapId);
+        m.putBinCamera(1,1,0);
+        return m;
     }
 
     JPanel createAllMenusDesplegables(){
