@@ -3,10 +3,11 @@ package selection_methods;
 import java.util.Arrays;
 
 public class truncamiento implements selection_method {
+    double ratio = 0.5;
     public int[] chooseEntities(int[] fitness, int count){
-        // TODO: Separar count y criterios de truncamiento.
         int[] selected = new int[count];
-        for (int i = 0; i<count; i++) {
+        int num_trunc = (int) Math.round(fitness.length*ratio);
+        for (int i = 0; i<num_trunc; i++) {
             int max = -1;
             int maxInd = -1;
             for (int j = 0; j < fitness.length; j++) {
@@ -17,6 +18,9 @@ public class truncamiento implements selection_method {
             }
             selected[i] = maxInd;
             fitness[maxInd] = -1;
+        }
+        for (int i = num_trunc; i<count;i++){
+            selected[i] = selected[i-num_trunc];
         }
         return selected;
     }
