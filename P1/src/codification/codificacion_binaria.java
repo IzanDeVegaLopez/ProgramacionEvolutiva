@@ -1,6 +1,7 @@
 package codification;
 import java.util.BitSet;
 import mutation_methods.*;
+import java.util.List;
 
 public class codificacion_binaria {
     public BitSet bitset;
@@ -38,5 +39,21 @@ public class codificacion_binaria {
         cod.bitset.set(8,true);
         cod.bitset.set(12, true);
         return cod;
+    }
+
+    public int[] getElemI(int idx){
+        int[] retVal = new int[sizeParts.length];
+        //Contruye números a partir de binarios
+        //Presupone que el bit menos significativo está a la izquierda
+        int sizeAcum = 0;
+        for(int i = 0; i < sizeParts.length; ++i){
+            int x = 0;
+            for(int ix = 0; ix < sizeParts[i]; ++ix){
+                x += (bitset.get(idx*sizeElem+ix+sizeAcum) ? 1 : 0) << ix;
+            }
+            sizeAcum+=sizeParts[i];
+            retVal[i] = x;
+        }
+        return retVal;
     }
 }
