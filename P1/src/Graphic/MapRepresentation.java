@@ -5,8 +5,11 @@ import Mapas.Map;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
+
 
 import Mapas.mapReader;
+import fitness.FitnessReturnClass;
 
 public class MapRepresentation extends MyPanel{
     JPanel [][] myTiles;
@@ -30,22 +33,25 @@ public class MapRepresentation extends MyPanel{
         }
         colorPerCamera = new Color[m.nCamaras];
         for(int i = 0; i < m.nCamaras; ++i){
-            colorPerCamera[0] = new Color(
-                    (int)Math.floor(Math.random()*255),
-                    (int)Math.floor(Math.random()*255),
-                    (int)Math.floor(Math.random()*255)
+            colorPerCamera[i] = new Color(
+                    (int)Math.floor(Math.random()*200),
+                    (int)Math.floor(Math.random()*200),
+                    (int)Math.floor(Math.random()*200)
             );
         }
     }
 
-    void putBinCamera(int x, int y, int cameraNumber){
-        int[][]dir = new int[][]{{1,0},{0,1}, {-1,0}, {0,-1}};
-        if(m.ocupiedTiles[x][y]) return;
-        myTiles[x][y].setBackground(colorPerCamera[cameraNumber]);
-        for(int[] delta : dir){
-            for(int i = 1; i < m.visionRange && !m.ocupiedTiles[x+delta[0]*i][y+delta[1]*i]; ++i){
-                myTiles[x+delta[0]*i][y+delta[1]*i].setBackground(colorPerCamera[cameraNumber]);
-            }
+    public void putAllBinCameras(FitnessReturnClass frc){
+        int i = 0;
+        for(ArrayList<int[]> arr : frc.tilesInCameraI){
+            putBinCamera(arr,i);
+            ++i;
+        }
+    }
+
+    void putBinCamera(ArrayList<int[]> listTiles, int cameraNumber){
+        for(int i = 0; i < listTiles.size(); ++i) {
+            myTiles[listTiles.get(i)[0]][listTiles.get(i)[1]].setBackground(colorPerCamera[cameraNumber]);
         }
     }
 }

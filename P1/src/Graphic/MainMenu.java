@@ -5,8 +5,12 @@ import java.awt.*;
 import javax.swing.BoxLayout;
 import java.lang.*;
 import Mapas.*;
+import codification.*;
 
+import fitness.fitnessFunctions;
 import org.math.plot.*;
+
+import static fitness.fitnessFunctions.getBinFitness;
 
 public class MainMenu extends MyFrame{
     int boxSizeY = 50;
@@ -46,7 +50,9 @@ public class MainMenu extends MyFrame{
 
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
-        m.putBinCamera(1,1,0);
+        //m.putBinCamera(1,1,0);
+        codificacion_binaria cod = codificacion_binaria.getTestCod();
+        m.putAllBinCameras(fitnessFunctions.getBinFitness(m.m, cod));
         return m;
     }
 
