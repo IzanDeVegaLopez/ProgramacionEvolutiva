@@ -6,6 +6,7 @@ import javax.swing.BoxLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
+import java.util.HashMap;
 
 import GeneticAlgorithm.*;
 import Mapas.*;
@@ -24,9 +25,21 @@ public class MainMenu extends MyFrame{
     Plot2DPanel plot2D;
     NumericField nGensField;
     NumericField nIndInGenField;
+    JComboBox selectionTypeComboBox;
+    JComboBox crossMethodComboBox;
+    JComboBox mutationMethodComboBox;
+    JComboBox codificationTypeComboBox;
+
+    HashMap<String,Integer> selectionHash;
+    HashMap<String,Integer> codeHash;
+    HashMap<String,Integer> mutationHash;
+    HashMap<String,Integer> crossHash;
+
 
     public MainMenu(int x,int y){
         super(x,y);
+
+        initHashMaps();
 
         MyPanel parent = new MyPanel(255,255,0);
         parent.setSize(300,300);
@@ -40,6 +53,25 @@ public class MainMenu extends MyFrame{
         add(parent);
         pack();
         setSize(800,600);
+    }
+    void initHashMaps(){
+        codeHash = new HashMap<>();
+        codeHash.put("Binario", 0);
+        codeHash.put("Punto flotante", 1);
+
+        selectionHash = new HashMap<>();
+        selectionHash.put("Ruleta",0);
+        selectionHash.put("Torneo",1);
+        selectionHash.put("Estocástico",2);
+        selectionHash.put("Truncamiento",3);
+        selectionHash.put("Restos",4);
+
+        crossHash = new HashMap<>();
+        crossHash.put("Monopunto",0);
+        crossHash.put("Uniforme",1);
+
+        mutationHash = new HashMap<>();
+        mutationHash.put("A nivel de bit", 0);
     }
 
     JPanel createControlsMenu(){
@@ -64,6 +96,11 @@ public class MainMenu extends MyFrame{
               g.m = mapRepresentation.m;
               g.nGen = Integer.parseInt(nGensField.textField.getText());
               g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
+              //
+              g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
+              g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
+              g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
+              g.codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
               GeneticAlgorithm ga = new GeneticAlgorithm(g);
             }
         });
@@ -95,16 +132,16 @@ public class MainMenu extends MyFrame{
 
         //Codificación
         panL.add(createLabel("Codificación"));
-        panR.add(createMenuDesplegable(new String[]{"Binario", "Punto flotante"}));
+        panR.add(codificationTypeComboBox= createMenuDesplegable(new String[]{"Binario", "Punto flotante"}));
         //método de Selección
         panL.add(createLabel("Método de Selección"));
-        panR.add(createMenuDesplegable(new String[]{"Ruleta", "Torneo", "Estocástico", "Truncamiento", "Restos"}));
+        panR.add(selectionTypeComboBox= createMenuDesplegable(new String[]{"Ruleta", "Torneo", "Estocástico", "Truncamiento", "Restos"}));
         //Operadores de cruce
         panL.add(createLabel("Operadores de cruce"));
-        panR.add(createMenuDesplegable(new String[]{"Monopunto", "Uniforme"}));
+        panR.add(crossMethodComboBox= createMenuDesplegable(new String[]{"Monopunto", "Uniforme"}));
         //Mutación
         panL.add(createLabel("Mutación"));
-        panR.add(createMenuDesplegable(new String[]{"A nivel de bit"}));
+        panR.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"A nivel de bit"}));
 
         //Tamaño Población
         panL.add(createLabel("Tamaño Población"));

@@ -27,9 +27,11 @@ public class GeneticAlgorithm {
             plotValues[3][i] = i;
         }
 
-        int i = p.plot2d.addLinePlot("BLUE",Color.BLUE, plotValues[0],plotValues[3]);
-        int i2 = p.plot2d.addLinePlot("RED",Color.RED, plotValues[1],plotValues[3]);
-        int i3 = p.plot2d.addLinePlot("GREEN",Color.GREEN, plotValues[2],plotValues[3]);
+        if(p.plot2d.getPlots().size()==0) {
+            int i = p.plot2d.addLinePlot("BLUE", Color.BLUE, plotValues[0], plotValues[3]);
+            int i2 = p.plot2d.addLinePlot("RED", Color.RED, plotValues[1], plotValues[3]);
+            int i3 = p.plot2d.addLinePlot("GREEN", Color.GREEN, plotValues[2], plotValues[3]);
+        }
     }
     public void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
         while(currentGen < p.nGen) {

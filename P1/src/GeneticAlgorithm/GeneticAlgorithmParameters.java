@@ -8,4 +8,9 @@ public class GeneticAlgorithmParameters {
     public Plot2DPanel plot2d;
     public int nGen;
     public int nIndInGen;
+    //method changing things
+    public int crossType;
+    public int mutationType;
+    public int codeType;
+    public int selectionType;
 }
