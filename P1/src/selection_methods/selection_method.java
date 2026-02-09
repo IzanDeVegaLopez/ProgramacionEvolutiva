@@ -2,11 +2,7 @@ package selection_methods;
 import codification.codificacion_binaria;
 import codification.codificacion_real;
 
-interface bin_selection_method {
-    public abstract int[] chooseEntities(codificacion_binaria[] cod);
+interface selection_method {
+    public abstract int[] chooseEntities(int[] fitness, int count);
     //returns array with index of each element chosen
-}
-
-interface float_selection_method {
-    public abstract int[] chooseEntities(codificacion_real[] cod);
 }

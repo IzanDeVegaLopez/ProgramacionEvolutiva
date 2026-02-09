@@ -3,13 +3,16 @@ package selection_methods;
 import codification.codificacion_binaria;
 import codification.codificacion_real;
 
-public class ruleta implements bin_selection_method, float_selection_method{
-    public int[] chooseEntities(codificacion_binaria[] cod){
-        int[] selected = {};
-        return selected;
-    }
-    public int[] chooseEntities(codificacion_real[] cod){
-        int[] selected = {};
+public class ruleta implements selection_method{
+    public int[] chooseEntities(int[] fitness, int count){
+        int[] selected = new int[count];
+        tabla_frecuencias t = new tabla_frecuencias(fitness);
+        for (int i = 0; i<count;i++){
+            float temp = (float)Math.random();
+            int index = 0;
+            while (t.frec_rel_acumulada[index] < temp) index++;
+            selected[i] = index;
+        }
         return selected;
     }
 }
