@@ -8,7 +8,7 @@ import java.lang.*;
 import org.math.plot.*;
 
 public class MainMenu extends MyFrame{
-    int boxSizeY = 150;
+    int boxSizeY = 50;
     int labelSizeX = 460;
     int menuDesplegableSizeX = 300;
 
@@ -44,8 +44,8 @@ public class MainMenu extends MyFrame{
     JPanel createAllMenusDesplegables(){
         MyPanel panelConjunto = new MyPanel(150,150,150);
         panelConjunto.setLayout(new BoxLayout(panelConjunto, BoxLayout.X_AXIS));
-        panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY));
-        panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY));
+        panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*7));
+        panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*7));
 
         MyPanel panL = new MyPanel(255,255,255);
         MyPanel panR = new MyPanel(255,255,255);
@@ -64,6 +64,18 @@ public class MainMenu extends MyFrame{
         //Mutación
         panL.add(createLabel("Mutación"));
         panR.add(createMenuDesplegable(new String[]{"A nivel de bit"}));
+
+        //Generaciones
+        panL.add(createLabel("Número generaciones"));
+        panR.add(createNumericField(10));
+
+        //Porcentaje Mutación
+        panL.add(createLabel("Porcentaje mutación (%)"));
+        panR.add(createNumericField(5));
+
+        //Porcentaje Cruce
+        panL.add(createLabel("Porcentaje cruce (%)"));
+        panR.add(createNumericField(30));
 
         panelConjunto.add(panL);
         panelConjunto.add(panR);
@@ -91,6 +103,13 @@ public class MainMenu extends MyFrame{
         cmb.setMaximumSize(new Dimension(menuDesplegableSizeX, boxSizeY));
         cmb.setMinimumSize(new Dimension(menuDesplegableSizeX, boxSizeY));
         return cmb;
+    }
+
+    NumericField createNumericField(int startVal){
+        NumericField t = new NumericField(startVal);
+        t.setMaximumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
+        t.setMinimumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
+        return t;
     }
 
     Plot2DPanel createGraphicsMenu(){
