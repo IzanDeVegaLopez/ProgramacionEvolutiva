@@ -42,10 +42,12 @@ public class MainMenu extends MyFrame{
     }
 
     JPanel createAllMenusDesplegables(){
+        int nElems = 8;
+
         MyPanel panelConjunto = new MyPanel(150,150,150);
         panelConjunto.setLayout(new BoxLayout(panelConjunto, BoxLayout.X_AXIS));
-        panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*7));
-        panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*7));
+        panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
+        panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
 
         MyPanel panL = new MyPanel(255,255,255);
         MyPanel panR = new MyPanel(255,255,255);
@@ -65,9 +67,12 @@ public class MainMenu extends MyFrame{
         panL.add(createLabel("Mutación"));
         panR.add(createMenuDesplegable(new String[]{"A nivel de bit"}));
 
+        //Tamaño Población
+        panL.add(createLabel("Tamaño Población"));
+        panR.add(createNumericField(20));
         //Generaciones
         panL.add(createLabel("Número generaciones"));
-        panR.add(createNumericField(10));
+        panR.add(createNumericField(100));
 
         //Porcentaje Mutación
         panL.add(createLabel("Porcentaje mutación (%)"));
