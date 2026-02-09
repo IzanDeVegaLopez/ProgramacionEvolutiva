@@ -1,5 +1,6 @@
 package codification;
 import java.util.BitSet;
+import mutation_methods.*;
 
 public class codificacion_binaria {
     public BitSet bitset;
