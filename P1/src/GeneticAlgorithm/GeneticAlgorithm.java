@@ -3,6 +3,8 @@ package GeneticAlgorithm;
 import Mapas.Map;
 import codification.codificacion_binaria;
 import org.math.plot.Plot2DPanel;
+import fitness.*;
+import selection_methods.*;
 
 import java.awt.*;
 
@@ -36,6 +38,10 @@ public class GeneticAlgorithm {
     public void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
         while(currentGen < p.nGen) {
             //FITNESS
+            int[] results = new int[p.nIndInGen];
+            for (int i = 0; i<p.nIndInGen; i++){
+                results[i] = fitnessFunctions.getBinFitness(p.m,cod[i]).totalValue;
+            }
                 //get media gen
                 //get max gen
                 //get max abs
@@ -51,6 +57,12 @@ public class GeneticAlgorithm {
             p.plot2d.addLinePlot("GREEN",Color.GREEN, plotValues[2],plotValues[3]);
 
             //SELECCIÓN
+            for (int t : results) IO.print(Integer.toString(t)+" ");
+            IO.print(("\n"));
+            int[] select = new selection_methods.
+                    truncamiento().chooseEntities(results);
+            for (int t : select) IO.print(Integer.toString(t)+" ");
+            IO.print(("\n"));
             //CRUCE
             //MUTACIÓN
             ++currentGen;

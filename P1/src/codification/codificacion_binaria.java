@@ -15,6 +15,7 @@ public class codificacion_binaria {
         sizeElem = sizeFilas+sizeColumnas;
         bitset = new BitSet(nCamaras*(sizeElem));
         sizeParts = new int[]{sizeFilas, sizeColumnas};
+        mutacion_inicial.mutar_init(this);
     }
 
     public int getNElems(){

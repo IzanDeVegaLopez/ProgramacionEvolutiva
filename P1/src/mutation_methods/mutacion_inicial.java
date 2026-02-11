@@ -4,7 +4,7 @@ import codification.*;
 public class mutacion_inicial {
     static double ratio = 0.5f;
     public static void mutar_init(codificacion_binaria cod){
-        for (int i = 0; i<cod.bitset.length(); i++)
+        for (int i = 0; i<cod.bitset.size(); i++)
             cod.bitset.set(i,Math.random()<ratio);
     }
 

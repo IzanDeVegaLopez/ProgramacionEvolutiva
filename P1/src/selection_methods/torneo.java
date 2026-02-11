@@ -6,14 +6,14 @@ public class torneo implements selection_method{
         int[] selected = new int[fitness.length];
         /// Contiene los *índices* de los elementos seleccionados.
         int[] muestra_seleccionada = new int[muestra];
-        for (int s : selected) {
-            for (int m : muestra_seleccionada) {
-                m = (int) (Math.random() * fitness.length);
+        for (int i = 0; i<selected.length; i++) {
+            for (int j = 1; j<muestra;j++) {
+                muestra_seleccionada[j] = (int) (Math.random() * fitness.length);
             }
-            s = muestra_seleccionada[0];
-            for (int i = 1; i<muestra;i++){
-                s = fitness[s] >= fitness[muestra_seleccionada[i]]
-                        ? s : muestra_seleccionada[i];
+            selected[i] = muestra_seleccionada[0];
+            for (int j = 1; j<muestra;j++){
+                selected[i] = fitness[selected[i]] >= fitness[muestra_seleccionada[j]]
+                        ? selected[i] : muestra_seleccionada[j];
             }
         }
         return selected;
