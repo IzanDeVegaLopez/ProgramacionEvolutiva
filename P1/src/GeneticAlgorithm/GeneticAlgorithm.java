@@ -60,7 +60,7 @@ public class GeneticAlgorithm {
             for (int t : results) IO.print(Integer.toString(t)+" ");
             IO.print(("\n"));
             int[] select = new selection_methods.
-                    truncamiento().chooseEntities(results);
+                    restos().chooseEntities(results);
             for (int t : select) IO.print(Integer.toString(t)+" ");
             IO.print(("\n"));
             //CRUCE
