@@ -121,45 +121,62 @@ public class MainMenu extends MyFrame{
         int nElems = 8;
 
         MyPanel panelConjunto = new MyPanel(150,150,150);
-        panelConjunto.setLayout(new BoxLayout(panelConjunto, BoxLayout.X_AXIS));
+        panelConjunto.setLayout(new BoxLayout(panelConjunto, BoxLayout.Y_AXIS));
         panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
         panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
 
-        MyPanel panL = new MyPanel(255,255,255);
-        MyPanel panR = new MyPanel(255,255,255);
-        panL.setLayout(new BoxLayout(panL, BoxLayout.Y_AXIS));
-        panR.setLayout(new BoxLayout(panR, BoxLayout.Y_AXIS));
-
         //Codificación
-        panL.add(createLabel("Codificación"));
-        panR.add(codificationTypeComboBox= createMenuDesplegable(new String[]{"Binario", "Punto flotante"}));
+        MyPanel p = new MyPanel();
+        p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+        p.add(createLabel("Codificación"));
+        p.add(codificationTypeComboBox= createMenuDesplegable(new String[]{"Binario", "Punto flotante"}));
         //método de Selección
-        panL.add(createLabel("Método de Selección"));
-        panR.add(selectionTypeComboBox= createMenuDesplegable(new String[]{"Ruleta", "Torneo", "Estocástico", "Truncamiento", "Restos"}));
+        MyPanel p1 = new MyPanel();
+        p1.setLayout(new BoxLayout(p1,BoxLayout.X_AXIS));
+        p1.add(createLabel("Método de Selección"));
+        p1.add(selectionTypeComboBox= createMenuDesplegable(new String[]{"Ruleta", "Torneo", "Estocástico", "Truncamiento", "Restos"}));
         //Operadores de cruce
-        panL.add(createLabel("Operadores de cruce"));
-        panR.add(crossMethodComboBox= createMenuDesplegable(new String[]{"Monopunto", "Uniforme"}));
+        MyPanel p2 = new MyPanel();
+        p2.setLayout(new BoxLayout(p2,BoxLayout.X_AXIS));
+        p2.add(createLabel("Operadores de cruce"));
+        p2.add(crossMethodComboBox= createMenuDesplegable(new String[]{"Monopunto", "Uniforme"}));
         //Mutación
-        panL.add(createLabel("Mutación"));
-        panR.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"A nivel de bit"}));
+        MyPanel p3 = new MyPanel();
+        p3.setLayout(new BoxLayout(p3,BoxLayout.X_AXIS));
+        p3.add(createLabel("Mutación"));
+        p3.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"A nivel de bit"}));
 
         //Tamaño Población
-        panL.add(createLabel("Tamaño Población"));
-        panR.add(nIndInGenField = createNumericField(20));
+        MyPanel p4 = new MyPanel();
+        p4.setLayout(new BoxLayout(p4,BoxLayout.X_AXIS));
+        p4.add(createLabel("Tamaño Población"));
+        p4.add(nIndInGenField = createNumericField(20));
         //Generaciones
-        panL.add(createLabel("Número generaciones"));
-        panR.add(nGensField = createNumericField(100));
+        MyPanel p5 = new MyPanel();
+        p5.setLayout(new BoxLayout(p5,BoxLayout.X_AXIS));
+        p5.add(createLabel("Número generaciones"));
+        p5.add(nGensField = createNumericField(100));
 
         //Porcentaje Mutación
-        panL.add(createLabel("Porcentaje mutación (%)"));
-        panR.add(createNumericField(5));
+        MyPanel p6 = new MyPanel();
+        p6.setLayout(new BoxLayout(p6,BoxLayout.X_AXIS));
+        p6.add(createLabel("Porcentaje mutación (%)"));
+        p6.add(createNumericField(5));
 
         //Porcentaje Cruce
-        panL.add(createLabel("Porcentaje cruce (%)"));
-        panR.add(createNumericField(30));
+        MyPanel p7 = new MyPanel();
+        p7.setLayout(new BoxLayout(p7,BoxLayout.X_AXIS));
+        p7.add(createLabel("Porcentaje cruce (%)"));
+        p7.add(createNumericField(30));
 
-        panelConjunto.add(panL);
-        panelConjunto.add(panR);
+        panelConjunto.add(p);
+        panelConjunto.add(p1);
+        panelConjunto.add(p2);
+        panelConjunto.add(p3);
+        panelConjunto.add(p4);
+        panelConjunto.add(p5);
+        panelConjunto.add(p6);
+        panelConjunto.add(p7);
         return panelConjunto;
     }
 
