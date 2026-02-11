@@ -19,8 +19,8 @@ import static fitness.fitnessFunctions.getBinFitness;
 
 public class MainMenu extends MyFrame{
     int boxSizeY = 50;
-    int labelSizeX = 460;
-    int menuDesplegableSizeX = 300;
+    int labelSizeX = 175;
+    int menuDesplegableSizeX = 100;
     MapRepresentation mapRepresentation;
     Plot2DPanel plot2D;
     NumericField nGensField;
@@ -41,7 +41,7 @@ public class MainMenu extends MyFrame{
 
         initHashMaps();
 
-        MyPanel parent = new MyPanel(255,255,0);
+        MyPanel parent = new MyPanel();
         parent.setSize(300,300);
         parent.setLayout(new BoxLayout(parent,BoxLayout.X_AXIS));
         //controls
@@ -75,7 +75,7 @@ public class MainMenu extends MyFrame{
     }
 
     JPanel createControlsMenu(){
-        MyPanel pan = new MyPanel(255,0,0);
+        MyPanel pan = new MyPanel();
         pan.setSize(100,100);
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
@@ -120,7 +120,7 @@ public class MainMenu extends MyFrame{
     JPanel createAllMenusDesplegables(){
         int nElems = 8;
 
-        MyPanel panelConjunto = new MyPanel(150,150,150);
+        MyPanel panelConjunto = new MyPanel();
         panelConjunto.setLayout(new BoxLayout(panelConjunto, BoxLayout.Y_AXIS));
         panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
         panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
@@ -183,7 +183,7 @@ public class MainMenu extends MyFrame{
     Checkbox createCheckBox(String s){
         Checkbox chckBx = new Checkbox(s);
         chckBx.setSize(30,40);
-        chckBx.setBackground(new Color(0,255,255));
+        chckBx.setBackground(new Color(255,255,255));
         chckBx.setMaximumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
         chckBx.setMinimumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
         return chckBx;
@@ -205,8 +205,8 @@ public class MainMenu extends MyFrame{
 
     NumericField createNumericField(int startVal){
         NumericField t = new NumericField(startVal);
-        t.setMaximumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
-        t.setMinimumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
+        t.setMaximumSize(new Dimension(menuDesplegableSizeX, boxSizeY));
+        t.setMinimumSize(new Dimension(menuDesplegableSizeX, boxSizeY));
         return t;
     }
 
