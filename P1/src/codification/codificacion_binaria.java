@@ -1,6 +1,5 @@
 package codification;
 import java.util.BitSet;
-import mutation_methods.*;
 import java.util.List;
 
 public class codificacion_binaria {
@@ -15,7 +14,7 @@ public class codificacion_binaria {
         sizeElem = sizeFilas+sizeColumnas;
         bitset = new BitSet(nCamaras*(sizeElem));
         sizeParts = new int[]{sizeFilas, sizeColumnas};
-        mutacion_inicial.mutar_init(this);
+
     }
 
     public int getNElems(){
@@ -25,10 +24,36 @@ public class codificacion_binaria {
         return sizeElem;
     }
 
+    public void setAllData(BitSet b) {
+        if (b.size() != bitset.size()) {
+            System.out.println("El tamaño del elemento no coindice en llamada a codificacion_binaria::set_elem");
+            return;
+        }
+        bitset = b;
+    }
+    public BitSet retrieveAllData(){
+        return bitset;
+    }
     public void swap(int elemIdxA, int elemIdxB, int elem){
         boolean aux = bitset.get(elemIdxA * getSizeElem()+elem);
         bitset.set(elemIdxA*getSizeElem()+elem, bitset.get(elemIdxB*getSizeElem()+elem));
         bitset.set(elemIdxB*getSizeElem()+elem, aux);
+    }
+    public boolean[] get_elem(int elemIdx){
+        boolean[] aux = new boolean[sizeElem];
+        for(int i = 0; i < sizeElem; ++i){
+            aux[i] = bitset.get(elemIdx*getSizeElem()+i);
+        }
+        return aux;
+    }
+    public void set_elem(boolean[] b, int elemIdx){
+        if(b.length != getSizeElem()){
+            System.out.println("El tamaño del elemento no coindice en llamada a codificacion_binaria::set_elem");
+            return;
+        }
+        for(int i = 0; i < sizeElem; ++i){
+            bitset.set(elemIdx*getSizeElem()+i, b[i]);
+        }
     }
 
     public static codificacion_binaria getTestCod(){
