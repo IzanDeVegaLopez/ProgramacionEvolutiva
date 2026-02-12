@@ -13,29 +13,38 @@ public class fitnessFunctions {
         FitnessReturnClass ft = new FitnessReturnClass();
         for(int i = 0; i < cod.getNElems(); ++i){
             int[] value = cod.getElemI(i);
-            ArrayList<int[]> resultInThisTile = getBinFitnessForOneCamera(m,value[0],value[1]);
-            ft.totalValue += resultInThisTile.size();
-            ft.tilesInCameraI.add(resultInThisTile);
+            array_n_value resultInThisTile = getBinFitnessForOneCamera(m,value[0],value[1]);
+            ft.totalValue += resultInThisTile.value;
+            ft.tilesInCameraI.add(resultInThisTile.array);
         }
+        ft.totalValue = Math.max(ft.totalValue, 0);
         return ft;
     }
+    public static class array_n_value{
+        public int value;
+        public ArrayList<int[]> array;
+        array_n_value(int v, ArrayList<int[]> a){
+            value = v; array = a;
+        }
+    }
     //[tile] [x==0;y==0]
-    private static ArrayList<int[]> getBinFitnessForOneCamera(Map m, int x, int y){
-        ArrayList<int[]> retVal = new ArrayList<int[]>(0);
+    private static array_n_value getBinFitnessForOneCamera(Map m, int x, int y){
+        array_n_value anv = new array_n_value(0,new ArrayList<int[]>(0));
         if(m.validTile(x,y)) {
             int[][] dir = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-            retVal.add(new int[]{x, y});
+            anv.array.add(new int[]{x, y});
             m.tainted[x][y] = true;
             for (int[] delta : dir) {
                 int newX,newY;
                 for (int i = 1; i <= m.visionRange && m.validTile(newX = x+delta[0]*i,newY=y+delta[1]*i); ++i) {
                     if(!m.tainted[newX][newY]) {
-                        retVal.add(new int[]{newX, newY});
+                        anv.array.add(new int[]{newX, newY});
                         m.tainted[newX][newY] = true;
                     }
                 }
             }
+            anv.value = anv.array.size();
         }
-        return retVal;
+        return anv;
     }
 }

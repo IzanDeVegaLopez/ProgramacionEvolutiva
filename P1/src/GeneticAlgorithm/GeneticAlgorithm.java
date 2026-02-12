@@ -3,6 +3,7 @@ package GeneticAlgorithm;
 import Mapas.Map;
 import codification.codificacion_binaria;
 import crossmethods.cruce_monopunto;
+import crossmethods.cruce_uniforme;
 import mutation_methods.mutacion_inicial;
 import org.math.plot.Plot2DPanel;
 import fitness.*;
@@ -96,10 +97,16 @@ public class GeneticAlgorithm {
             //CRUCE
             //--> param probabilidad de cruce
             ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
+            //CRUCE MONOPUNTO
+
             for(int i = 0; i < p.nIndInGen; ++i){
                 if(Math.random() <= p.crossProbability) chosenForCross.add(i);
             }
+            /*
             cruce_monopunto crux = new cruce_monopunto();
+            */
+            //CRUCE UNIFORME
+            cruce_uniforme crux = new cruce_uniforme();
             for(int i = 0; i + 1 < chosenForCross.size(); i+=2){
                 crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i+1));
             }
