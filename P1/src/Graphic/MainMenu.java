@@ -74,6 +74,7 @@ public class MainMenu extends MyFrame{
 
         mutationHash = new HashMap<>();
         mutationHash.put("A nivel de bit", 0);
+
     }
 
     JPanel createControlsMenu(){

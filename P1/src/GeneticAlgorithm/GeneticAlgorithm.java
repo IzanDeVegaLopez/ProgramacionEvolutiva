@@ -87,8 +87,30 @@ public class GeneticAlgorithm {
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, plotValues[3], plotValues[2]);
             IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
             //SELECCIÓN
-            int[] select = new selection_methods.
-                    restos().chooseEntities(results);
+            int[] select=new int[0];
+            switch(p.selectionType){
+                case 0:{//RULETA
+                    select = new selection_methods.ruleta().chooseEntities(results);
+                    break;
+                }
+                case 1:{//TORNEO
+                    select = new selection_methods.torneo().chooseEntities(results);
+                    break;
+                }
+                case 2:{//ESTOCASTICO
+                    select = new selection_methods.estocastico().chooseEntities(results);
+                    break;
+                }
+                case 3:{//TRUNCAMIENTO
+                    select = new selection_methods.truncamiento().chooseEntities(results);
+                    break;
+                }
+                case 4:{//RESTOS
+                    select = new selection_methods.
+                            restos().chooseEntities(results);
+                    break;
+                }
+            }
             int alternate = (using_cod_n + 1) %2;
             for(int i=0;i<select.length;++i){
                 cod[alternate][i].setAllData(cod[using_cod_n][select[i]].retrieveAllData());
@@ -97,19 +119,26 @@ public class GeneticAlgorithm {
             //CRUCE
             //--> param probabilidad de cruce
             ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
-            //CRUCE MONOPUNTO
-
             for(int i = 0; i < p.nIndInGen; ++i){
                 if(Math.random() <= p.crossProbability) chosenForCross.add(i);
             }
-            /*
-            cruce_monopunto crux = new cruce_monopunto();
-            */
-            //CRUCE UNIFORME
-            cruce_uniforme crux = new cruce_uniforme();
-            for(int i = 0; i + 1 < chosenForCross.size(); i+=2){
-                crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i+1));
+            switch(p.crossType) {
+                case 0: { //MONOPUNTO
+                    cruce_monopunto crux = new cruce_monopunto();
+                    for (int i = 0; i + 1 < chosenForCross.size(); i += 2) {
+                        crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i + 1));
+                    }
+                    break;
+                }
+                case 1: {//UNIFORME
+                    cruce_uniforme crux = new cruce_uniforme();
+                    for (int i = 0; i + 1 < chosenForCross.size(); i += 2) {
+                        crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i + 1));
+                    }
+                    break;
+                }
             }
+
             //MUTACIÓN
             mutacion m = new mutacion(p.mutationprobability);
             for(int i = 0; i < p.nIndInGen; ++i){
