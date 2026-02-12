@@ -4,7 +4,7 @@ import Mapas.Map;
 import codification.codificacion_binaria;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
-import mutation_methods.mutacion_inicial;
+import mutation_methods.*;
 import org.math.plot.Plot2DPanel;
 import fitness.*;
 import selection_methods.*;
@@ -111,6 +111,10 @@ public class GeneticAlgorithm {
                 crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i+1));
             }
             //MUTACIÓN
+            mutacion m = new mutacion(p.mutationprobability);
+            for(int i = 0; i < p.nIndInGen; ++i){
+                mutacion.mutar(cod[using_cod_n][i]);
+            }
             ++currentGen;
         }
     }
