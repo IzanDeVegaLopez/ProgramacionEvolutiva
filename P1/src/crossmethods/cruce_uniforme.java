@@ -23,4 +23,7 @@ public class cruce_uniforme implements bin_cross_base, float_cross_base{
             }
         }
     }
+    public void crossAll(codificacion_binaria[] cods, int codIdxA, int codIdxB) {
+    }
+
 }

@@ -2,12 +2,14 @@ package GeneticAlgorithm;
 
 import Mapas.Map;
 import codification.codificacion_binaria;
+import crossmethods.cruce_monopunto;
 import mutation_methods.mutacion_inicial;
 import org.math.plot.Plot2DPanel;
 import fitness.*;
 import selection_methods.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GeneticAlgorithm {
     //2 buffers y van alternando
@@ -27,8 +29,8 @@ public class GeneticAlgorithm {
         int alternate = (using_cod_n+1)%2;
         cod = new codificacion_binaria[][]{new codificacion_binaria[p.nIndInGen],new codificacion_binaria[p.nIndInGen]};
         for(int i = 0; i < p.nIndInGen; ++i){
-            cod[using_cod_n][i] = new codificacion_binaria(p.m.ocupiedTiles.length, p.m.ocupiedTiles[0].length, p.m.nCamaras);
-            cod[alternate][i] = new codificacion_binaria(p.m.ocupiedTiles.length, p.m.ocupiedTiles[0].length, p.m.nCamaras);
+            cod[using_cod_n][i] = new codificacion_binaria(p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length, p.m.m.nCamaras);
+            cod[alternate][i] = new codificacion_binaria(p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length, p.m.m.nCamaras);
             mutacion_inicial.mutar_init(cod[using_cod_n][i]);
         }
 
@@ -53,15 +55,18 @@ public class GeneticAlgorithm {
             FitnessReturnClass ft;
             long acum = 0;
             int max = 0;
+            boolean mapUpdated = false;
             for (int i = 0; i<p.nIndInGen; i++){
-                FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m,cod[using_cod_n][i]);
+                FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m.m,cod[using_cod_n][i]);
                 results[i] = temp.totalValue;
                 acum += results[i];
                 max = Math.max(results[i],max);
                 if(max > bestSol.totalValue){
                     bestSol = temp;
+                    mapUpdated = true;
                 }
             }
+            if(mapUpdated) p.m.putAllBinCameras(bestSol);
             //get media gen
             int mid = (int)acum/p.nIndInGen;
             //get max gen DONE
@@ -87,10 +92,19 @@ public class GeneticAlgorithm {
             for(int i=0;i<select.length;++i){
                 cod[alternate][i].setAllData(cod[using_cod_n][select[i]].retrieveAllData());
             }
+            using_cod_n = alternate;
             //CRUCE
+            //--> param probabilidad de cruce
+            ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
+            for(int i = 0; i < p.nIndInGen; ++i){
+                if(Math.random() <= p.crossProbability) chosenForCross.add(i);
+            }
+            cruce_monopunto crux = new cruce_monopunto();
+            for(int i = 0; i + 1 < chosenForCross.size(); i+=2){
+                crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i+1));
+            }
             //MUTACIÓN
             ++currentGen;
-            using_cod_n = alternate;
         }
     }
     public void endGeneticAlgorithm(GeneticAlgorithmParameters p){

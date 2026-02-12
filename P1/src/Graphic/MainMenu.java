@@ -25,6 +25,8 @@ public class MainMenu extends MyFrame{
     Plot2DPanel plot2D;
     NumericField nGensField;
     NumericField nIndInGenField;
+    NumericField mutationProbability;
+    NumericField crossProbability;
     JComboBox selectionTypeComboBox;
     JComboBox crossMethodComboBox;
     JComboBox mutationMethodComboBox;
@@ -93,9 +95,12 @@ public class MainMenu extends MyFrame{
             public void actionPerformed(ActionEvent e) {
               GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
               g.plot2d = plot2D;
-              g.m = mapRepresentation.m;
+              g.m = mapRepresentation;
+              //
               g.nGen = Integer.parseInt(nGensField.textField.getText());
               g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
+              g.crossProbability = Float.parseFloat(crossProbability.textField.getText()) / 100.0f;
+              g.mutationprobability = Float.parseFloat(mutationProbability.textField.getText()) / 100.0f;
               //
               g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
               g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
@@ -161,13 +166,13 @@ public class MainMenu extends MyFrame{
         MyPanel p6 = new MyPanel();
         p6.setLayout(new BoxLayout(p6,BoxLayout.X_AXIS));
         p6.add(createLabel("Porcentaje mutación (%)"));
-        p6.add(createNumericField(5));
+        p6.add(mutationProbability= createNumericField(5));
 
         //Porcentaje Cruce
         MyPanel p7 = new MyPanel();
         p7.setLayout(new BoxLayout(p7,BoxLayout.X_AXIS));
         p7.add(createLabel("Porcentaje cruce (%)"));
-        p7.add(createNumericField(30));
+        p7.add(crossProbability= createNumericField(30));
 
         panelConjunto.add(p);
         panelConjunto.add(p1);

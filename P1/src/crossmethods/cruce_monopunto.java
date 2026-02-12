@@ -14,6 +14,7 @@ public class cruce_monopunto implements bin_cross_base, float_cross_base{
             }
         }
     }
+
     public void cross(codificacion_binaria cod, int elemIdxA, int elemIdxB){
         for(int i = 0; i < cod.getNElems(); ++i){
             //Para no hacer divisiones obvias antes del primero o después del último
@@ -26,4 +27,15 @@ public class cruce_monopunto implements bin_cross_base, float_cross_base{
             }
         }
     }
+    public void crossAll(codificacion_binaria[] cods, int codIdxA, int codIdxB){
+        int nBitsTotal =  (cods[codIdxA].getNElems()*cods[codIdxA].getSizeElem());
+        int temp = (int)Math.floor(Math.random() *(nBitsTotal-1));
+        temp+=1; //selecciona un bit por el que cortar
+        for(int j = 0; j < temp; ++j){
+            boolean helper = cods[codIdxA].bitset.get(j);
+            cods[codIdxA].bitset.set(j,cods[codIdxB].bitset.get(j));
+            cods[codIdxB].bitset.set(j,helper);
+        }
+    }
+
 }

@@ -13,7 +13,7 @@ import fitness.FitnessReturnClass;
 
 public class MapRepresentation extends MyPanel{
     JPanel [][] myTiles;
-    Map m;
+    public Map m;
     Color[] colorPerCamera;
     MapRepresentation(int mapID){
         super(255,255,255);
@@ -42,10 +42,19 @@ public class MapRepresentation extends MyPanel{
     }
 
     public void putAllBinCameras(FitnessReturnClass frc){
+        emptyCamerasOnMap();
         int i = 0;
         for(ArrayList<int[]> arr : frc.tilesInCameraI){
             putBinCamera(arr,i);
             ++i;
+        }
+    }
+
+    void emptyCamerasOnMap(){
+        for(int i = 0; i < myTiles.length; ++i){
+            for(int j = 0; j < myTiles[0].length; ++j){
+                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] ? Color.BLACK : Color.WHITE);
+            }
         }
     }
 
