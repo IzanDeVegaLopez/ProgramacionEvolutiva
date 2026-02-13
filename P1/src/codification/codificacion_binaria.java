@@ -29,7 +29,7 @@ public class codificacion_binaria {
             System.out.println("El tamaño del elemento no coindice en llamada a codificacion_binaria::set_elem");
             return;
         }
-        bitset = b;
+        bitset = (BitSet)b.clone();
     }
     public BitSet retrieveAllData(){
         return bitset;
