@@ -42,9 +42,9 @@ public class GeneticAlgorithm {
         }
         //erase lines already written
         if(p.plot2d.getPlots().size()==0) {
-            p.plot2d.addLinePlot("MID",Color.BLUE, plotValues[3],plotValues[0]);
+            p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
-            p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, plotValues[3], plotValues[2]);
+            p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
         }
 
         bestSol = new FitnessReturnClass();
