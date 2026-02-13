@@ -32,8 +32,10 @@ public class fitnessFunctions {
         array_n_value anv = new array_n_value(0,new ArrayList<int[]>(0));
         if(m.validTile(x,y)) {
             int[][] dir = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-            anv.array.add(new int[]{x, y});
-            m.tainted[x][y] = true;
+            if(!m.tainted[x][y]) {
+                anv.array.add(new int[]{x, y});
+                m.tainted[x][y] = true;
+            }
             for (int[] delta : dir) {
                 int newX,newY;
                 for (int i = 1; i <= m.visionRange && m.validTile(newX = x+delta[0]*i,newY=y+delta[1]*i); ++i) {

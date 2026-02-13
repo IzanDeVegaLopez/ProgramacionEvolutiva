@@ -33,7 +33,7 @@ public class MainMenu extends MyFrame{
     JComboBox mutationMethodComboBox;
     JComboBox codificationTypeComboBox;
     JLabel maxValue;
-    JLabel enfocingValue;
+    JLabel enforcingValue;
 
     HashMap<String,Integer> selectionHash;
     HashMap<String,Integer> codeHash;
@@ -122,9 +122,6 @@ public class MainMenu extends MyFrame{
 
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
-        //m.putBinCamera(1,1,0);
-        codificacion_binaria cod = codificacion_binaria.getTestCod();
-        m.putAllBinCameras(fitnessFunctions.getBinFitness(m.m, cod));
         return m;
     }
 
@@ -232,8 +229,22 @@ public class MainMenu extends MyFrame{
 
         JPanel infoPan = new JPanel();
         infoPan.setLayout(new BoxLayout(infoPan, BoxLayout.X_AXIS));
-        infoPan.add(createLabel("Meow"));
-        infoPan.add(createLabel("Meow2"));
+
+        JPanel L = new JPanel();
+        L.setLayout(new BoxLayout(L, BoxLayout.X_AXIS));
+        L.add(createLabel("Presión Selectiva: "));
+        L.add(enforcingValue = createLabel("1"));
+
+        JPanel R = new JPanel();
+        R.setLayout(new BoxLayout(R, BoxLayout.X_AXIS));
+        R.add(createLabel("Mejor Resultado: "));
+        R.add(maxValue = createLabel("0"));
+
+        infoPan.add(L); infoPan.add(R);
+        pan.add(infoPan, BorderLayout.NORTH);
+
+        JPanel butPan = new JPanel();
+        //infoPan.setLayout(new BoxLayout(infoPan, BoxLayout.X_AXIS));
         Button but = new Button("Start");
         but.addActionListener(new ActionListener() {
             @Override
@@ -257,8 +268,8 @@ public class MainMenu extends MyFrame{
         });
         but.setSize(new Dimension(100,100));
 
-        infoPan.add(but);
-        pan.add(infoPan, BorderLayout.SOUTH);
+        butPan.add(but);
+        pan.add(butPan, BorderLayout.SOUTH);
 
         return pan;
     }
