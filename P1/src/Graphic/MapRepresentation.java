@@ -34,9 +34,9 @@ public class MapRepresentation extends MyPanel{
         colorPerCamera = new Color[m.nCamaras];
         for(int i = 0; i < m.nCamaras; ++i){
             colorPerCamera[i] = new Color(
-                    (int)Math.floor(Math.random()*200),
-                    (int)Math.floor(Math.random()*200),
-                    (int)Math.floor(Math.random()*200)
+                    (int)Math.floor(Math.random()*150)+50,
+                    (int)Math.floor(Math.random()*150)+50,
+                    (int)Math.floor(Math.random()*150)+50
             );
         }
     }
