@@ -16,7 +16,6 @@ public class main {
  }
 
  void init(){
-  Map m = mapReader.readMap(mapReader.MUSEO);
-  MainMenu mm = new MainMenu(800,600);
+  MainMenu mm = new MainMenu(800,600, mapReader.SUPERMERCADO);
  }
 }

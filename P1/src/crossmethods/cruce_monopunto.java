@@ -38,4 +38,15 @@ public class cruce_monopunto implements bin_cross_base, float_cross_base{
         }
     }
 
+    public void crossAll(codificacion_real[] cods, int codIdxA, int codIdxB){
+        int nBitsTotal =  cods[codIdxA].floatVec.length;
+        int temp = (int)Math.floor(Math.random() *(nBitsTotal-1));
+        temp+=1; //selecciona un bit por el que cortar
+        for(int i = 0; i < temp; ++i){
+            float helper = cods[codIdxA].floatVec[i];
+            cods[codIdxA].floatVec[i] = cods[codIdxB].floatVec[i];
+            cods[codIdxB].floatVec[i] = helper;
+        }
+    }
+
 }

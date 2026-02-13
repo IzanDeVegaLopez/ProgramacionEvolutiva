@@ -20,6 +20,9 @@ public class MapRepresentation extends MyPanel{
         m = mapReader.readMap(mapID);
         int x = m.ocupiedTiles.length,y=m.ocupiedTiles[0].length;
         this.setLayout(new GridLayout(y, x));
+        int xx=200; int yy=200;
+        this.setMaximumSize(new Dimension(xx,yy));
+        this.setMinimumSize(new Dimension(xx,yy));
         myTiles = new JPanel[x][y];
         for(int i = 0; i < y; ++i){
             for(int j = 0; j < x; ++j){

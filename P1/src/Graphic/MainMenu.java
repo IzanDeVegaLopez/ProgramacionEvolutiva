@@ -38,8 +38,10 @@ public class MainMenu extends MyFrame{
     HashMap<String,Integer> crossHash;
 
 
-    public MainMenu(int x,int y){
+    public MainMenu(int x,int y, int mapNumber){
         super(x,y);
+
+        mapRepresentation = createMap(mapNumber);
 
         initHashMaps();
 
@@ -83,7 +85,6 @@ public class MainMenu extends MyFrame{
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
-        mapRepresentation = createMap(mapReader.MUSEO);
         pan.add(mapRepresentation);
 
         pan.add(createAllMenusDesplegables());

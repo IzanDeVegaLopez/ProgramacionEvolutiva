@@ -32,5 +32,14 @@ public class cruce_uniforme implements bin_cross_base, float_cross_base{
             }
         }
     }
+    public void crossAll(codificacion_real[] cods, int codIdxA, int codIdxB) {
+        for(int i = 0; i < cods[codIdxA].floatVec.length; ++i){
+            if(Math.random() < 0.5) {
+                float helper = cods[codIdxA].floatVec[i];
+                cods[codIdxA].floatVec[i] = cods[codIdxB].floatVec[i];
+                cods[codIdxB].floatVec[i] = helper;
+            }
+        }
+    }
 
 }
