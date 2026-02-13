@@ -91,24 +91,33 @@ public class GeneticAlgorithm {
             int[] select=new int[0];
             switch(p.selectionType){
                 case 0:{//RULETA
-                    select = new selection_methods.ruleta().chooseEntities(results);
+                    ruleta r = new selection_methods.ruleta();
+                    select = r.chooseEntities(results);
+                    midSelectionEnforcer += r.t.presion_selectiva;
                     break;
                 }
                 case 1:{//TORNEO
-                    select = new selection_methods.torneo().chooseEntities(results);
+                    torneo t = new selection_methods.torneo();
+                    select = t.chooseEntities(results);
+                    midSelectionEnforcer += t.t.presion_selectiva;
                     break;
                 }
                 case 2:{//ESTOCASTICO
-                    select = new selection_methods.estocastico().chooseEntities(results);
+                    estocastico e = new selection_methods.estocastico();
+                    select = e.chooseEntities(results);
+                    midSelectionEnforcer+=e.t.presion_selectiva;
                     break;
                 }
                 case 3:{//TRUNCAMIENTO
-                    select = new selection_methods.truncamiento().chooseEntities(results);
+                    truncamiento t = new truncamiento();
+                    select = t.chooseEntities(results);
+                    midSelectionEnforcer+=t.t.presion_selectiva;
                     break;
                 }
                 case 4:{//RESTOS
-                    select = new selection_methods.
-                            restos().chooseEntities(results);
+                    restos r = new restos();
+                    select = r.chooseEntities(results);
+                    midSelectionEnforcer+=r.t.presion_selectiva;
                     break;
                 }
             }
@@ -147,6 +156,7 @@ public class GeneticAlgorithm {
             }
             ++currentGen;
         }
+        midSelectionEnforcer /= p.nGen;
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
         //DONT KNOW, WHATEVER
