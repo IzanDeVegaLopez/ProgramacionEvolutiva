@@ -11,6 +11,7 @@ import selection_methods.*;
 
 import java.awt.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class GeneticAlgorithm {
     //2 buffers y van alternando
@@ -45,9 +46,10 @@ public class GeneticAlgorithm {
         }
         //erase lines already written
         if(p.plot2d.getPlots().size()==0) {
-            p.plot2d.addLinePlot("MID",Color.BLUE, plotValues[3].toArray(),plotValues[0].toArray());
-            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3].toArray(), plotValues[1].toArray());
-            p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, plotValues[3].toArray(), plotValues[2].toArray());
+            double[] xvals = toPrimitive(plotValues[3].toArray(new Double[plotValues[3].size()]));
+            p.plot2d.addLinePlot("MID",Color.BLUE, xvals,toPrimitive(plotValues[0].toArray(new Double[plotValues[0].size()])));
+            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, xvals, toPrimitive(plotValues[1].toArray(new Double[plotValues[1].size()])));
+            p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, xvals, toPrimitive(plotValues[2].toArray(new Double[plotValues[2].size()])));
         }
 
         bestSol = new FitnessReturnClass();
@@ -82,12 +84,13 @@ public class GeneticAlgorithm {
                 p.plot2d.removePlot(0);
                 //plotValues[i][currentGen] = currentGen+i;
             }
-            plotValues[0][currentGen] = mid;
-            plotValues[1][currentGen] = max;
-            plotValues[2][currentGen] = bestSol.totalValue;
-            p.plot2d.addLinePlot("MID",Color.BLUE, plotValues[3],plotValues[0]);
-            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
-            p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, plotValues[3], plotValues[2]);
+            plotValues[0].set(currentGen, (double) mid);
+            plotValues[1].set(currentGen, (double) max);
+            plotValues[2].set(currentGen, (double) bestSol.totalValue);
+            double[] xvals = toPrimitive(plotValues[3].toArray(new Double[plotValues[3].size()]));
+            p.plot2d.addLinePlot("MID",Color.BLUE, xvals,toPrimitive(plotValues[0].toArray(new Double[plotValues[0].size()])));
+            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, xvals, toPrimitive(plotValues[1].toArray(new Double[plotValues[1].size()])));
+            p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, xvals, toPrimitive(plotValues[2].toArray(new Double[plotValues[2].size()])));
             IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
             //SELECCIÓN
             int[] select=new int[0];
@@ -152,5 +155,14 @@ public class GeneticAlgorithm {
     }
     public void endGeneticAlgorithm(GeneticAlgorithmParameters p){
         //DONT KNOW, WHATEVER
+    }
+    public static double[] toPrimitive(Double[] doubleObjects) {
+        if (doubleObjects == null) {
+            return null;
+        }
+
+        return Arrays.stream(doubleObjects)
+                .mapToDouble(Double::doubleValue) // Unbox each Double to double
+                .toArray();
     }
 }
