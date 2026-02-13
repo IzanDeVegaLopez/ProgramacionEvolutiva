@@ -10,13 +10,13 @@ import fitness.*;
 import selection_methods.*;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class GeneticAlgorithm {
     //2 buffers y van alternando
     codificacion_binaria[][] cod;
     int using_cod_n = 0;
-    double[][] plotValues;
+    ArrayList<Double> [] plotValues;
     int currentGen = 0;
     FitnessReturnClass bestSol;
     public GeneticAlgorithm(GeneticAlgorithmParameters p){
@@ -36,15 +36,18 @@ public class GeneticAlgorithm {
         }
 
         //Cretion plot array
-        plotValues = new double[4][p.nGen];
+        plotValues = new ArrayList[4];
+        for (int i = 0; i<4; i++){
+            plotValues[i] = new ArrayList<Double>();
+        }
         for(int i = 0; i < p.nGen; ++i){
-            plotValues[3][i] = i;
+            plotValues[3].add(new Double(i));
         }
         //erase lines already written
         if(p.plot2d.getPlots().size()==0) {
-            p.plot2d.addLinePlot("MID",Color.BLUE, plotValues[3],plotValues[0]);
-            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
-            p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, plotValues[3], plotValues[2]);
+            p.plot2d.addLinePlot("MID",Color.BLUE, plotValues[3].toArray(),plotValues[0].toArray());
+            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3].toArray(), plotValues[1].toArray());
+            p.plot2d.addLinePlot("ABSOLUT BEST",Color.GREEN, plotValues[3].toArray(), plotValues[2].toArray());
         }
 
         bestSol = new FitnessReturnClass();

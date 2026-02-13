@@ -37,6 +37,9 @@ public class MainMenu extends MyFrame{
     HashMap<String,Integer> mutationHash;
     HashMap<String,Integer> crossHash;
 
+    GeneticAlgorithmParameters g;
+    GeneticAlgorithm ga;
+
 
     public MainMenu(int x,int y, int mapNumber){
         super(x,y);
@@ -95,7 +98,7 @@ public class MainMenu extends MyFrame{
         but.addActionListener(new ActionListener() {
           @Override
             public void actionPerformed(ActionEvent e) {
-              GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
+              g = new GeneticAlgorithmParameters();
               g.plot2d = plot2D;
               g.m = mapRepresentation;
               //
@@ -108,11 +111,19 @@ public class MainMenu extends MyFrame{
               g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
               g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
               g.codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
-              GeneticAlgorithm ga = new GeneticAlgorithm(g);
+              ga = new GeneticAlgorithm(g);
             }
         });
         pan.add(but);
-
+        Button but2 = new Button ("Continue");
+        but2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                g.nGen += Integer.parseInt(nGensField.textField.getText());
+                ga.loopGeneticAlgorithm(g);
+            }
+        });
+        pan.add(but2);
         return pan;
     }
 
