@@ -19,12 +19,13 @@ public class GeneticAlgorithm {
     double[][] plotValues;
     int currentGen = 0;
     FitnessReturnClass bestSol;
+    float midSelectionEnforcer;
     public GeneticAlgorithm(GeneticAlgorithmParameters p){
         startGeneticAlgorithm(p);
         loopGeneticAlgorithm(p);
         endGeneticAlgorithm(p);
     }
-    public void startGeneticAlgorithm(GeneticAlgorithmParameters p){
+    void startGeneticAlgorithm(GeneticAlgorithmParameters p){
         currentGen = 0;
         using_cod_n = 0;
         int alternate = (using_cod_n+1)%2;
@@ -49,7 +50,7 @@ public class GeneticAlgorithm {
 
         bestSol = new FitnessReturnClass();
     }
-    public void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
+    void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
         while(currentGen < p.nGen) {
             //FITNESS
             int[] results = new int[p.nIndInGen];
@@ -147,7 +148,10 @@ public class GeneticAlgorithm {
             ++currentGen;
         }
     }
-    public void endGeneticAlgorithm(GeneticAlgorithmParameters p){
+    void endGeneticAlgorithm(GeneticAlgorithmParameters p){
         //DONT KNOW, WHATEVER
+    }
+    public float[] getMidSelectionEnforcer_n_getMax(){
+        return new float[]{midSelectionEnforcer, bestSol.totalValue};
     }
 }

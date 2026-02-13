@@ -3,6 +3,7 @@ package Graphic;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.BoxLayout;
+import javax.swing.text.JTextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
@@ -31,6 +32,8 @@ public class MainMenu extends MyFrame{
     JComboBox crossMethodComboBox;
     JComboBox mutationMethodComboBox;
     JComboBox codificationTypeComboBox;
+    JLabel maxValue;
+    JLabel enfocingValue;
 
     HashMap<String,Integer> selectionHash;
     HashMap<String,Integer> codeHash;
@@ -50,9 +53,8 @@ public class MainMenu extends MyFrame{
         parent.setLayout(new BoxLayout(parent,BoxLayout.X_AXIS));
         //controls
         parent.add(createControlsMenu());
-        //graphic
-        plot2D = createGraphicsMenu();
-        parent.add(plot2D);
+        //graphics
+        parent.add(createGraphicsMenu());
 
         add(parent);
         pack();
@@ -90,7 +92,7 @@ public class MainMenu extends MyFrame{
         pan.add(createAllMenusDesplegables());
 
         pan.add(createCheckBox("Elitismo"));
-
+/*
         Button but = new Button("Start");
         but.addActionListener(new ActionListener() {
           @Override
@@ -108,10 +110,12 @@ public class MainMenu extends MyFrame{
               g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
               g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
               g.codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
-              GeneticAlgorithm ga = new GeneticAlgorithm(g);
+              float[] Enforcing_n_Max = new GeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax();
+
             }
         });
         pan.add(but);
+        */
 
         return pan;
     }
@@ -217,12 +221,46 @@ public class MainMenu extends MyFrame{
         return t;
     }
 
-    Plot2DPanel createGraphicsMenu(){
-        Plot2DPanel plot = new Plot2DPanel();
+    JPanel createGraphicsMenu(){
+        JPanel pan = new JPanel();
+        pan.setLayout(new BorderLayout());
+        plot2D = new Plot2DPanel();
         //plot.setSize(100,100);
-        plot.addLegend("SOUTH");
-        plot.setVisible(true);
-        return plot;
+        plot2D.addLegend("SOUTH");
+        plot2D.setVisible(true);
+        pan.add(plot2D, BorderLayout.CENTER);
+
+        JPanel infoPan = new JPanel();
+        infoPan.setLayout(new BoxLayout(infoPan, BoxLayout.X_AXIS));
+        infoPan.add(createLabel("Meow"));
+        infoPan.add(createLabel("Meow2"));
+        Button but = new Button("Start");
+        but.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
+                g.plot2d = plot2D;
+                g.m = mapRepresentation;
+                //
+                g.nGen = Integer.parseInt(nGensField.textField.getText());
+                g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
+                g.crossProbability = Float.parseFloat(crossProbability.textField.getText()) / 100.0f;
+                g.mutationprobability = Float.parseFloat(mutationProbability.textField.getText()) / 100.0f;
+                //
+                g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
+                g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
+                g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
+                g.codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
+                float[] Enforcing_n_Max = new GeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax();
+
+            }
+        });
+        but.setSize(new Dimension(100,100));
+
+        infoPan.add(but);
+        pan.add(infoPan, BorderLayout.SOUTH);
+
+        return pan;
     }
 
 }
