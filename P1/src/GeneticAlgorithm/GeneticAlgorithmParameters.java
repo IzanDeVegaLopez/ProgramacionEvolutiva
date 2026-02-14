@@ -16,4 +16,5 @@ public class GeneticAlgorithmParameters {
     public int mutationType;
     public int selectionType;
     public float elite_ratio;
+    public boolean isPonderado;
 }

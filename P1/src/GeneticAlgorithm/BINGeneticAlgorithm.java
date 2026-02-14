@@ -64,7 +64,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             int max = 0;
             boolean mapUpdated = false;
             for (int i = 0; i<p.nIndInGen; i++){
-                FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m.m,cod[using_cod_n][i]);
+                FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m.m,cod[using_cod_n][i], p.isPonderado);
                 temp.totalValue -=(p.m.m.nCamaras- temp.totalNPenalties)*p.m.m.penalty;
                 results[i] = temp.totalValue;
                 acum += results[i];

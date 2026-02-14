@@ -1,5 +1,6 @@
 package Mapas;
 
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.lang.String;
 import java.io.File;
@@ -58,6 +59,15 @@ public class mapReader {
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         }
     };
+
+    public static Color[]colorPerValue = new Color[]{
+            new Color(0,0,0), //0,1
+            new Color(0,0,255),//5
+            new Color(0,255,0),//10
+            new Color(200,200,0),//15
+            new Color(255,0,0)//20
+    };//15
+
 
     static String[] mapFiles = {"museo.txt", "pasillos.txt", "supermercado.txt"};
     public static int MUSEO = 0;

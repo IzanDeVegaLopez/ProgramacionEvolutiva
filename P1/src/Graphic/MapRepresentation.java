@@ -20,7 +20,7 @@ public class MapRepresentation extends MyPanel{
         m = mapReader.readMap(mapID);
         int x = m.ocupiedTiles.length,y=m.ocupiedTiles[0].length;
         this.setLayout(new GridLayout(y, x));
-        int xx=200; int yy=200;
+        int xx=300; int yy=300;
         this.setMaximumSize(new Dimension(xx,yy));
         this.setMinimumSize(new Dimension(xx,yy));
         myTiles = new JPanel[x][y];
@@ -29,8 +29,8 @@ public class MapRepresentation extends MyPanel{
                 //Si esta ocupada pintala negra
                 int val = m.ocupiedTiles[j][i] ? 0 : 255;
                 myTiles[j][i] = new MyPanel(val);
-                Border blackline = BorderFactory.createLineBorder(Color.DARK_GRAY);
-                myTiles[j][i].setBorder(blackline);
+                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j]/5]);
+                myTiles[j][i].setBorder(mborder);
                 this.add(myTiles[j][i]);
             }
         }

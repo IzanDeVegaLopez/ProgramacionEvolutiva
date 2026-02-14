@@ -13,7 +13,7 @@ import GeneticAlgorithm.*;
 import org.math.plot.*;
 
 public class MainMenu extends MyFrame{
-    int boxSizeY = 50;
+    int boxSizeY = 20;
     int labelSizeX = 175;
     int menuDesplegableSizeX = 100;
     MapRepresentation mapRepresentation;
@@ -22,6 +22,7 @@ public class MainMenu extends MyFrame{
     NumericField nIndInGenField;
     NumericField elitismRatio;
     JCheckBox elitismBox;
+    JCheckBox ponderadoBox;
     NumericField mutationProbability;
     NumericField crossProbability;
     JComboBox selectionTypeComboBox;
@@ -87,6 +88,7 @@ public class MainMenu extends MyFrame{
 
         pan.add(createAllMenusDesplegables());
 
+        pan.add(ponderadoBox = createCheckBox("Método Ponderado"));
         pan.add(elitismBox = createCheckBox("Usar elitismo"));
         MyPanel elitismPanel = new MyPanel();
         elitismPanel.setLayout(new BoxLayout(elitismPanel,BoxLayout.X_AXIS));
@@ -239,6 +241,7 @@ public class MainMenu extends MyFrame{
                 g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
                 g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
                 Integer codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
+                g.isPonderado = ponderadoBox.isSelected();
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
                 float[] Enforcing_n_Max = codeType==0 ?
                         new BINGeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax() :

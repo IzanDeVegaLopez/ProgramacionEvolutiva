@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class fitnessFunctions {
     //returns all tiles affected
-    public static FitnessReturnClass getBinFitness(Map m, codificacion_binaria cod){
+    public static FitnessReturnClass getBinFitness(Map m, codificacion_binaria cod, boolean ponderado){
         m.resetTainted();
 
         FitnessReturnClass ft = new FitnessReturnClass();
         for(int i = 0; i < cod.getNElems(); ++i){
             int[] value = cod.getElemI(i);
-            array_n_value resultInThisTile = getBinFitnessForOneCamera(m,value[0],value[1]);
+            array_n_value resultInThisTile = getBinFitnessForOneCamera(m,value[0],value[1], ponderado);
             ft.totalValue += resultInThisTile.value;
             ft.tilesInCameraI.add(resultInThisTile.array);
             ft.totalNPenalties += resultInThisTile.penalty;
@@ -31,7 +31,7 @@ public class fitnessFunctions {
         }
     }
     //[tile] [x==0;y==0]
-    private static array_n_value getBinFitnessForOneCamera(Map m, int x, int y){
+    private static array_n_value getBinFitnessForOneCamera(Map m, int x, int y, boolean ponderado){
         array_n_value anv = new array_n_value(0,new ArrayList<int[]>(0));
         if(m.validTile(x,y)) {
             anv.value += m.penalty;
@@ -46,6 +46,7 @@ public class fitnessFunctions {
                 for (int i = 1; i <= m.visionRange && m.validTile(newX = x+delta[0]*i,newY=y+delta[1]*i); ++i) {
                     if(!m.tainted[newX][newY]) {
                         anv.array.add(new int[]{newX, newY});
+                        anv.value += ponderado ? m.importanceMap[newY][newX] : 1;
                         m.tainted[newX][newY] = true;
                     }
                 }
@@ -55,13 +56,13 @@ public class fitnessFunctions {
         return anv;
     }
 
-    public static FitnessReturnClass getFloatFitness(Map m, codificacion_real cod){
+    public static FitnessReturnClass getFloatFitness(Map m, codificacion_real cod, boolean ponderado){
         m.resetTainted();
 
         FitnessReturnClass ft = new FitnessReturnClass();
         for(int i = 0; i < cod.getNElems(); ++i){
             float[] value = cod.getElemI(i);
-            array_n_value resultInThisTile = getFloatFitnessForOneCamera(m,value[0],value[1], value[2]);
+            array_n_value resultInThisTile = getFloatFitnessForOneCamera(m,value[0],value[1], value[2],ponderado);
             //IO.println("\nCámara: " + i+"== Ángulo: " + value[2]);
             ft.totalValue += resultInThisTile.value;
             ft.tilesInCameraI.add(resultInThisTile.array);
@@ -70,7 +71,7 @@ public class fitnessFunctions {
         ft.totalValue = Math.max(ft.totalValue, 0);
         return ft;
     }
-    public static array_n_value getFloatFitnessForOneCamera(Map m, float x1, float y1, float orientation) {
+    public static array_n_value getFloatFitnessForOneCamera(Map m, float x1, float y1, float orientation, boolean ponderado) {
         array_n_value anv = new array_n_value(0,new ArrayList<int[]>(0));
         ArrayList<int[]> tiles = new ArrayList<>(0);
         if (!m.ocupiedTiles[(int) (x1)][(int) (y1)]) {
@@ -119,6 +120,7 @@ public class fitnessFunctions {
                     if (!m.tainted[cx][cy]) {
                         anv.array.add(new int[]{cx, cy});
                         m.tainted[cx][cy] = true;
+                        anv.value += ponderado? m.importanceMap[cy][cx] : 1;
                         //IO.print("["+cx+','+cy+"] , ");
                     }
                     prevX = cx;
@@ -126,7 +128,6 @@ public class fitnessFunctions {
                 }
 // Si llegamos aquí, el camino está despejado
             }
-            anv.value+=anv.array.size();
         }
         return anv;
     }
