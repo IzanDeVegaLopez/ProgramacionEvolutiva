@@ -4,7 +4,7 @@ import mutation_methods.*;
 public class codificacion_real {
     public float[] floatVec;
     // Almacena el valor máximo que puede generar para cada gen
-    private float[] maxValues;
+    public float[] maxValues;
     int sizeGenoma = 3;
     int nElems;
     public codificacion_real(int nCams, int maxX, int maxY) {

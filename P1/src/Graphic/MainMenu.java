@@ -143,12 +143,12 @@ public class MainMenu extends MyFrame{
         MyPanel p4 = new MyPanel();
         p4.setLayout(new BoxLayout(p4,BoxLayout.X_AXIS));
         p4.add(createLabel("Tamaño Población"));
-        p4.add(nIndInGenField = createNumericField(20));
+        p4.add(nIndInGenField = createNumericField(100));
         //Generaciones
         MyPanel p5 = new MyPanel();
         p5.setLayout(new BoxLayout(p5,BoxLayout.X_AXIS));
         p5.add(createLabel("Número generaciones"));
-        p5.add(nGensField = createNumericField(100));
+        p5.add(nGensField = createNumericField(200));
 
         //Porcentaje Mutación
         MyPanel p6 = new MyPanel();
@@ -160,7 +160,7 @@ public class MainMenu extends MyFrame{
         MyPanel p7 = new MyPanel();
         p7.setLayout(new BoxLayout(p7,BoxLayout.X_AXIS));
         p7.add(createLabel("Porcentaje cruce (%)"));
-        p7.add(crossProbability= createNumericField(30));
+        p7.add(crossProbability= createNumericField(60));
 
         panelConjunto.add(p);
         panelConjunto.add(p1);

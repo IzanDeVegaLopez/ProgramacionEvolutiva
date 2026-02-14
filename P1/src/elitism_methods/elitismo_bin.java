@@ -62,6 +62,7 @@ public class elitismo_bin {
             int idx = indexes_to_replace[i];
             fitness[idx] = stored_elite[i].fitness;
             cod[idx] = stored_elite[i].member;
+            //cod[idx].setAllData(stored_elite[i].member.retrieveAllData());
 
             acum_max += stored_elite[i].fitness;
         }
