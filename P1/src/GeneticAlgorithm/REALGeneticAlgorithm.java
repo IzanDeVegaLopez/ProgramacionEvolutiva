@@ -189,6 +189,12 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
         //DONT KNOW, WHATEVER
+        for(int i = 0; i < bestSol.tilesInCameraI.size();++i){
+            IO.println("\nCámara Nº "+i+":");
+            for(int j = 0; j < bestSol.tilesInCameraI.get(i).size();++j){
+                IO.print("["+bestSol.tilesInCameraI.get(i).get(j)[0]+","+bestSol.tilesInCameraI.get(i).get(j)[1]+"]");
+            }
+        }
     }
     public float[] getMidSelectionEnforcer_n_getMax(){
         return new float[]{midSelectionEnforcer, bestSol.totalValue};

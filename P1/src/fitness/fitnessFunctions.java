@@ -58,7 +58,7 @@ public class fitnessFunctions {
         for(int i = 0; i < cod.getNElems(); ++i){
             float[] value = cod.getElemI(i);
             array_n_value resultInThisTile = getFloatFitnessForOneCamera(m,value[0],value[1], value[2]);
-            IO.println("Cámara: " + i+"== Ángulo: " + value[2]);
+            //IO.println("\nCámara: " + i+"== Ángulo: " + value[2]);
             ft.totalValue += resultInThisTile.value;
             ft.tilesInCameraI.add(resultInThisTile.array);
         }
@@ -73,9 +73,9 @@ public class fitnessFunctions {
                  j < orientation + halfAngle;
                  j = j + 5) {
                 double rad = Math.PI * j / 180.0f;
-                double x2 = (m.visionRange * Math.cos(rad));
-                double y2 = (m.visionRange * Math.sin(rad));
-                IO.print("["+x1+','+y1+"] --> ["+x2+','+y2+"]\n");
+                double x2 = x1+(m.visionRange * Math.cos(rad));
+                double y2 = y1+(m.visionRange * Math.sin(rad));
+                //IO.print("["+x1+','+y1+"] --> ["+x2+','+y2+"]\n");
                 // 1. Calcular distancia total
                 double dist = m.visionRange;
 // Optimización: Si está muy cerca, asumimos que se ve
@@ -111,6 +111,7 @@ public class fitnessFunctions {
                     if (!m.tainted[cx][cy]) {
                         tiles.add(new int[]{cx, cy});
                         m.tainted[cx][cy] = true;
+                        //IO.print("["+cx+','+cy+"] , ");
                     }
                     prevX = cx;
                     prevY = cy;
