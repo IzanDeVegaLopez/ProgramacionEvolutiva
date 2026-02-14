@@ -4,6 +4,7 @@ import Mapas.Map;
 import codification.codificacion_binaria;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
+import elitism_methods.elitismo;
 import mutation_methods.*;
 import org.math.plot.Plot2DPanel;
 import fitness.*;
@@ -87,6 +88,7 @@ public class GeneticAlgorithm {
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
             IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
+            elitismo.extract_elite_bin(results,0.1);
             //SELECCIÓN
             int[] select=new int[0];
             switch(p.selectionType){
