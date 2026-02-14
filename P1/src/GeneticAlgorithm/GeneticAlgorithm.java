@@ -4,6 +4,7 @@ import Mapas.Map;
 import codification.codificacion_binaria;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
+import elitism_methods.elitismReturnValue;
 import elitism_methods.elitismo;
 import mutation_methods.*;
 import org.math.plot.Plot2DPanel;
@@ -12,6 +13,7 @@ import selection_methods.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 public class GeneticAlgorithm {
     //2 buffers y van alternando
@@ -21,6 +23,8 @@ public class GeneticAlgorithm {
     int currentGen = 0;
     FitnessReturnClass bestSol;
     float midSelectionEnforcer;
+    int[] last_elite;
+    int[] last_elite_values;
     public GeneticAlgorithm(GeneticAlgorithmParameters p){
         startGeneticAlgorithm(p);
         loopGeneticAlgorithm(p);
@@ -48,11 +52,14 @@ public class GeneticAlgorithm {
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
         }
+        last_elite = new int[(int)Math.floor(p.elite_ratio / p.nGen)];
+        last_elite_values = new int[last_elite.length];
 
         bestSol = new FitnessReturnClass();
     }
     void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
         while(currentGen < p.nGen) {
+            int alternate = (using_cod_n + 1) %2;
             //FITNESS
             int[] results = new int[p.nIndInGen];
             FitnessReturnClass ft;
@@ -81,6 +88,28 @@ public class GeneticAlgorithm {
                 p.plot2d.removePlot(0);
                 //plotValues[i][currentGen] = currentGen+i;
             }
+            elitismReturnValue eliteIdx = elitismo.extract_elite_bin(results,last_elite.length);
+            /*
+            int idxAuxToGetMax=0;
+            for(int i = 0; i < eliteIdx.maxSelected.length; ++i){
+                //Set the minimum element of this gen to the max of the last one
+                cod[using_cod_n][eliteIdx.minSelected[i]].setAllData(cod[alternate][last_elite[i]].retrieveAllData());
+                while(idxAuxToGetMax < last_elite.length && last_elite_values[i] > results[idxAuxToGetMax]){
+                    ++idxAuxToGetMax;
+                }
+                //Its a new max
+                if(idxAuxToGetMax < last_elite.length){
+
+                }
+                //The max in i pos is still the max
+                if(i < idxAuxToGetMax){
+
+                }
+                //Check if new greater is greater than last time, if it is the element we just reinserted we should keep it instead
+                //last_elite[i]=eliteIdx.maxSelected[i];
+                //last_elite_values[i]=
+            }*/
+
             plotValues[0][currentGen] = mid;
             plotValues[1][currentGen] = max;
             plotValues[2][currentGen] = bestSol.totalValue;
@@ -88,7 +117,8 @@ public class GeneticAlgorithm {
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
             IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
-            elitismo.extract_elite_bin(results,0.1);
+
+
             //SELECCIÓN
             int[] select=new int[0];
             switch(p.selectionType){
@@ -123,7 +153,6 @@ public class GeneticAlgorithm {
                     break;
                 }
             }
-            int alternate = (using_cod_n + 1) %2;
             for(int i=0;i<select.length;++i){
                 cod[alternate][i].setAllData(cod[using_cod_n][select[i]].retrieveAllData());
             }

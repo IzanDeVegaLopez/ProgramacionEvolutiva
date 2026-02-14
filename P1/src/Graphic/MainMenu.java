@@ -26,6 +26,8 @@ public class MainMenu extends MyFrame{
     Plot2DPanel plot2D;
     NumericField nGensField;
     NumericField nIndInGenField;
+    NumericField elitismRatio;
+    JCheckBox elitismBox;
     NumericField mutationProbability;
     NumericField crossProbability;
     JComboBox selectionTypeComboBox;
@@ -91,31 +93,12 @@ public class MainMenu extends MyFrame{
 
         pan.add(createAllMenusDesplegables());
 
-        pan.add(createCheckBox("Elitismo"));
-/*
-        Button but = new Button("Start");
-        but.addActionListener(new ActionListener() {
-          @Override
-            public void actionPerformed(ActionEvent e) {
-              GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
-              g.plot2d = plot2D;
-              g.m = mapRepresentation;
-              //
-              g.nGen = Integer.parseInt(nGensField.textField.getText());
-              g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
-              g.crossProbability = Float.parseFloat(crossProbability.textField.getText()) / 100.0f;
-              g.mutationprobability = Float.parseFloat(mutationProbability.textField.getText()) / 100.0f;
-              //
-              g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
-              g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
-              g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
-              g.codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
-              float[] Enforcing_n_Max = new GeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax();
-
-            }
-        });
-        pan.add(but);
-        */
+        pan.add(elitismBox = createCheckBox("Usar elitismo"));
+        MyPanel elitismPanel = new MyPanel();
+        elitismPanel.setLayout(new BoxLayout(elitismPanel,BoxLayout.X_AXIS));
+        elitismPanel.add(createLabel("Elitismo (%): "));
+        elitismPanel.add(elitismRatio = createNumericField(20));
+        pan.add(elitismPanel);
 
         return pan;
     }
@@ -188,8 +171,8 @@ public class MainMenu extends MyFrame{
         return panelConjunto;
     }
 
-    Checkbox createCheckBox(String s){
-        Checkbox chckBx = new Checkbox(s);
+    JCheckBox createCheckBox(String s){
+        JCheckBox chckBx = new JCheckBox(s);
         chckBx.setSize(30,40);
         chckBx.setBackground(new Color(255,255,255));
         chckBx.setMaximumSize(new Dimension(labelSizeX+menuDesplegableSizeX, boxSizeY));
@@ -262,6 +245,7 @@ public class MainMenu extends MyFrame{
                 g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
                 g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
                 g.codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
+                g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
                 float[] Enforcing_n_Max = new GeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax();
                 maxValue.setText(""+Enforcing_n_Max[1]);
                 enforcingValue.setText(""+Enforcing_n_Max[0]);
