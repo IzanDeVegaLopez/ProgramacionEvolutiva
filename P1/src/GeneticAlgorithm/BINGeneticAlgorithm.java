@@ -52,6 +52,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
 //        last_elite = new int[(int)Math.floor(p.elite_ratio / p.nGen)];
 //        last_elite_values = new int[last_elite.length];
 
+        elit_bin = new elitismo_bin((int) (p.elite_ratio * p.nGen));
         bestSol = new FitnessReturnClass();
     }
     void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
@@ -74,11 +75,25 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
                     mapUpdated = true;
                 }
             }
-            if(mapUpdated) p.m.putAllBinCameras(bestSol);
             //get media gen
             int mid = (int)acum/p.nIndInGen;
             //get max gen DONE
             //get max abs DONE
+
+            //ELITISMO
+            int[] elit_results = elit_bin.introduce_elite_bin(results, cod[using_cod_n]);
+            mid += (elit_results[0] - elit_results[1]) / p.nIndInGen;
+            for (int i = 0; i<p.nIndInGen; i++){
+                max = Math.max(results[i],max);
+                if(max > bestSol.totalValue){
+                    bestSol = new FitnessReturnClass();
+                    bestSol.totalValue = results[i];
+                    mapUpdated = true;
+                }
+            }
+            elit_bin.extract_elite_bin(results, cod[using_cod_n]);
+            if(mapUpdated) p.m.putAllBinCameras(bestSol);
+
             //PINTAR
                 //eliminate all lines
                 //paint 3 lines again
@@ -86,7 +101,6 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
                 p.plot2d.removePlot(0);
                 //plotValues[i][currentGen] = currentGen+i;
             }
-//            elitismReturnValue eliteIdx = elitismo.extract_elite_bin(results,last_elite.length);
             /*
             int idxAuxToGetMax=0;
             for(int i = 0; i < eliteIdx.maxSelected.length; ++i){

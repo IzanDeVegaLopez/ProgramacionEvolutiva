@@ -6,25 +6,20 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class elitismo_bin {
-    // Número de generaciones guardadas
-    int bufferLength;
     // Número de individuos guardados en cada generación
     int bufferElemSize;
-    Queue<eliteMember_bin[]> stored_elite;
+    eliteMember_bin[] stored_elite;
 
-    // Generación actual
-    int currentBuffer;
+    boolean started;
 
-    elitismo_bin(int bLength, int bSize){
-        bufferLength = bLength;
+    public elitismo_bin(int bSize){
         bufferElemSize = bSize;
-        currentBuffer = -1;
-        stored_elite = new LinkedList<eliteMember_bin[]>();
+        stored_elite = new eliteMember_bin[bSize];
+        started = false;
     }
 
     public void extract_elite_bin(int[] fitness, codificacion_binaria[] cod){
         int[] mutable_fitness = fitness.clone();
-        eliteMember_bin[] temp_array = new eliteMember_bin[bufferElemSize];
         for (int i = 0; i<bufferElemSize; i++) {
             int max = -1;
             int maxidx = -1;
@@ -36,18 +31,18 @@ public class elitismo_bin {
                 }
             }
             mutable_fitness[maxidx] = -1;
-            temp_array[i] = new eliteMember_bin(max, cod[maxidx]);
+            stored_elite[i] = new eliteMember_bin(max, cod[maxidx]);
         }
-        stored_elite.add(temp_array);
+        started = true;
     }
 
-    public void introduce_elite_bin(int[] fitness, codificacion_binaria[] cod){
-        // En el caso de que no hayamos llegado a la generación mínima para devolver élites a la población, concluimos la ejecución del método.
-        currentBuffer = Math.min(currentBuffer+1,bufferLength);
-        if (currentBuffer<bufferLength) return;
+    public int[] introduce_elite_bin(int[] fitness, codificacion_binaria[] cod){
+        int[] results = {0,0};
+        if (!started) return results;
 
         int[] indexes_to_replace = new int[bufferElemSize];
-        eliteMember_bin[] stored = stored_elite.poll();
+        int acum_min = 0;
+        int acum_max = 0;
 
         for (int i = 0; i<bufferElemSize; i++) {
             int min = Integer.MAX_VALUE;
@@ -58,13 +53,22 @@ public class elitismo_bin {
                     minidx = j;
                 }
             }
+            acum_min += fitness[minidx];
             fitness[minidx] = -1;
             indexes_to_replace[i] = minidx;
+
         }
         for (int i = 0; i<bufferElemSize; i++){
             int idx = indexes_to_replace[i];
-            fitness[idx] = stored[i].fitness;
-            cod[idx] = stored[i].member;
+            fitness[idx] = stored_elite[i].fitness;
+            cod[idx] = stored_elite[i].member;
+
+            acum_max += stored_elite[i].fitness;
         }
+
+        results[0] = acum_max;
+        results[1] = acum_min;
+
+        return results;
     }
 }
