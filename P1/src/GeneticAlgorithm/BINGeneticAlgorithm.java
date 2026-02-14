@@ -4,7 +4,8 @@ import codification.codificacion_binaria;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
 import elitism_methods.elitismReturnValue;
-import elitism_methods.elitismo;
+//import elitism_methods.elitismo;
+import elitism_methods.elitismo_bin;
 import mutation_methods.*;
 import fitness.*;
 import selection_methods.*;
@@ -14,12 +15,13 @@ import java.util.ArrayList;
 
 public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
     //2 buffers y van alternando
+    elitismo_bin elit_bin;
     codificacion_binaria[][] cod;
     int using_cod_n = 0;
     double[][] plotValues;
     int currentGen = 0;
-    int[] last_elite;
-    int[] last_elite_values;
+//    int[] last_elite;
+//    int[] last_elite_values;
     public BINGeneticAlgorithm(GeneticAlgorithmParameters p){
         startGeneticAlgorithm(p);
         loopGeneticAlgorithm(p);
@@ -47,8 +49,8 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
         }
-        last_elite = new int[(int)Math.floor(p.elite_ratio / p.nGen)];
-        last_elite_values = new int[last_elite.length];
+//        last_elite = new int[(int)Math.floor(p.elite_ratio / p.nGen)];
+//        last_elite_values = new int[last_elite.length];
 
         bestSol = new FitnessReturnClass();
     }
@@ -84,7 +86,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
                 p.plot2d.removePlot(0);
                 //plotValues[i][currentGen] = currentGen+i;
             }
-            elitismReturnValue eliteIdx = elitismo.extract_elite_bin(results,last_elite.length);
+//            elitismReturnValue eliteIdx = elitismo.extract_elite_bin(results,last_elite.length);
             /*
             int idxAuxToGetMax=0;
             for(int i = 0; i < eliteIdx.maxSelected.length; ++i){

@@ -4,7 +4,7 @@ import codification.codificacion_real;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
 import elitism_methods.elitismReturnValue;
-import elitism_methods.elitismo;
+//import elitism_methods.elitismo;
 import fitness.FitnessReturnClass;
 import fitness.fitnessFunctions;
 import mutation_methods.mutacion;
@@ -87,7 +87,7 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
                 p.plot2d.removePlot(0);
                 //plotValues[i][currentGen] = currentGen+i;
             }
-            elitismReturnValue eliteIdx = elitismo.extract_elite_bin(results,last_elite.length);
+//            elitismReturnValue eliteIdx = elitismo.extract_elite_bin(results,last_elite.length);
             /*
             int idxAuxToGetMax=0;
             for(int i = 0; i < eliteIdx.maxSelected.length; ++i){
