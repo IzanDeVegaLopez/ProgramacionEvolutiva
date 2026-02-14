@@ -3,11 +3,10 @@ package GeneticAlgorithm;
 import codification.codificacion_real;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
-import elitism_methods.elitismReturnValue;
 //import elitism_methods.elitismo;
 import fitness.FitnessReturnClass;
 import fitness.fitnessFunctions;
-import mutation_methods.mutacion;
+import mutation_methods.mutacion_a_nivel_de_gen;
 import mutation_methods.mutacion_inicial;
 import selection_methods.*;
 
@@ -36,7 +35,7 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
         for(int i = 0; i < p.nIndInGen; ++i){
             cod[using_cod_n][i] = new codificacion_real(p.m.m.nCamaras, p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length);
             cod[alternate][i] = new codificacion_real(p.m.m.nCamaras,p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length);
-            mutacion_inicial.mutar_init(cod[using_cod_n][i]);
+            mutacion_inicial.mutar(cod[using_cod_n][i]);
         }
 
         //Cretion plot array
@@ -158,9 +157,9 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
             }
 
             //MUTACIÓN
-            mutacion m = new mutacion(p.mutationprobability);
+            mutacion_a_nivel_de_gen m = new mutacion_a_nivel_de_gen(p.mutationprobability);
             for(int i = 0; i < p.nIndInGen; ++i){
-                mutacion.mutar(cod[using_cod_n][i]);
+                mutacion_a_nivel_de_gen.mutar(cod[using_cod_n][i]);
             }
             ++currentGen;
         }

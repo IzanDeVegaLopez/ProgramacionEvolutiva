@@ -1,9 +1,9 @@
 package mutation_methods;
 import codification.*;
 
-public class mutacion {
+public class mutacion_a_nivel_de_gen {
     static double ratio;
-    public mutacion(double chance){
+    public mutacion_a_nivel_de_gen(double chance){
         ratio = chance;
     }
     public static void mutar(codificacion_binaria cod){
@@ -12,10 +12,8 @@ public class mutacion {
     }
 
     public static void mutar(codificacion_real cod){
-        for (int i = 0; i<cod.getNElems(); i++){
-            for (int j = 0; j<cod.getSizeGenoma();j++){
-                if (Math.random()<ratio) cod.mutate_at(i,j);
-            }
+        for (int i = 0; i<cod.floatVec.length; i++){
+            if (Math.random()<ratio) cod.mutate_at(i);
         }
     }
 }

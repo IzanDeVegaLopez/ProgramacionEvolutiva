@@ -3,7 +3,6 @@ package GeneticAlgorithm;
 import codification.codificacion_binaria;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
-import elitism_methods.elitismReturnValue;
 //import elitism_methods.elitismo;
 import elitism_methods.elitismo_bin;
 import mutation_methods.*;
@@ -35,7 +34,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
         for(int i = 0; i < p.nIndInGen; ++i){
             cod[using_cod_n][i] = new codificacion_binaria(p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length, p.m.m.nCamaras);
             cod[alternate][i] = new codificacion_binaria(p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length, p.m.m.nCamaras);
-            mutacion_inicial.mutar_init(cod[using_cod_n][i]);
+            mutacion_inicial.mutar(cod[using_cod_n][i]);
         }
 
         //Cretion plot array
@@ -172,9 +171,9 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             }
 
             //MUTACIÓN
-            mutacion m = new mutacion(p.mutationprobability);
+            mutacion_a_nivel_de_gen m = new mutacion_a_nivel_de_gen(p.mutationprobability);
             for(int i = 0; i < p.nIndInGen; ++i){
-                mutacion.mutar(cod[using_cod_n][i]);
+                mutacion_a_nivel_de_gen.mutar(cod[using_cod_n][i]);
             }
             ++currentGen;
         }
