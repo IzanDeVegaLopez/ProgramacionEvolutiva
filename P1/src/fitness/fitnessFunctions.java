@@ -17,12 +17,14 @@ public class fitnessFunctions {
             array_n_value resultInThisTile = getBinFitnessForOneCamera(m,value[0],value[1]);
             ft.totalValue += resultInThisTile.value;
             ft.tilesInCameraI.add(resultInThisTile.array);
+            ft.totalNPenalties += resultInThisTile.penalty;
         }
         ft.totalValue = Math.max(ft.totalValue, 0);
         return ft;
     }
     public static class array_n_value{
         public int value;
+        public int penalty=1;
         public ArrayList<int[]> array;
         array_n_value(int v, ArrayList<int[]> a){
             value = v; array = a;
@@ -32,6 +34,8 @@ public class fitnessFunctions {
     private static array_n_value getBinFitnessForOneCamera(Map m, int x, int y){
         array_n_value anv = new array_n_value(0,new ArrayList<int[]>(0));
         if(m.validTile(x,y)) {
+            anv.value += m.penalty;
+            anv.penalty=0;
             int[][] dir = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
             if(!m.tainted[x][y]) {
                 anv.array.add(new int[]{x, y});
@@ -46,7 +50,7 @@ public class fitnessFunctions {
                     }
                 }
             }
-            anv.value = anv.array.size();
+            anv.value += anv.array.size();
         }
         return anv;
     }
@@ -61,13 +65,17 @@ public class fitnessFunctions {
             //IO.println("\nCámara: " + i+"== Ángulo: " + value[2]);
             ft.totalValue += resultInThisTile.value;
             ft.tilesInCameraI.add(resultInThisTile.array);
+            ft.totalNPenalties += resultInThisTile.penalty;
         }
         ft.totalValue = Math.max(ft.totalValue, 0);
         return ft;
     }
     public static array_n_value getFloatFitnessForOneCamera(Map m, float x1, float y1, float orientation) {
+        array_n_value anv = new array_n_value(0,new ArrayList<int[]>(0));
         ArrayList<int[]> tiles = new ArrayList<>(0);
         if (!m.ocupiedTiles[(int) (x1)][(int) (y1)]) {
+            anv.penalty = 0;
+            anv.value+=m.penalty;
             float halfAngle = m.apertureAngle/2;
             for (float j = orientation - halfAngle;
                  j < orientation + halfAngle;
@@ -109,7 +117,7 @@ public class fitnessFunctions {
                     }
 // Actualizamos la celda previa
                     if (!m.tainted[cx][cy]) {
-                        tiles.add(new int[]{cx, cy});
+                        anv.array.add(new int[]{cx, cy});
                         m.tainted[cx][cy] = true;
                         //IO.print("["+cx+','+cy+"] , ");
                     }
@@ -118,8 +126,9 @@ public class fitnessFunctions {
                 }
 // Si llegamos aquí, el camino está despejado
             }
+            anv.value+=anv.array.size();
         }
-        return new array_n_value(tiles.size(), tiles);
+        return anv;
     }
 
 }

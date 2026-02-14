@@ -8,6 +8,7 @@ public class Map {
     public int nCamaras;
     public int visionRange;
     public float apertureAngle;
+    public int penalty=100;
     Map(int[][] imp, boolean [][]ocup, int nCam, int visRng, float angle){
         importanceMap = imp;
         ocupiedTiles = ocup;

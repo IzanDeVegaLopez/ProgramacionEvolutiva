@@ -66,6 +66,7 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
             boolean mapUpdated = false;
             for (int i = 0; i<p.nIndInGen; i++){
                 FitnessReturnClass temp = fitnessFunctions.getFloatFitness(p.m.m,cod[using_cod_n][i]);
+                temp.totalValue -= (p.m.m.nCamaras- temp.totalNPenalties)*p.m.m.penalty;
                 results[i] = temp.totalValue;
                 acum += results[i];
                 max = Math.max(results[i],max);
@@ -185,16 +186,10 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
             }
             ++currentGen;
         }
-        midSelectionEnforcer /= p.nGen;
+
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
-        //DONT KNOW, WHATEVER
-        for(int i = 0; i < bestSol.tilesInCameraI.size();++i){
-            IO.println("\nCámara Nº "+i+":");
-            for(int j = 0; j < bestSol.tilesInCameraI.get(i).size();++j){
-                IO.print("["+bestSol.tilesInCameraI.get(i).get(j)[0]+","+bestSol.tilesInCameraI.get(i).get(j)[1]+"]");
-            }
-        }
+        midSelectionEnforcer /= p.nGen;
     }
     public float[] getMidSelectionEnforcer_n_getMax(){
         return new float[]{midSelectionEnforcer, bestSol.totalValue};

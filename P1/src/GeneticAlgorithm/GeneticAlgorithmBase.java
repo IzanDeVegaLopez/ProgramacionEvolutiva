@@ -1,5 +1,6 @@
 package GeneticAlgorithm;
 
+import Mapas.Map;
 import fitness.FitnessReturnClass;
 
 public class GeneticAlgorithmBase {

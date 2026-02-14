@@ -63,6 +63,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             boolean mapUpdated = false;
             for (int i = 0; i<p.nIndInGen; i++){
                 FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m.m,cod[using_cod_n][i]);
+                temp.totalValue -=(p.m.m.nCamaras- temp.totalNPenalties)*p.m.m.penalty;
                 results[i] = temp.totalValue;
                 acum += results[i];
                 max = Math.max(results[i],max);
@@ -182,9 +183,8 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             }
             ++currentGen;
         }
-        midSelectionEnforcer /= p.nGen;
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
-        //DONT KNOW, WHATEVER
+        midSelectionEnforcer /= p.nGen;
     }
 }
