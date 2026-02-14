@@ -35,7 +35,7 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
         for(int i = 0; i < p.nIndInGen; ++i){
             cod[using_cod_n][i] = new codificacion_real(p.m.m.nCamaras, p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length);
             cod[alternate][i] = new codificacion_real(p.m.m.nCamaras,p.m.m.ocupiedTiles.length, p.m.m.ocupiedTiles[0].length);
-            mutacion_inicial.mutar(cod[using_cod_n][i]);
+            new mutacion_inicial().mutar(cod[using_cod_n][i]);
         }
 
         //Cretion plot array
@@ -159,7 +159,7 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
             //MUTACIÓN
             mutacion_a_nivel_de_gen m = new mutacion_a_nivel_de_gen(p.mutationprobability);
             for(int i = 0; i < p.nIndInGen; ++i){
-                mutacion_a_nivel_de_gen.mutar(cod[using_cod_n][i]);
+                m.mutar(cod[using_cod_n][i]);
             }
             ++currentGen;
         }
