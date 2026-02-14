@@ -111,7 +111,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
-            IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
+            //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
 
 
             //SELECCIÓN

@@ -36,11 +36,18 @@ public class MapRepresentation extends MyPanel{
         }
         colorPerCamera = new Color[m.nCamaras];
         for(int i = 0; i < m.nCamaras; ++i){
+            /*
             colorPerCamera[i] = new Color(
                     (int)Math.floor(Math.random()*100)+100,
                     (int)Math.floor(Math.random()*100)+100,
                     (int)Math.floor(Math.random()*100)+100
-            );
+            );*/
+            int min = 80;
+            int r =                     (i<3? i*min:0)+80;
+            int g =                     ((i/3==1)?i%3*min:0)+80;
+            int b =                     ((i/3==2)?i%3*min:0)+80;
+            IO.print("("+r+' '+g+' '+b+')'+'\n');
+            colorPerCamera[i] = new Color(r,g,b);
         }
     }
 
