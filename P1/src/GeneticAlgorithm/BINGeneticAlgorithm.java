@@ -99,28 +99,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
                 //paint 3 lines again
             for(int i = 2; i >=0; --i){
                 p.plot2d.removePlot(0);
-                //plotValues[i][currentGen] = currentGen+i;
             }
-            /*
-            int idxAuxToGetMax=0;
-            for(int i = 0; i < eliteIdx.maxSelected.length; ++i){
-                //Set the minimum element of this gen to the max of the last one
-                cod[using_cod_n][eliteIdx.minSelected[i]].setAllData(cod[alternate][last_elite[i]].retrieveAllData());
-                while(idxAuxToGetMax < last_elite.length && last_elite_values[i] > results[idxAuxToGetMax]){
-                    ++idxAuxToGetMax;
-                }
-                //Its a new max
-                if(idxAuxToGetMax < last_elite.length){
-
-                }
-                //The max in i pos is still the max
-                if(i < idxAuxToGetMax){
-
-                }
-                //Check if new greater is greater than last time, if it is the element we just reinserted we should keep it instead
-                //last_elite[i]=eliteIdx.maxSelected[i];
-                //last_elite_values[i]=
-            }*/
 
             plotValues[0][currentGen] = mid;
             plotValues[1][currentGen] = max;

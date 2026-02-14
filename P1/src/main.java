@@ -16,6 +16,6 @@ public class main {
  }
 
  void init(){
-  MainMenu mm = new MainMenu(800,600, mapReader.SUPERMERCADO);
+  MainMenu mm = new MainMenu(800,600);
  }
 }

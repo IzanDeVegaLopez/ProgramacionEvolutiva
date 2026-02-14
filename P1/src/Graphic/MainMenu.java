@@ -16,7 +16,7 @@ public class MainMenu extends MyFrame{
     int boxSizeY = 20;
     int labelSizeX = 175;
     int menuDesplegableSizeX = 100;
-    MapRepresentation mapRepresentation;
+    MapRepresentation[] mapRepresentation;
     Plot2DPanel plot2D;
     NumericField nGensField;
     NumericField nIndInGenField;
@@ -31,6 +31,7 @@ public class MainMenu extends MyFrame{
     JComboBox codificationTypeComboBox;
     JLabel maxValue;
     JLabel enforcingValue;
+    JTabbedPane mapsTabs;
 
     HashMap<String,Integer> selectionHash;
     HashMap<String,Integer> codeHash;
@@ -38,10 +39,8 @@ public class MainMenu extends MyFrame{
     HashMap<String,Integer> crossHash;
 
 
-    public MainMenu(int x,int y, int mapNumber){
+    public MainMenu(int x,int y){
         super(x,y);
-
-        mapRepresentation = createMap(mapNumber);
 
         initHashMaps();
 
@@ -84,7 +83,14 @@ public class MainMenu extends MyFrame{
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
 
-        pan.add(mapRepresentation);
+        String[] s = new String[]{"MUSEO","PASILLOS","SUPERMERCADO"};
+        mapsTabs = new JTabbedPane();
+        mapRepresentation = new MapRepresentation[3];
+        for(int i = 0; i < s.length; ++i){
+            mapRepresentation[i] = createMap(i);
+            mapsTabs.addTab(s[i],mapRepresentation[i]);
+        }
+        pan.add(mapsTabs);
 
         pan.add(createAllMenusDesplegables());
 
@@ -230,7 +236,7 @@ public class MainMenu extends MyFrame{
             public void actionPerformed(ActionEvent e) {
                 GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
                 g.plot2d = plot2D;
-                g.m = mapRepresentation;
+                g.m = mapRepresentation[mapsTabs.getSelectedIndex()];
                 //
                 g.nGen = Integer.parseInt(nGensField.textField.getText());
                 g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
