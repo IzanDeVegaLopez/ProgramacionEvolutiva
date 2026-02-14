@@ -51,7 +51,6 @@ public class fitnessFunctions {
                     }
                 }
             }
-            anv.value += anv.array.size();
         }
         return anv;
     }
