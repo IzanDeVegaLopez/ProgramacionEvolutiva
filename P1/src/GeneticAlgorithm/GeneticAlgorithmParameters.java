@@ -14,7 +14,6 @@ public class GeneticAlgorithmParameters {
     //method changing things
     public int crossType;
     public int mutationType;
-    public int codeType;
     public int selectionType;
     public float elite_ratio;
 }

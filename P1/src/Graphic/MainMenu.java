@@ -3,20 +3,14 @@ package Graphic;
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.BoxLayout;
-import javax.swing.text.JTextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
 import java.util.HashMap;
 
 import GeneticAlgorithm.*;
-import Mapas.*;
-import codification.*;
 
-import fitness.fitnessFunctions;
 import org.math.plot.*;
-
-import static fitness.fitnessFunctions.getBinFitness;
 
 public class MainMenu extends MyFrame{
     int boxSizeY = 50;
@@ -244,9 +238,11 @@ public class MainMenu extends MyFrame{
                 g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
                 g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
                 g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
-                g.codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
+                Integer codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
-                float[] Enforcing_n_Max = new GeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax();
+                float[] Enforcing_n_Max = codeType==0 ?
+                        new BINGeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax() :
+                        new REALGeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax();
                 maxValue.setText(""+Enforcing_n_Max[1]);
                 enforcingValue.setText(""+Enforcing_n_Max[0]);
 
