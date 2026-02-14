@@ -65,11 +65,11 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             boolean mapUpdated = false;
             for (int i = 0; i<p.nIndInGen; i++){
                 FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m.m,cod[using_cod_n][i], p.isPonderado);
-                temp.totalValue -=(p.m.m.nCamaras- temp.totalNPenalties)*p.m.m.penalty;
                 results[i] = temp.totalValue;
-                acum += results[i];
-                max = Math.max(results[i],max);
-                if(max > bestSol.totalValue){
+                int graphicResult = results[i] -(p.m.m.nCamaras- temp.totalNPenalties)*p.m.m.penalty;
+                acum += graphicResult;
+                max = Math.max(graphicResult,max);
+                if(max > (bestSol.totalValue-(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty)){
                     bestSol = temp;
                     mapUpdated = true;
                 }
@@ -110,7 +110,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
 
             plotValues[0][currentGen] = mid;
             plotValues[1][currentGen] = max;
-            plotValues[2][currentGen] = bestSol.totalValue;
+            plotValues[2][currentGen] = bestSol.totalValue -(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;;
             p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
@@ -188,5 +188,6 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
         midSelectionEnforcer /= p.nGen;
+        bestSol.totalValue-=(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;
     }
 }
