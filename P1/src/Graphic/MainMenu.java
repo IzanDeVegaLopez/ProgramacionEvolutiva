@@ -71,9 +71,12 @@ public class MainMenu extends MyFrame{
         crossHash = new HashMap<>();
         crossHash.put("Monopunto",0);
         crossHash.put("Uniforme",1);
+        crossHash.put("Aritmético (solo REAL)",2);
+        crossHash.put("BLX-alpha (solo REAL)",3);
 
         mutationHash = new HashMap<>();
         mutationHash.put("A nivel de bit", 0);
+        mutationHash.put("Gaussiana (solo REAL)",1);
 
     }
 
@@ -132,12 +135,12 @@ public class MainMenu extends MyFrame{
         MyPanel p2 = new MyPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.X_AXIS));
         p2.add(createLabel("Operadores de cruce"));
-        p2.add(crossMethodComboBox= createMenuDesplegable(new String[]{"Monopunto", "Uniforme"}));
+        p2.add(crossMethodComboBox= createMenuDesplegable(new String[]{"Monopunto", "Uniforme", "Aritmético (solo REAL)", "BLX-alpha (solo REAL)"}));
         //Mutación
         MyPanel p3 = new MyPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.X_AXIS));
         p3.add(createLabel("Mutación"));
-        p3.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"A nivel de bit"}));
+        p3.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"A nivel de bit", "Gaussiana (solo REAL)"}));
 
         //Tamaño Población
         MyPanel p4 = new MyPanel();

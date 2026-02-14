@@ -13,9 +13,9 @@ public class mutacion_gaussiana {
     public mutacion_gaussiana(float ratio){
         this.ratio = ratio;
     }
-    public static void mutar(codificacion_real cod){
+    public void mutar(codificacion_real cod){
         for (int i = 0; i<cod.floatVec.length; i++){
-            cod.floatVec[i] += new Random().nextGaussian();
+            cod.floatVec[i] = Math.min(cod.maxValues[i%cod.getSizeGenoma()]-1,Math.max(0,cod.floatVec[i]+(float)new Random().nextGaussian()));
         }
     }
 }

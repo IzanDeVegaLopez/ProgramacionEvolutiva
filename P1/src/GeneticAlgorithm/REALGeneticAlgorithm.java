@@ -1,12 +1,15 @@
 package GeneticAlgorithm;
 
 import codification.codificacion_real;
+import crossmethods.cruce_aritmetico;
+import crossmethods.cruce_blx_alpha;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
 //import elitism_methods.elitismo;
 import fitness.FitnessReturnClass;
 import fitness.fitnessFunctions;
 import mutation_methods.mutacion_a_nivel_de_gen;
+import mutation_methods.mutacion_gaussiana;
 import mutation_methods.mutacion_inicial;
 import selection_methods.*;
 
@@ -154,13 +157,39 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
                     }
                     break;
                 }
+                case 2: {//ARITMETICO
+                    cruce_aritmetico crux = new cruce_aritmetico();
+                    for (int i = 0; i + 1 < chosenForCross.size(); i += 2) {
+                        crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i + 1));
+                    }
+                    break;
+                }
+                case 3: {//BLX-ALPHA
+                    cruce_blx_alpha crux = new cruce_blx_alpha();
+                    for (int i = 0; i + 1 < chosenForCross.size(); i += 2) {
+                        crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i + 1));
+                    }
+                    break;
+                }
             }
 
             //MUTACIÓN
-            mutacion_a_nivel_de_gen m = new mutacion_a_nivel_de_gen(p.mutationprobability);
-            for(int i = 0; i < p.nIndInGen; ++i){
-                m.mutar(cod[using_cod_n][i]);
+            switch(p.mutationType){
+                case 0:{//BIT-LEVEL
+                    mutacion_a_nivel_de_gen m = new mutacion_a_nivel_de_gen(p.mutationprobability);
+                    for(int i = 0; i < p.nIndInGen; ++i){
+                        m.mutar(cod[using_cod_n][i]);
+                    }
+                    break;
+                }
+                case 1:{//GAUSSIANA
+                    mutacion_gaussiana m = new mutacion_gaussiana(p.mutationprobability);
+                    for(int i = 0; i < p.nIndInGen;++i){
+                        m.mutar(cod[using_cod_n][i]);
+                    }
+                }
             }
+
             ++currentGen;
         }
 

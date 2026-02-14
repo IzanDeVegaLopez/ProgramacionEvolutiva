@@ -48,5 +48,4 @@ public class codificacion_real {
     public void mutate_at(int idx){
         floatVec[idx]=(float)Math.random() * maxValues[idx%getSizeGenoma()];
     }
-
 }

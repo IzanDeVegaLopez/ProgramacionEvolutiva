@@ -73,7 +73,7 @@ public class fitnessFunctions {
     public static array_n_value getFloatFitnessForOneCamera(Map m, float x1, float y1, float orientation, boolean ponderado) {
         array_n_value anv = new array_n_value(0,new ArrayList<int[]>(0));
         ArrayList<int[]> tiles = new ArrayList<>(0);
-        if (!m.ocupiedTiles[(int) (x1)][(int) (y1)]) {
+        if (!m.validTile((int) (x1),(int) (y1))) {
             anv.penalty = 0;
             anv.value+=m.penalty;
             float halfAngle = m.apertureAngle/2;
