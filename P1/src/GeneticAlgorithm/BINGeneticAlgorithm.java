@@ -4,7 +4,7 @@ import codification.codificacion_binaria;
 import crossmethods.cruce_monopunto;
 import crossmethods.cruce_uniforme;
 //import elitism_methods.elitismo;
-import elitism_methods.elitismo_bin;
+import elitism_methods.*;
 import mutation_methods.*;
 import fitness.*;
 import selection_methods.*;
@@ -51,7 +51,7 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
 //        last_elite = new int[(int)Math.floor(p.elite_ratio / p.nGen)];
 //        last_elite_values = new int[last_elite.length];
 
-        elit_bin = new elitismo_bin((int) (p.elite_ratio * p.nGen));
+        elit_bin = new elitismo_bin((int) (p.elite_ratio * p.nIndInGen),p.m.m.nCamaras, p.m.m.penalty);
         bestSol = new FitnessReturnClass();
     }
     void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
@@ -59,17 +59,18 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             int alternate = (using_cod_n + 1) %2;
             //FITNESS
             int[] results = new int[p.nIndInGen];
-            FitnessReturnClass ft;
+            FitnessReturnClass[] ft = new FitnessReturnClass[p.nIndInGen];
             long acum = 0;
             int max = 0;
             boolean mapUpdated = false;
             for (int i = 0; i<p.nIndInGen; i++){
                 FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m.m,cod[using_cod_n][i], p.isPonderado);
                 results[i] = temp.totalValue;
-                int graphicResult = results[i] -(p.m.m.nCamaras- temp.totalNPenalties)*p.m.m.penalty;
+                ft[i] = temp;
+                int graphicResult = results[i] -(p.m.m.nCamaras - temp.totalNPenalties)*p.m.m.penalty;
                 acum += graphicResult;
                 max = Math.max(graphicResult,max);
-                if(max > (bestSol.totalValue-(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty)){
+                if(max > (bestSol.totalValue-(p.m.m.nCamaras - bestSol.totalNPenalties)*p.m.m.penalty)){
                     bestSol = temp;
                     mapUpdated = true;
                 }
@@ -80,17 +81,26 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
             //get max abs DONE
 
             //ELITISMO
-            int[] elit_results = elit_bin.introduce_elite_bin(results, cod[using_cod_n]);
-            mid += (elit_results[0] - elit_results[1]) / p.nIndInGen;
+//            elitism_output elit_results =
+                    elit_bin.introduce_elite_bin(ft, cod[using_cod_n]);
+
+//            mid += (elit_results.max_sum - elit_results.min_sum) / p.nIndInGen;
+            max = 0;
+            acum = 0;
+//            mapUpdated = false;
             for (int i = 0; i<p.nIndInGen; i++){
-                max = Math.max(results[i],max);
-                if(max > bestSol.totalValue){
-                    bestSol = new FitnessReturnClass();
-                    bestSol.totalValue = results[i];
+                int graphicResult = ft[i].totalValue -(p.m.m.nCamaras - ft[i].totalNPenalties)*p.m.m.penalty;
+                results[i] = ft[i].totalValue;
+                acum+=graphicResult;
+                max = Math.max(graphicResult,max);
+                if(max > (bestSol.totalValue-(p.m.m.nCamaras - bestSol.totalNPenalties)*p.m.m.penalty)){
+                    bestSol = ft[i];
                     mapUpdated = true;
                 }
             }
-            elit_bin.extract_elite_bin(results, cod[using_cod_n]);
+            mid = (int)acum/p.nIndInGen;
+
+            elit_bin.extract_elite_bin(ft, cod[using_cod_n]);
             if(mapUpdated) p.m.putAllBinCameras(bestSol);
 
             //PINTAR
@@ -102,10 +112,10 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
 
             plotValues[0][currentGen] = mid;
             plotValues[1][currentGen] = max;
-            plotValues[2][currentGen] = bestSol.totalValue -(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;;
+            plotValues[2][currentGen] = bestSol.totalValue -(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;
             p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
-            p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
+            p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
             //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
 
 
