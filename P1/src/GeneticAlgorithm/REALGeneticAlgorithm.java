@@ -96,24 +96,9 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
         //ELITISMO------------------------------------------------------------------------------------------------
         //CHOSE FIRST GEN ELITES
         if(n_elites > 0) {
-            //INTRODUCE LAST ELITES
-            int[] worst = new elitism().choose_worst(n_elites, results[0]);
-            //int worst_total_value = 0;
-            for (int i = 0; i < worst.length; ++i) {
-                //worst_total_value -= results[0][worst[i]] - ((p.m.m.nCamaras-results[1][worst[i]]) *p.m.m.penalty);
-                //worst_total_value += elite_values[0][i] - (p.m.m.nCamaras-elite_values[1][i])*p.m.m.penalty;
-                cod[using_cod_n][worst[i]].setAllData(elite_elems[i].retrieveAllData());
-                results[0][worst[i]] = elite_values[0][i];
-                results[1][worst[i]] = elite_values[1][i];
-            }
-            //worst_total_value *= (float) (n_elites) / (float) (p.nIndInGen);
-            int graphicResult = bestSol.totalValue - ((p.m.m.nCamaras- bestSol.totalNPenalties) *p.m.m.penalty);
-            //mid += worst_total_value;
-            max = Math.max(max, graphicResult);
-            //CHOSE NEW ELITES
             int[] best = new elitism().choose_elite(n_elites, results[0]);
             for (int i = 0; i < best.length; ++i) {
-                elite_elems[i].setAllData(cod[using_cod_n][best[i]].retrieveAllData());
+                elite_elems[i].setAllData(cod[currentGen][best[i]].retrieveAllData());
                 elite_values[0][i] = results[0][best[i]];
                 elite_values[1][i] = results[1][best[i]];
             }
