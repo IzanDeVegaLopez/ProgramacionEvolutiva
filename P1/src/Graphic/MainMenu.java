@@ -13,7 +13,7 @@ import GeneticAlgorithm.*;
 import org.math.plot.*;
 
 public class MainMenu extends MyFrame{
-    int boxSizeY = 20;
+    int boxSizeY = 30;
     int labelSizeX = 175;
     int menuDesplegableSizeX = 100;
     MapRepresentation[] mapRepresentation;
@@ -82,6 +82,7 @@ public class MainMenu extends MyFrame{
 
     JPanel createControlsMenu(){
         MyPanel pan = new MyPanel();
+        //pan.setMinimumSize(new Dimension(500,800));
         pan.setSize(100,100);
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
@@ -118,8 +119,8 @@ public class MainMenu extends MyFrame{
 
         MyPanel panelConjunto = new MyPanel();
         panelConjunto.setLayout(new BoxLayout(panelConjunto, BoxLayout.Y_AXIS));
-        panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
-        panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX, boxSizeY*nElems));
+        panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX + 6*NumericField.x, Math.max(boxSizeY,NumericField.y)*nElems));
+        panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX + 6*NumericField.x, Math.max(boxSizeY,NumericField.y)*nElems));
 
         //Codificación
         MyPanel p = new MyPanel();
@@ -201,8 +202,8 @@ public class MainMenu extends MyFrame{
 
     NumericField createNumericField(int startVal){
         NumericField t = new NumericField(startVal);
-        t.setMaximumSize(new Dimension(menuDesplegableSizeX, boxSizeY));
-        t.setMinimumSize(new Dimension(menuDesplegableSizeX, boxSizeY));
+        t.setMaximumSize(new Dimension(menuDesplegableSizeX + NumericField.x*2, boxSizeY));
+        t.setMinimumSize(new Dimension(menuDesplegableSizeX + NumericField.x*2, boxSizeY));
         return t;
     }
 
