@@ -89,7 +89,7 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
             }
         }
         //get media gen
-        int mid = (int)acum/p.nIndInGen;
+        int mid = (int)((float)(acum)/(float)(p.nIndInGen));
         //get max gen DONE
         //get max abs DONE
 
