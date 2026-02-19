@@ -36,6 +36,7 @@ public class fitnessFunctions {
         if(m.validTile(x,y)) {
             anv.value += m.penalty;
             anv.penalty=0;
+            anv.value += ponderado ? m.importanceMap[x][y] : 1;
             int[][] dir = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
             if(!m.tainted[x][y]) {
                 anv.array.add(new int[]{x, y});
