@@ -232,7 +232,7 @@ public class REALGeneticAlgorithm extends GeneticAlgorithmBase{
                 //worst_total_value *= (float) (n_elites) / (float) (p.nIndInGen);
                 int graphicResult = bestSol.totalValue - ((p.m.m.nCamaras- bestSol.totalNPenalties) *p.m.m.penalty);
                 //mid += worst_total_value;
-                max = Math.max(max, graphicResult);
+                //max = Math.max(max, graphicResult);
                 //CHOSE NEW ELITES
                 int[] best = new elitism().choose_elite(n_elites, results[0]);
                 for (int i = 0; i < best.length; ++i) {
