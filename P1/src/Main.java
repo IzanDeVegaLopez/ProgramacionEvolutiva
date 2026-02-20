@@ -8,14 +8,14 @@ import java.awt.*;
 import Graphic.*;
 
 
-public class main {
+public class Main {
  Map m;
  MainMenu mm;
- void main() {
+ public static void main(String[] args) {
   init();
  }
 
- void init(){
+ public static void init(){
   MainMenu mm = new MainMenu(800,600);
  }
 }
