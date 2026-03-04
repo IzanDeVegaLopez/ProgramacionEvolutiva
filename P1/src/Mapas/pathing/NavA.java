@@ -3,6 +3,7 @@ import utils.Vector2;
 import java.util.PriorityQueue;
 
 public class NavA {
+
     /**
      * Calculates a path between two points using the A* pathfinding algorithm.
      * @param map The map to calculate a path on.
@@ -14,7 +15,7 @@ public class NavA {
         Vector2[] path = new Vector2[0];
 
         PriorityQueue<PQElem> open_nodes = new PriorityQueue<>();
-        open_nodes.add(new PQElem(origin,destination));
+        open_nodes.add(new PQElem(map,origin,destination));
         PriorityQueue<PQElem> closed_nodes = new PriorityQueue<>();
 
         return path;
