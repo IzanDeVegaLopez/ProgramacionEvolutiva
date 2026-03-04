@@ -1,7 +1,5 @@
 package mutation_methods;
 
-import codification.codificacion_real;
-
 import java.util.Random;
 
 public class mutacion_gaussiana {

@@ -1,8 +1,5 @@
 package GeneticAlgorithm;
 
-import codification.codificacion_binaria;
-import crossmethods.cruce_monopunto;
-import crossmethods.cruce_uniforme;
 //import elitism_methods.elitismo;
 import elitism_methods.*;
 import mutation_methods.*;

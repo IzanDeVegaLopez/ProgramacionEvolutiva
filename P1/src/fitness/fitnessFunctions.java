@@ -1,8 +1,6 @@
 package fitness;
 
 import Mapas.Map;
-import codification.codificacion_binaria;
-import codification.codificacion_real;
 
 import java.util.ArrayList;
 

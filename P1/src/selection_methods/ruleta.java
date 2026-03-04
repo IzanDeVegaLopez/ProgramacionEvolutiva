@@ -1,8 +1,5 @@
 package selection_methods;
 
-import codification.codificacion_binaria;
-import codification.codificacion_real;
-
 public class ruleta implements selection_method{
     public tabla_frecuencias t;
     public int[] chooseEntities(int[] fitness){

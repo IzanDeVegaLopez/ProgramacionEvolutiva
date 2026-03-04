@@ -1,11 +1,5 @@
 package GeneticAlgorithm;
 
-import codification.codificacion_binaria;
-import codification.codificacion_real;
-import crossmethods.cruce_aritmetico;
-import crossmethods.cruce_blx_alpha;
-import crossmethods.cruce_monopunto;
-import crossmethods.cruce_uniforme;
 //import elitism_methods.elitismo;
 import elitism_methods.elitism;
 import fitness.FitnessReturnClass;

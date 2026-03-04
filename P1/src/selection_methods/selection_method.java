@@ -1,6 +1,5 @@
 package selection_methods;
-import codification.codificacion_binaria;
-import codification.codificacion_real;
+
 enum methods{
     estocastico,
     restos,
