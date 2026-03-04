@@ -1,5 +1,6 @@
 package fitness;
 
+/*
 import Mapas.Map;
 
 import java.util.ArrayList;
@@ -130,3 +131,4 @@ public class fitnessFunctions {
     }
 
 }
+*/

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 import Mapas.mapReader;
-import fitness.FitnessReturnClass;
+//import fitness.FitnessReturnClass;
 
 public class MapRepresentation extends MyPanel{
     JPanel [][] myTiles;
@@ -34,23 +34,8 @@ public class MapRepresentation extends MyPanel{
                 this.add(myTiles[j][i]);
             }
         }
-        colorPerCamera = new Color[m.nCamaras];
-        for(int i = 0; i < m.nCamaras; ++i){
-            /*
-            colorPerCamera[i] = new Color(
-                    (int)Math.floor(Math.random()*100)+100,
-                    (int)Math.floor(Math.random()*100)+100,
-                    (int)Math.floor(Math.random()*100)+100
-            );*/
-            int min = 80;
-            int r =                     (i<3? (i+1)*min:0)+15;
-            int g =                     ((i/3==1)?(i-2)*min:0)+15;
-            int b =                     ((i/3==2)?(i-5)*min:0)+15;
-            //IO.print("("+r+' '+g+' '+b+')'+'\n');
-            colorPerCamera[i] = new Color(r,g,b);
-        }
     }
-
+/*
     public void putAllBinCameras(FitnessReturnClass frc){
         emptyCamerasOnMap();
         int i = 0;
@@ -73,4 +58,5 @@ public class MapRepresentation extends MyPanel{
             myTiles[listTiles.get(i)[0]][listTiles.get(i)[1]].setBackground(colorPerCamera[cameraNumber]);
         }
     }
+ */
 }

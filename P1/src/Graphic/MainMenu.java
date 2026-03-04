@@ -253,11 +253,14 @@ public class MainMenu extends MyFrame{
                 Integer codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
                 g.isPonderado = ponderadoBox.isSelected();
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
+
+                /*
                 float[] Enforcing_n_Max = codeType==0 ?
                         new BINGeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax() :
                         new REALGeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax();
-                maxValue.setText(""+Enforcing_n_Max[1]);
-                enforcingValue.setText(""+Enforcing_n_Max[0]);
+                 */
+                //maxValue.setText(""+Enforcing_n_Max[1]);
+                //enforcingValue.setText(""+Enforcing_n_Max[0]);
 
             }
         });

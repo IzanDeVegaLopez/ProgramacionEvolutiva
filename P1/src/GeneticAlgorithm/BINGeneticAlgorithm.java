@@ -1,5 +1,5 @@
 package GeneticAlgorithm;
-
+/*
 //import elitism_methods.elitismo;
 import elitism_methods.*;
 import mutation_methods.*;
@@ -329,3 +329,4 @@ public class BINGeneticAlgorithm extends GeneticAlgorithmBase {
         bestSol.totalValue-=(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;
     }
 }
+*/

@@ -1,5 +1,5 @@
 package fitness;
-
+/*
 import java.util.ArrayList;
 
 public class FitnessReturnClass {
@@ -12,3 +12,4 @@ public class FitnessReturnClass {
         tilesInCameraI = new ArrayList<ArrayList<int[]>>(0);
     }
 }
+*/

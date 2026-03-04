@@ -1,12 +1,12 @@
 package GeneticAlgorithm;
 
 import Mapas.Map;
-import fitness.FitnessReturnClass;
+//import fitness.FitnessReturnClass;
 
 public class GeneticAlgorithmBase {
-    FitnessReturnClass bestSol;
+    //FitnessReturnClass bestSol;
     float midSelectionEnforcer;
-    public float[] getMidSelectionEnforcer_n_getMax(){
-        return new float[]{midSelectionEnforcer, bestSol.totalValue};
-    }
+    //public float[] getMidSelectionEnforcer_n_getMax(){
+        //return new float[]{midSelectionEnforcer, bestSol.totalValue};
+    //}
 }
