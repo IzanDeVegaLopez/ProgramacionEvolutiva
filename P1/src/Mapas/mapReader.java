@@ -101,7 +101,7 @@ public class mapReader {
                     b[j][i] = 1==myReader.nextInt();
                 }
             }
-            return new Map(importanceMaps[mapID], b, nCam,rng, angle);
+            return new Map(importanceMaps[mapID], b);
 
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");

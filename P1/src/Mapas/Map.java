@@ -5,16 +5,10 @@ public class Map {
     public boolean[][] ocupiedTiles;
     //Para llevar la cuenta de cuales he tocado ya con una cámara en este recorrido
     public boolean[][] tainted;
-    public int nCamaras;
-    public int visionRange;
-    public float apertureAngle;
     public int penalty=100;
-    Map(int[][] imp, boolean [][]ocup, int nCam, int visRng, float angle){
+    Map(int[][] imp, boolean [][]ocup){
         importanceMap = imp;
         ocupiedTiles = ocup;
-        nCamaras = nCam;
-        visionRange = visRng;
-        apertureAngle = angle;
         tainted = new boolean[ocup.length][ocup[0].length];
     }
     public boolean validTile(int x, int y){
