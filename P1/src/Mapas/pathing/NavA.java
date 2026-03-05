@@ -17,7 +17,11 @@ public class NavA {
 
         PriorityQueue<PQElem> open_nodes = new PriorityQueue<>();
         open_nodes.add(new PQElem(map.importanceMap,origin,destination));
-        PriorityQueue<PQElem> closed_nodes = new PriorityQueue<>();
+        map.resetTainted();
+        Vector2 top;
+        while (!(top = open_nodes.peek().origin).equals(destination)){
+            map.tainted[top.x][top.y] = true;
+        }
 
         return path;
     };

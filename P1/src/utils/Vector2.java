@@ -16,4 +16,8 @@ public class Vector2 {
     public static Vector2 origin(){
         return new Vector2();
     }
+
+    public boolean equals(Vector2 other){
+        return x == other.x && y == other.y;
+    }
 }
