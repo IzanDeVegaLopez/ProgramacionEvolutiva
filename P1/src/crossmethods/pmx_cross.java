@@ -19,24 +19,45 @@ public class pmx_cross  implements base_cross_method{
         codificacion_entera child1 = new codificacion_entera(padre1.get_size());
         codificacion_entera child2 = new codificacion_entera(padre2.get_size());
 
-        for(int i = corte1; i < corte2; ++i){
+        //Copy elements cruzados dentro de los cortes
+        for(int i = corte1; i < corte2; ++i) {
+            child1.set_value(i, padre2.get_value(i));
+            child2.set_value(i, padre1.get_value(i));
+        }
+        //Elementos antes de los cortes
+        for(int i = 0; i < corte1; ++i){
             int candidato1 = padre2.get_value(i);
-            while(child1.is_contained(candidato1)){
+            while (child1.is_contained(candidato1)) {
                 int indice_conflicto = padre2.get_conflict_index(candidato1);
                 candidato1 = padre1.get_value(indice_conflicto);
             }
-            child1.set_value(i,candidato1);
+            child1.set_value(i, candidato1);
 
             int candidato2 = padre1.get_value(i);
-            while(child2.is_contained(candidato2)){
+            while (child2.is_contained(candidato2)) {
                 int indice_conflicto = padre1.get_conflict_index(candidato2);
                 candidato2 = padre2.get_value(indice_conflicto);
             }
-            child2.set_value(i,candidato2);
+            child2.set_value(i, candidato2);
+        }
+        //Elementos después de los cortes
+        for(int i = corte2; i < child1.get_size(); ++i){
+            int candidato1 = padre2.get_value(i);
+            while (child1.is_contained(candidato1)) {
+                int indice_conflicto = padre2.get_conflict_index(candidato1);
+                candidato1 = padre1.get_value(indice_conflicto);
+            }
+            child1.set_value(i, candidato1);
+
+            int candidato2 = padre1.get_value(i);
+            while (child2.is_contained(candidato2)) {
+                int indice_conflicto = padre1.get_conflict_index(candidato2);
+                candidato2 = padre2.get_value(indice_conflicto);
+            }
+            child2.set_value(i, candidato2);
         }
 
-
-        padre1 = child1;
-        padre2 = child2;
+        padre1.copy(child1);
+        padre2.copy(child2);
     }
 }
