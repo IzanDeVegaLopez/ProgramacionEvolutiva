@@ -43,21 +43,13 @@ public class ox_cross  implements base_cross_method{
         index_child1=0;index_child2=0;
         //Antes del corte
         for(int i = 0; i < corte1; ++i){
-            if(child1.get_value(i)==-1) {
-                child1.set_value(i, lista_elementos_child1[index_child1++]);
-            }
-            if(child2.get_value(i)==-1) {
-                child2.set_value(i, lista_elementos_child2[index_child2++]);
-            }
+            child1.set_value(i, lista_elementos_child1[index_child1++]);
+            child2.set_value(i, lista_elementos_child2[index_child2++]);
         }
         // después del corte
         for(int i = corte2; i < child1.get_size(); ++i){
-            if(child1.get_value(i)==-1) {
-                child1.set_value(i, lista_elementos_child1[index_child1++]);
-            }
-            if(child2.get_value(i)==-1) {
-                child2.set_value(i, lista_elementos_child2[index_child2++]);
-            }
+            child1.set_value(i, lista_elementos_child1[index_child1++]);
+            child2.set_value(i, lista_elementos_child2[index_child2++]);
         }
 
         padre1.copy(child1);
