@@ -13,7 +13,8 @@ public class erx_cross implements base_cross_method{
         public tabla_de_conectividad my_clone(){
             tabla_de_conectividad tab = new tabla_de_conectividad(taken.size());
             tab.mapa = mapa.clone();
-            taken = new BitSet(taken.size());
+            tab.taken = new BitSet(taken.size());
+            return tab;
         }
         public int[] get_ady(int i){
             //int[] ret = Arrays.stream(mapa[i].toArray()).mapToInt(Integer::intValue).ToArray();
@@ -70,17 +71,12 @@ public class erx_cross implements base_cross_method{
         public tabla_de_conectividad(int size){
             taken = new BitSet(size);
             taken.clear();
-
-            //mapa = new ArrayList<Integer>[cod1.get_size()];
-            //for(int i = 0; i < cod1.get_size(); ++i){
-              //  mapa[i] = new ArrayList<>();
-            //}
         }
         public tabla_de_conectividad(codificacion_entera cod1, codificacion_entera cod2){
             BitSet b = new BitSet(cod1.get_size());
             int last_elem = cod1.get_size()-1;
 
-            mapa = new ArrayList<Integer>[cod1.get_size()];
+            mapa = new java.util.ArrayList[cod1.get_size()];
             for(int i = 0; i < cod1.get_size(); ++i){
                 mapa[i] = new ArrayList<>();
             }
