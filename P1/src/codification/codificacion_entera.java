@@ -63,4 +63,12 @@ public class codificacion_entera {
         values = cod.get_values().clone();
         conflict_point = cod.get_conflict_point().clone();
     }
+
+    private void swap(int index1, int index2){
+
+    }
+
+    public void insert(int element_to_displace_index, int new_index){
+
+    }
 }
