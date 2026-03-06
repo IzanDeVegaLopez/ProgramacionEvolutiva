@@ -2,6 +2,8 @@ package codification;
 
 import java.util.BitSet;
 
+import static utils.my_utils.array_index_swap;
+
 public class codificacion_entera {
     //True values
     private int[] values;
@@ -64,11 +66,20 @@ public class codificacion_entera {
         conflict_point = cod.get_conflict_point().clone();
     }
 
-    private void swap(int index1, int index2){
-
+    public  void swap(int index1, int index2){
+        array_index_swap(conflict_point, values[index1], values[index2]);
+        array_index_swap(values, index1,index2);
     }
 
     public void insert(int element_to_displace_index, int new_index){
-
+        if(element_to_displace_index < new_index){
+            for(int i = element_to_displace_index; i < new_index; ++i){
+                swap(i,i+1);
+            }
+        }else{
+            for(int i = element_to_displace_index; i > new_index; --i){
+                swap(i,i-1);
+            }
+        }
     }
 }
