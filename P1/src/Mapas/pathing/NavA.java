@@ -43,7 +43,7 @@ public class NavA {
                         map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x])
                     continue;
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination));
+                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.stepCount));
                 // Reference previous node
                 map.previous[newpos.y][newpos.x] = top.origin;
             }
@@ -56,7 +56,7 @@ public class NavA {
                         map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x])
                     continue;
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination));
+                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.stepCount));
                 // Reference previous node
                 map.previous[newpos.y][newpos.x] = top.origin;
             }

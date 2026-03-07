@@ -8,10 +8,17 @@ public class PQElem implements Comparable<PQElem> {
     public Vector2 origin;
     //Destination is implied in PQElem's context.
     public int heuristic;
+    public int stepCount;
 
     PQElem(int [][] map, Vector2 o, Vector2 d){
         origin = o;
         heuristic = distance_heuristic(o,d) + map[origin.y][origin.x];
+        stepCount = 0;
+    }
+    PQElem(int [][] map, Vector2 o, Vector2 d, int sc){
+        origin = o;
+        stepCount = sc+1;
+        heuristic = distance_heuristic(o,d) + map[origin.y][origin.x] + stepCount;
     }
 
     /**

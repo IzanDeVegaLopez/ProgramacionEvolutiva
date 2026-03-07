@@ -114,12 +114,12 @@ public class MainMenu extends MyFrame{
 
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
-        Vector<Vector2> testPath = NavA.findPath(m.m, new Vector2(5,5),new Vector2(8,8));
-        int i = 0;
-        for (Vector2 v : testPath){
-            System.out.println("Step "+i+": x: "+v.x+"; y: "+v.y);
-            i++;
-        }
+//        Vector<Vector2> testPath = NavA.findPath(m.m, new Vector2(5,5),new Vector2(8,8));
+//        int i = 0;
+//        for (Vector2 v : testPath){
+//            System.out.println("Step "+i+": x: "+v.x+"; y: "+v.y);
+//            i++;
+//        }
         return m;
     }
 
