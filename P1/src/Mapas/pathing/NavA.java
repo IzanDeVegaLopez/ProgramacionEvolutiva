@@ -20,6 +20,7 @@ public class NavA {
 
         // Add first node to visit
         open_nodes.add(new PQElem(map.importanceMap,origin,destination));
+        map.tainted[origin.y][origin.x] = true;
 
         // Reset map matrices
         map.resetTainted();
@@ -30,15 +31,18 @@ public class NavA {
         PQElem top;
         while (!open_nodes.isEmpty()){
             top = open_nodes.poll();
-            if (top.origin.equals(destination)) break;
+            if (top.origin.equals(destination))
+                break;
 
-            map.tainted[top.origin.x][top.origin.y] = true;
-
+            map.tainted[top.origin.y][top.origin.x] = true;
             // Vertical exploration
             for (int y = -1; y < 2; y+=2){
                 Vector2 newpos = new Vector2(top.origin.x, top.origin.y + y);
                 // If node has been accessed or is inaccessible
-                if (map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x]) continue;
+                if (newpos.y >= map.ocupiedTiles.length || newpos.x >= map.ocupiedTiles[0].length
+                        || newpos.y < 0 || newpos.x < 0 ||
+                        map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x])
+                    continue;
                 // Add next node to visit
                 open_nodes.add(new PQElem(map.importanceMap,newpos,destination));
                 // Reference previous node
@@ -48,7 +52,10 @@ public class NavA {
             for (int x = -1; x < 2; x+=2){
                 Vector2 newpos = new Vector2(top.origin.x + x, top.origin.y);
                 // If node has been accessed or is inaccessible
-                if (map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x]) continue;
+                if (newpos.y >= map.ocupiedTiles.length || newpos.x >= map.ocupiedTiles[0].length
+                        || newpos.y < 0 || newpos.x < 0 ||
+                        map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x])
+                    continue;
                 // Add next node to visit
                 open_nodes.add(new PQElem(map.importanceMap,newpos,destination));
                 // Reference previous node
@@ -63,10 +70,11 @@ public class NavA {
         // Otherwise
         else {
             Vector2 currentPos = destination;
-            do {
+            while (!currentPos.equals(origin)) {
                 path.addFirst(currentPos);
                 currentPos = map.previous[currentPos.y][currentPos.x];
-            } while (!currentPos.equals(origin));
+            }
+            path.addFirst(origin);
         }
 
         return path;

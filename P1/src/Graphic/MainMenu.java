@@ -7,10 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
 import java.util.HashMap;
+import java.util.Vector;
 
 import GeneticAlgorithm.*;
 
+import Mapas.pathing.NavA;
 import org.math.plot.*;
+import utils.Vector2;
 
 public class MainMenu extends MyFrame{
     int boxSizeY = 30;
@@ -111,6 +114,12 @@ public class MainMenu extends MyFrame{
 
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
+//        Vector<Vector2> testPath = NavA.findPath(m.m, new Vector2(5,5),new Vector2(8,8));
+//        int i = 0;
+//        for (Vector2 v : testPath){
+//            System.out.println("Step "+i+": x: "+v.x+"; y: "+v.y);
+//            i++;
+//        }
         return m;
     }
 
