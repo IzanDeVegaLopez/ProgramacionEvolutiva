@@ -4,7 +4,7 @@ import codification.codificacion_entera;
 
 import java.util.BitSet;
 import static utils.my_utils.get_random;
-import static utils.GfG.nextPermutation;
+import static utils.next_permutation.nextPermutation;
 
 public class heuristic_mutation implements mutation_base{
     int n_elems_to_select=3;

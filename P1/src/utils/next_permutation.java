@@ -3,7 +3,7 @@ package utils;
 import java.util.Arrays;
 
 //src: https://www.geeksforgeeks.org/dsa/next-permutation/
-public class GfG {
+public class next_permutation {
 
     public static void nextPermutation(int[] arr) {
 
