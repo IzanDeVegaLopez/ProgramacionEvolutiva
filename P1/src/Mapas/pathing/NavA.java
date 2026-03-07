@@ -20,7 +20,6 @@ public class NavA {
 
         // Add first node to visit
         open_nodes.add(new PQElem(map.importanceMap,origin,destination));
-        map.tainted[origin.y][origin.x] = true;
 
         // Reset map matrices
         map.resetTainted();

@@ -95,10 +95,10 @@ public class mapReader {
             int height = myReader.nextInt(),
                     width = myReader.nextInt();
 
-            b = new boolean[width][height];
+            b = new boolean[height][width];
             for(int i = 0; i < height; ++i){
                 for(int j = 0; j < width; ++j){
-                    b[j][i] = 1==myReader.nextInt();
+                    b[i][j] = 1==myReader.nextInt();
                 }
             }
             return new Map(importanceMaps[mapID], b);
