@@ -2,6 +2,8 @@ package Mapas.pathing;
 
 import utils.Vector2;
 
+import java.util.Vector;
+
 public class PQElem implements Comparable<PQElem> {
     public Vector2 origin;
     //Destination is implied in PQElem's context.
