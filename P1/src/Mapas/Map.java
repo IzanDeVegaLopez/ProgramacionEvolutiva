@@ -8,6 +8,8 @@ public class Map {
     //Para llevar la cuenta de cuales he tocado ya con una cámara en este recorrido
     public boolean[][] tainted;
     public Vector2[][] previous;
+    //Last position is reserved for start position
+    public Vector2[] interest_points;
 
     public int penalty=100;
     Map(int[][] imp, boolean [][]ocup){

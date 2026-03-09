@@ -129,7 +129,7 @@ public class INTGeneticAlgorithm {
     }
     void initialize_codification(GeneticAlgorithmParameters p){
         int alternate = (using_cod_n+1)%2;
-        fit_calculator = new manhattan_distance_fitness_calculator();
+        fit_calculator = new manhattan_distance_fitness_calculator(p.m.m);
         cod = new codificacion_entera[][]{new codificacion_entera[p.nIndInGen],new codificacion_entera[p.nIndInGen]};
         int n_elems_total = p.n_drones + p.n_interest_points;
         for(int i = 0; i < p.nIndInGen; ++i){
@@ -303,7 +303,7 @@ public class INTGeneticAlgorithm {
             int max = 0;
             boolean mapUpdated = false;
 
-            FitnessReturnClass ft = fit_calculator.calculate_fitness(cod[using_cod_n]);
+            FitnessReturnClass ft = fit_calculator.calculate_fitness(p.m.m, cod[using_cod_n]);
             if(ft.best_value < best_sol_yet){
                 best_sol_yet = ft.best_value;
             }
