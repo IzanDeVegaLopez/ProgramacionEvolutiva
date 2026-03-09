@@ -12,7 +12,7 @@ import selection_methods.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class INTGeneticAlgorithm extends GeneticAlgorithmBase {
+public class INTGeneticAlgorithm {
     //2 buffers y van alternando
     codificacion_entera[][] cod;
     codificacion_entera[] elite_elems;
@@ -364,7 +364,7 @@ public class INTGeneticAlgorithm extends GeneticAlgorithmBase {
         }
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
-        midSelectionEnforcer /= p.nGen;
+        //midSelectionEnforcer /= p.nGen;
         //bestSol.totalValue-=(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;
     }
 }
