@@ -81,12 +81,21 @@ public class erx_cross implements base_cross_method{
                 mapa[i] = new ArrayList<>();
             }
 
-            //FIRST
-            b.clear();
-            add_if_unchecked(0,cod1.get_value(1),b);
-            add_if_unchecked(0,cod1.get_value(last_elem),b);
-            add_if_unchecked(0,cod2.get_value(1),b);
-            add_if_unchecked(0,cod2.get_value(last_elem),b);
+            if(cod1.get_size() > 1) {
+                //FIRST
+                b.clear();
+                add_if_unchecked(0, cod1.get_value(1), b);
+                add_if_unchecked(0, cod1.get_value(last_elem), b);
+                add_if_unchecked(0, cod2.get_value(1), b);
+                add_if_unchecked(0, cod2.get_value(last_elem), b);
+
+                //LAST
+                b.clear();
+                add_if_unchecked(last_elem,cod1.get_value(0),b);
+                add_if_unchecked(last_elem,cod1.get_value(last_elem-1),b);
+                add_if_unchecked(last_elem,cod2.get_value(0),b);
+                add_if_unchecked(last_elem,cod2.get_value(last_elem-1),b);
+            }
 
             //IN BETWEEN
             b.clear();
@@ -96,13 +105,6 @@ public class erx_cross implements base_cross_method{
                 add_if_unchecked(i,cod2.get_value(i+1),b);
                 add_if_unchecked(i,cod2.get_value(i-1),b);
             }
-
-            //LAST
-            b.clear();
-            add_if_unchecked(last_elem,cod1.get_value(0),b);
-            add_if_unchecked(last_elem,cod1.get_value(last_elem-1),b);
-            add_if_unchecked(last_elem,cod2.get_value(0),b);
-            add_if_unchecked(last_elem,cod2.get_value(last_elem-1),b);
 
             taken = new BitSet(cod1.get_size());
             taken.clear();
@@ -130,19 +132,21 @@ public class erx_cross implements base_cross_method{
 
     public codificacion_entera construir_hijo(codificacion_entera padre1, tabla_de_conectividad tab){
         codificacion_entera child1 = new codificacion_entera(padre1.get_size());
-        int cam_actual = padre1.get_value(0);
-        tab.set_as_taken(0);
-        child1.set_value(0,cam_actual);
+        if(padre1.get_size() > 0) {
+            int cam_actual = padre1.get_value(0);
+            tab.set_as_taken(0);
+            child1.set_value(0, cam_actual);
 
-        int i = 0;
-        while(child1.get_free() > 0){
-            int[] vecinos = tab.get_ady(cam_actual);
-            if(vecinos.length > 0){
-                cam_actual = tab.take_vecino_con_menos_conexiones(vecinos);
-            }else{
-                cam_actual = tab.get_non_visited_idx();
+            int i = 0;
+            while (child1.get_free() > 0) {
+                int[] vecinos = tab.get_ady(cam_actual);
+                if (vecinos.length > 0) {
+                    cam_actual = tab.take_vecino_con_menos_conexiones(vecinos);
+                } else {
+                    cam_actual = tab.get_non_visited_idx();
+                }
+                child1.set_value(i++, cam_actual);
             }
-            child1.set_value(i++,cam_actual);
         }
         return child1;
     }
