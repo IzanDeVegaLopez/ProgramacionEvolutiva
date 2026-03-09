@@ -34,44 +34,32 @@ public class INTGeneticAlgorithm {
         loopGeneticAlgorithm(p);
         endGeneticAlgorithm(p);
     }
-    void startGeneticAlgorithm(GeneticAlgorithmParameters p){
-        currentGen = 0;
-        using_cod_n = 0;
-        int alternate = (using_cod_n+1)%2;
-        fit_calculator = new manhattan_distance_fitness_calculator();
-        cod = new codificacion_entera[][]{new codificacion_entera[p.nIndInGen],new codificacion_entera[p.nIndInGen]};
-        int n_elems_total = p.n_drones + p.n_interest_points;
-        for(int i = 0; i < p.nIndInGen; ++i){
-            cod[using_cod_n][i] = new codificacion_entera(n_elems_total);
-            cod[using_cod_n][i].initialize_with_stair_shape();
-
-            cod[alternate][i] = new codificacion_entera(n_elems_total);
-            cod[alternate][i].initialize_with_stair_shape();
-
-            //TODO: mutación inicial
+    public void choose_mutation_method(int i){
+        switch(i) {
+            case 0: { //heuristic
+                mut = new heuristic_mutation();
+                break;
+            }
+            case 1: {//insertion
+                mut = new insertion_mutation();
+                break;
+            }
+            case 2: {//interchange
+                mut = new interchange_mutation();
+                break;
+            }
+            case 3: {//Invented Cross
+                mut = new invented_mutation();
+                break;
+            }
+            case 4: {//OX_Cross
+                mut = new inversion_mutation();
+                break;
+            }
         }
-
-        //Cretion plot array
-        plotValues = new double[4][p.nGen];
-        for(int i = 0; i < p.nGen; ++i){
-            plotValues[3][i] = i;
-        }
-        //erase lines already written
-        if(p.plot2d.getPlots().size()==0) {
-            p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
-            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
-            p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
-        }
-
-        n_elites = (int)(p.elite_ratio * p.nIndInGen);
-        elite_elems = new codificacion_entera[n_elites];
-        for(int i = 0; i < n_elites; ++i){
-            elite_elems[i] = new codificacion_entera(n_elems_total);
-            elite_elems[i].initialize_with_stair_shape();
-        }
-        elite_values = new int[2][n_elites];
-
-        switch(p.selectionType){
+    }
+    public void choose_selection_method(int i){
+        switch(i){
             case 0:{//RULETA
                 select_method = new selection_methods.ruleta();
                 break;
@@ -93,8 +81,9 @@ public class INTGeneticAlgorithm {
                 break;
             }
         }
-
-        switch(p.crossType) {
+    }
+    public void choose_cross_method(int i){
+        switch(i) {
             case 0: { //CO_Cross
                 crux = new co_cross();
                 break;
@@ -124,28 +113,58 @@ public class INTGeneticAlgorithm {
                 break;
             }
         }
-        switch(p.mutationType) {
-            case 0: { //heuristic
-                mut = new heuristic_mutation();
-                break;
-            }
-            case 1: {//insertion
-                mut = new insertion_mutation();
-                break;
-            }
-            case 2: {//interchange
-                mut = new interchange_mutation();
-                break;
-            }
-            case 3: {//Invented Cross
-                mut = new invented_mutation();
-                break;
-            }
-            case 4: {//OX_Cross
-                mut = new inversion_mutation();
-                break;
-            }
+    }
+    public void initialize_plot(GeneticAlgorithmParameters p){
+        //Cretion plot array
+        plotValues = new double[4][p.nGen];
+        for(int i = 0; i < p.nGen; ++i){
+            plotValues[3][i] = i;
         }
+        //erase lines already written
+        if(p.plot2d.getPlots().size()==0) {
+            p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
+            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
+            p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
+        }
+    }
+    void initialize_codification(GeneticAlgorithmParameters p){
+        int alternate = (using_cod_n+1)%2;
+        fit_calculator = new manhattan_distance_fitness_calculator();
+        cod = new codificacion_entera[][]{new codificacion_entera[p.nIndInGen],new codificacion_entera[p.nIndInGen]};
+        int n_elems_total = p.n_drones + p.n_interest_points;
+        for(int i = 0; i < p.nIndInGen; ++i){
+            cod[using_cod_n][i] = new codificacion_entera(n_elems_total);
+            cod[using_cod_n][i].initialize_with_stair_shape();
+
+            cod[alternate][i] = new codificacion_entera(n_elems_total);
+            cod[alternate][i].initialize_with_stair_shape();
+
+            //TODO: mutación inicial
+        }
+    }
+    void initialize_elites(GeneticAlgorithmParameters p){
+        n_elites = (int)(p.elite_ratio * p.nIndInGen);
+        elite_elems = new codificacion_entera[n_elites];
+        int n_elems_total = p.n_drones + p.n_interest_points;
+        for(int i = 0; i < n_elites; ++i){
+            elite_elems[i] = new codificacion_entera(n_elems_total);
+            elite_elems[i].initialize_with_stair_shape();
+        }
+        elite_values = new int[2][n_elites];
+    }
+    void startGeneticAlgorithm(GeneticAlgorithmParameters p){
+        currentGen = 0;
+        using_cod_n = 0;
+
+        initialize_codification(p);
+
+        initialize_plot(p);
+
+        initialize_elites(p);
+
+        choose_mutation_method(p.selectionType);
+        choose_cross_method(p.crossType);
+        choose_mutation_method(p.mutationType);
     }
 
     void do_first_gen(GeneticAlgorithmParameters p){
