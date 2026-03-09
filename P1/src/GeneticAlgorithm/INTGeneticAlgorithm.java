@@ -352,8 +352,8 @@ public class INTGeneticAlgorithm extends GeneticAlgorithmBase {
                 if(Math.random() <= p.crossProbability) chosenForCross.add(i);
             }
             int total_number_of_crosses = chosenForCross.size();
-            for(int i = 0; i < total_number_of_crosses; i = i+2){
-                crux.cruzar(cod[using_cod_n][chosenForCross.get(i)], cod[using_cod_n][chosenForCross.get(i+1)]);
+            for(int i = 1; i < total_number_of_crosses; i = i+2){
+                crux.cruzar(cod[using_cod_n][chosenForCross.get(i)], cod[using_cod_n][chosenForCross.get(i-1)]);
             }
 
             //MUTACIÓN

@@ -263,6 +263,7 @@ public class MainMenu extends MyFrame{
                 g.isPonderado = ponderadoBox.isSelected();
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
 
+                INTGeneticAlgorithm algorithm = new INTGeneticAlgorithm(g);
                 /*
                 float[] Enforcing_n_Max = codeType==0 ?
                         new BINGeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax() :
