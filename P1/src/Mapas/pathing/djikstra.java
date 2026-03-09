@@ -10,6 +10,7 @@ public class djikstra {
         new Vector2(0,1),
         new Vector2(0,-1)
     };
+    //TODO: needs to know camera positions to penalize paths that cross other cameras
     pathing_algorithm_return_type djikstra_algorithm(int[][] map){
         int total_vertex = 0;
         if(map.length > 0) {
@@ -39,6 +40,8 @@ public class djikstra {
                 tainted[current.current.x][current.current.y] = true;
                 ret.cost[position_index][i] = current.cost;
                 ret.previous_vertex[position_index][i] = current.previous;
+
+                //TODO: if (camera_on_this_tile) current.cost += penalización
 
                 for(Vector2 delta : ady){
                     Vector2 new_pos = new Vector2(delta.x + x, delta.y + y);
