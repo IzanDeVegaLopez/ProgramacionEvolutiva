@@ -1,6 +1,6 @@
 package selection_methods;
 
-public class restos {
+public class restos implements selection_method{
     methods metodo_restantes = methods.ruleta;
     selection_method aux_method;
     public tabla_frecuencias t;

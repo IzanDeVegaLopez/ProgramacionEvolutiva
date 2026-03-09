@@ -7,7 +7,7 @@ enum methods{
     torneo,
     truncamiento
 }
-interface selection_method {
+public interface selection_method {
     public float selectionEnforcer=0;
     public abstract int[] chooseEntities(int[] fitness);
     //returns array with index of each element chosen

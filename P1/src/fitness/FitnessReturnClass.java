@@ -1,15 +1,14 @@
 package fitness;
-/*
+
 import java.util.ArrayList;
 
 public class FitnessReturnClass {
-    public int totalValue;
-    public int totalNPenalties;
-    //[Camera][tileNumber][0==x,1==y]
-    public ArrayList<ArrayList<int[]>> tilesInCameraI;
-    public FitnessReturnClass(){
-        totalValue = 0;
-        tilesInCameraI = new ArrayList<ArrayList<int[]>>(0);
+    public int[] totalValue;
+    public int best_value;
+    public int mid;
+    public FitnessReturnClass(int size){
+        totalValue = new int[size];
+        best_value = 0;
+        mid = 0;
     }
 }
-*/
