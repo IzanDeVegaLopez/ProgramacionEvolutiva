@@ -5,6 +5,8 @@ import codification.codificacion_entera;
 public class cx_cross  implements base_cross_method{
     public void cruzar(codificacion_entera padre1, codificacion_entera padre2) {
         //Crear los 2 arrays a devolver
+        if(padre1.get_size() < 2) return;
+
         codificacion_entera child1 = new codificacion_entera(padre1.get_size());
         codificacion_entera child2 = new codificacion_entera(padre2.get_size());
 

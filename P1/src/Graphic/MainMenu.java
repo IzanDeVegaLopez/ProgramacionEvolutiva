@@ -31,13 +31,12 @@ public class MainMenu extends MyFrame{
     JComboBox selectionTypeComboBox;
     JComboBox crossMethodComboBox;
     JComboBox mutationMethodComboBox;
-    JComboBox codificationTypeComboBox;
+    //JComboBox codificationTypeComboBox;
     JLabel maxValue;
     JLabel enforcingValue;
     JTabbedPane mapsTabs;
 
     HashMap<String,Integer> selectionHash;
-    HashMap<String,Integer> codeHash;
     HashMap<String,Integer> mutationHash;
     HashMap<String,Integer> crossHash;
 
@@ -60,10 +59,6 @@ public class MainMenu extends MyFrame{
         setSize(800,600);
     }
     void initHashMaps(){
-        codeHash = new HashMap<>();
-        codeHash.put("Binario", 0);
-        codeHash.put("Punto flotante", 1);
-
         selectionHash = new HashMap<>();
         selectionHash.put("Ruleta",0);
         selectionHash.put("Torneo",1);
@@ -72,14 +67,20 @@ public class MainMenu extends MyFrame{
         selectionHash.put("Restos",4);
 
         crossHash = new HashMap<>();
-        crossHash.put("Monopunto",0);
-        crossHash.put("Uniforme",1);
-        crossHash.put("Aritmético (solo REAL)",2);
-        crossHash.put("BLX-alpha (solo REAL)",3);
+        crossHash.put("CO",0);
+        crossHash.put("CX",1);
+        crossHash.put("ERX",2);
+        crossHash.put("Invented",3);
+        crossHash.put("OX",4);
+        crossHash.put("OXPP",5);
+        crossHash.put("PMX",6);
 
         mutationHash = new HashMap<>();
-        mutationHash.put("A nivel de bit", 0);
-        mutationHash.put("Gaussiana (solo REAL)",1);
+        mutationHash.put("Heuristic", 0);
+        mutationHash.put("Insertion", 1);
+        mutationHash.put("Interchange", 2);
+        mutationHash.put("Invented", 3);
+        mutationHash.put("Inversion", 4);
 
     }
 
@@ -132,10 +133,10 @@ public class MainMenu extends MyFrame{
         panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX + 6*NumericField.x, Math.max(boxSizeY,NumericField.y)*nElems));
 
         //Codificación
-        MyPanel p = new MyPanel();
-        p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
-        p.add(createLabel("Codificación"));
-        p.add(codificationTypeComboBox= createMenuDesplegable(new String[]{"Binario", "Punto flotante"}));
+        //MyPanel p = new MyPanel();
+        //p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+        //p.add(createLabel("Codificación"));
+        //p.add(codificationTypeComboBox= createMenuDesplegable(new String[]{"Binario", "Punto flotante"}));
         //método de Selección
         MyPanel p1 = new MyPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.X_AXIS));
@@ -145,12 +146,12 @@ public class MainMenu extends MyFrame{
         MyPanel p2 = new MyPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.X_AXIS));
         p2.add(createLabel("Operadores de cruce"));
-        p2.add(crossMethodComboBox= createMenuDesplegable(new String[]{"Monopunto", "Uniforme", "Aritmético (solo REAL)", "BLX-alpha (solo REAL)"}));
+        p2.add(crossMethodComboBox= createMenuDesplegable(new String[]{"CO", "CX", "ERX", "Invented", "OX", "OXPP", "PMX"}));
         //Mutación
         MyPanel p3 = new MyPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.X_AXIS));
         p3.add(createLabel("Mutación"));
-        p3.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"A nivel de bit", "Gaussiana (solo REAL)"}));
+        p3.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"Heuristic", "Insertion", "Interchange", "Invented", "Inversion"}));
 
         //Tamaño Población
         MyPanel p4 = new MyPanel();
@@ -175,7 +176,7 @@ public class MainMenu extends MyFrame{
         p7.add(createLabel("Porcentaje cruce (%)"));
         p7.add(crossProbability= createNumericField(60));
 
-        panelConjunto.add(p);
+        //panelConjunto.add(p);
         panelConjunto.add(p1);
         panelConjunto.add(p2);
         panelConjunto.add(p3);
@@ -259,7 +260,7 @@ public class MainMenu extends MyFrame{
                 g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
                 g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
                 g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
-                Integer codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
+                //Integer codeType = codeHash.get(codificationTypeComboBox.getSelectedItem().toString());
                 g.isPonderado = ponderadoBox.isSelected();
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
 

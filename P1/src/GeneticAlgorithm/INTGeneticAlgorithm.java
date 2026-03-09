@@ -52,7 +52,7 @@ public class INTGeneticAlgorithm {
                 mut = new invented_mutation();
                 break;
             }
-            case 4: {//OX_Cross
+            case 4: {//Inversion
                 mut = new inversion_mutation();
                 break;
             }
@@ -162,7 +162,7 @@ public class INTGeneticAlgorithm {
 
         initialize_elites(p);
 
-        choose_mutation_method(p.selectionType);
+        choose_selection_method(p.selectionType);
         choose_cross_method(p.crossType);
         choose_mutation_method(p.mutationType);
     }
