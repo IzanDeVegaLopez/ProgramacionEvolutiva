@@ -4,7 +4,7 @@ public class restos implements selection_method{
     methods metodo_restantes = methods.ruleta;
     selection_method aux_method;
     public tabla_frecuencias t;
-    public int[] chooseEntities(int[] fitness){
+    public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
         t = new tabla_frecuencias(fitness);
         int index = 0;

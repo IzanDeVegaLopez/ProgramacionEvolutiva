@@ -5,12 +5,12 @@ import java.util.Arrays;
 public class truncamiento implements selection_method {
     double ratio = 0.5;
     public tabla_frecuencias t;
-    public int[] chooseEntities(int[] fitness){
+    public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
         t = new tabla_frecuencias(fitness);
         int num_trunc = (int) Math.round(fitness.length*ratio);
         for (int i = 0; i<num_trunc; i++) {
-            int max = -1;
+            double max = -1;
             int maxInd = -1;
             for (int j = 0; j < fitness.length; j++) {
                 if (fitness[j] > max) {

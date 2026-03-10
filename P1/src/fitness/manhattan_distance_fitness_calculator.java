@@ -6,6 +6,7 @@ import codification.codificacion_entera;
 import utils.Vector2;
 
 public class manhattan_distance_fitness_calculator implements base_fitness_calculator{
+    float[] dron_multiplier = {1/1.5f, 1, 1/0.7f, 1/1.2f, 2};
     public manhattan_distance_fitness_calculator(Map m){
         reset_already_calculated_costs(m);
     }
@@ -24,14 +25,17 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         return fit;
     }
 
-    public int calculate_one_codification_fitness(Map m, codificacion_entera cod){
-        int total_fitness = 0;
+    public double calculate_one_codification_fitness(Map m, codificacion_entera cod){
+        double total_fitness = 0;
         //start in start pos
         Vector2 last_pos = m.interest_points[m.interest_points.length-1];
+        int dron = 0;
         for(int i = 0; i < cod.get_size(); ++i){
             //if codification value is greater than the number of points we set the starting point
-            total_fitness += return_new_cost(m,last_pos, m.interest_points[Math.min(cod.get_value(i),m.interest_points.length-1)]);
-            last_pos = m.interest_points[cod.get_value(i)];
+            int index = Math.min(cod.get_value(i),m.interest_points.length-1);
+            total_fitness += dron_multiplier[dron] * return_new_cost(m,last_pos, m.interest_points[index]);
+            if(index==m.interest_points.length)++dron;
+            last_pos = m.interest_points[index];
         }
         //end in start pos
         total_fitness += return_new_cost(m, last_pos, m.interest_points[m.interest_points.length-1]);
@@ -48,7 +52,8 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
 
     static void reset_already_calculated_costs(Map m){
-        cost_already_calculated = new int[m.importanceMap.length][m.importanceMap[0].length];
+        int total_tiles =m.importanceMap.length*m.importanceMap[0].length;
+        cost_already_calculated = new int[total_tiles][total_tiles];
         for (int i = 0; i < cost_already_calculated.length; ++i){
             for(int j = 0; j < cost_already_calculated[0].length; ++j){
                 cost_already_calculated[i][j]=-1;

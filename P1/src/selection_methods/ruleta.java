@@ -2,7 +2,7 @@ package selection_methods;
 
 public class ruleta implements selection_method{
     public tabla_frecuencias t;
-    public int[] chooseEntities(int[] fitness){
+    public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
         t = new tabla_frecuencias(fitness);
         for (int i = 0; i<selected.length; i++){

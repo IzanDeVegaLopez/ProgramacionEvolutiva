@@ -16,7 +16,7 @@ import org.math.plot.*;
 import utils.Vector2;
 
 public class MainMenu extends MyFrame{
-    int boxSizeY = 30;
+    int boxSizeY = 20;
     int labelSizeX = 175;
     int menuDesplegableSizeX = 100;
     MapRepresentation[] mapRepresentation;
@@ -33,6 +33,7 @@ public class MainMenu extends MyFrame{
     JComboBox crossMethodComboBox;
     JComboBox mutationMethodComboBox;
     NumericField tiles_of_interest_field;
+    NumericField number_of_drones;
     //JComboBox codificationTypeComboBox;
     JLabel maxValue;
     JLabel enforcingValue;
@@ -186,6 +187,11 @@ public class MainMenu extends MyFrame{
         p9.add(createLabel("Tiles con Cámara"));
         p9.add(tiles_of_interest_field= createNumericField(10));
 
+        MyPanel p10 = new MyPanel();
+        p10.setLayout(new BoxLayout(p10,BoxLayout.X_AXIS));
+        p10.add(createLabel("Número de drones"));
+        p10.add(number_of_drones = createNumericField(1));
+
 
         //panelConjunto.add(p);
         panelConjunto.add(p1);
@@ -197,6 +203,7 @@ public class MainMenu extends MyFrame{
         panelConjunto.add(p7);
         panelConjunto.add(p8);
         panelConjunto.add(p9);
+        panelConjunto.add(p10);
         return panelConjunto;
     }
 
@@ -277,6 +284,9 @@ public class MainMenu extends MyFrame{
                 g.isPonderado = ponderadoBox.isSelected();
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
 
+                g.n_interest_points = g.m.m.interest_points.length;
+                g.n_drones = Integer.parseInt(number_of_drones.textField.getText());
+
                 INTGeneticAlgorithm algorithm = new INTGeneticAlgorithm(g);
                 /*
                 float[] Enforcing_n_Max = codeType==0 ?
@@ -305,6 +315,11 @@ public class MainMenu extends MyFrame{
         butPan.add(but);
         butPan.add(but2);
         pan.add(butPan, BorderLayout.SOUTH);
+
+        mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
+                Integer.parseInt(tiles_of_interest_field.textField.getText()),
+                Long.parseLong(seedField.textField.getText())
+        );
 
         return pan;
     }

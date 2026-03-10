@@ -3,11 +3,11 @@ package fitness;
 import java.util.ArrayList;
 
 public class FitnessReturnClass {
-    public int[] totalValue;
-    public int best_value;
-    public int mid;
+    public double[] totalValue;
+    public double best_value;
+    public double mid;
     public FitnessReturnClass(int size){
-        totalValue = new int[size];
+        totalValue = new double[size];
         best_value = 0;
         mid = 0;
     }

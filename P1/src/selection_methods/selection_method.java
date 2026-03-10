@@ -9,6 +9,6 @@ enum methods{
 }
 public interface selection_method {
     public float selectionEnforcer=0;
-    public abstract int[] chooseEntities(int[] fitness);
+    public abstract int[] chooseEntities(double[] fitness);
     //returns array with index of each element chosen
 }

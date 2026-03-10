@@ -3,7 +3,7 @@ package selection_methods;
 public class torneo implements selection_method{
     int muestra = 3;
     public tabla_frecuencias t;
-    public int[] chooseEntities(int[] fitness){
+    public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
         /// Contiene los *índices* de los elementos seleccionados.
         int[] muestra_seleccionada = new int[muestra];

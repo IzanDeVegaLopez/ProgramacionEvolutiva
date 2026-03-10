@@ -20,7 +20,7 @@ public class INTGeneticAlgorithm {
     double[][] plotValues;
     int currentGen = 0;
     int n_elites;
-    int best_sol_yet = -1;
+    double best_sol_yet = -1;
     selection_method select_method;
     base_fitness_calculator fit_calculator;
     base_cross_method crux;
@@ -139,7 +139,8 @@ public class INTGeneticAlgorithm {
             cod[alternate][i] = new codificacion_entera(n_elems_total);
             cod[alternate][i].initialize_with_stair_shape();
 
-            //TODO: mutación inicial
+            //Mutación inicial
+            mut.mutate(cod[using_cod_n][i]);
         }
     }
     void initialize_elites(GeneticAlgorithmParameters p){
@@ -156,15 +157,16 @@ public class INTGeneticAlgorithm {
         currentGen = 0;
         using_cod_n = 0;
 
+
+        choose_selection_method(p.selectionType);
+        choose_cross_method(p.crossType);
+        choose_mutation_method(p.mutationType);
+
         initialize_codification(p);
 
         initialize_plot(p);
 
         initialize_elites(p);
-
-        choose_selection_method(p.selectionType);
-        choose_cross_method(p.crossType);
-        choose_mutation_method(p.mutationType);
     }
 
     void do_first_gen(GeneticAlgorithmParameters p){

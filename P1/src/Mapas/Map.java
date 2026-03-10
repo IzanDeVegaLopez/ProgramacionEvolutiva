@@ -65,7 +65,9 @@ public class Map {
     public Vector2[] getRandomTiles(int n, long seed){
         Random rand = new Random(seed);
         Vector2[] results = new Vector2[n];
+        results[results.length-1] = new Vector2(1,1);
         BitSet taken_temp = (BitSet) taken_base.clone();
+        taken_temp.set(ocupiedTiles.length+1, true);
         int n_chosen = 0;
         while(n_chosen < n){
             int x = rand.nextInt(ocupiedTiles.length);
