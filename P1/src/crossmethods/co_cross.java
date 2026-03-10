@@ -37,9 +37,10 @@ public class co_cross implements base_cross_method{
             int penalizacion = 0;
             int value_to_reach = cod.get_value(i);
             //searches the next element
-            while((idx = b.nextSetBit(idx)) < value_to_reach) {
+            while((idx = b.nextSetBit(idx)) < value_to_reach && idx != -1) {
                 ++idx; ++penalizacion;
             }
+            b.set(value_to_reach);
             result[i] = value_to_reach - penalizacion;
         }
         return result;
@@ -53,7 +54,7 @@ public class co_cross implements base_cross_method{
             int idx = 0;
             int suma = 0;
             int value_to_reach = ordinal[i];
-            while((idx=b.nextSetBit(idx))<value_to_reach){
+            while((idx=b.nextSetBit(idx))<value_to_reach && idx != -1){
                 ++idx; ++suma;
             }
             cod.set_value(i, value_to_reach+suma);
