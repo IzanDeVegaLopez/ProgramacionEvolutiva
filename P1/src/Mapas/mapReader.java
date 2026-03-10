@@ -68,6 +68,14 @@ public class mapReader {
             new Color(255,0,0)//20
     };//15
 
+    public static Color[]PathColors = new Color[]{
+            new Color(149, 92, 92),
+            new Color(143, 111, 184),
+            new Color(186, 149, 107),
+            new Color(119, 195, 161),
+            new Color(127, 183, 200)
+    };
+
 
     static String[] mapFiles = {"museo.txt", "pasillos.txt", "supermercado.txt"};
     public static int MUSEO = 0;

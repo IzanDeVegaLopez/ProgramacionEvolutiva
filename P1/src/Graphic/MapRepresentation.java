@@ -1,14 +1,17 @@
 package Graphic;
 
+import Graphic.MappingUtils.CompoundColor;
 import Mapas.Map;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Vector;
 
 
 import Mapas.mapReader;
+import utils.Vector2;
 //import fitness.FitnessReturnClass;
 
 public class MapRepresentation extends MyPanel{
@@ -32,6 +35,29 @@ public class MapRepresentation extends MyPanel{
                 Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[j][i]/5]);
                 myTiles[j][i].setBorder(mborder);
                 this.add(myTiles[j][i]);
+            }
+        }
+    }
+    public void DrawPaths(Vector<Vector2>[] paths){
+        CompoundColor[][] tileColors = new CompoundColor[myTiles.length][myTiles[0].length];
+        for (int i = 0; i<myTiles.length;i++){
+            for (int j = 0; j<myTiles[0].length;j++){
+                tileColors[i][j] = new CompoundColor(myTiles[i][j].getBackground());
+            }
+        }
+
+        int colorIdx = 0;
+        for (Vector<Vector2> path : paths) {
+            if (path.elementAt(0).x == (-1) || path.elementAt(0).y == (-1)) continue;
+            for (Vector2 step : path) {
+                tileColors[step.y][step.x].addColor(mapReader.PathColors[colorIdx]);
+            }
+            colorIdx++;
+        }
+
+        for (int i = 0; i<myTiles.length;i++){
+            for (int j = 0; j<myTiles[0].length;j++){
+                myTiles[i][j].setBackground(tileColors[i][j].final_color);
             }
         }
     }

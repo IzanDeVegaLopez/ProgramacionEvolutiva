@@ -38,9 +38,7 @@ public class NavA {
             for (int y = -1; y < 2; y+=2){
                 Vector2 newpos = new Vector2(top.origin.x, top.origin.y + y);
                 // If node has been accessed or is inaccessible
-                if (newpos.y >= map.ocupiedTiles.length || newpos.x >= map.ocupiedTiles[0].length
-                        || newpos.y < 0 || newpos.x < 0 ||
-                        map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x])
+                if (!map.usableTile(newpos.x,newpos.y))
                     continue;
                 // Add next node to visit
                 open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.stepCount));
@@ -51,9 +49,7 @@ public class NavA {
             for (int x = -1; x < 2; x+=2){
                 Vector2 newpos = new Vector2(top.origin.x + x, top.origin.y);
                 // If node has been accessed or is inaccessible
-                if (newpos.y >= map.ocupiedTiles.length || newpos.x >= map.ocupiedTiles[0].length
-                        || newpos.y < 0 || newpos.x < 0 ||
-                        map.tainted[newpos.y][newpos.x] || map.ocupiedTiles[newpos.y][newpos.x])
+                if (!map.usableTile(newpos.x,newpos.y))
                     continue;
                 // Add next node to visit
                 open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.stepCount));
