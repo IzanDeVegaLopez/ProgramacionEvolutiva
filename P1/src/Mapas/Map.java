@@ -3,6 +3,7 @@ package Mapas;
 import utils.Vector2;
 
 import java.util.BitSet;
+import java.util.Random;
 import java.util.Vector;
 
 public class Map {
@@ -61,19 +62,22 @@ public class Map {
      * @param n The number of random empty tiles to return.
      * @return `n` random unique empty tiles.
      */
-    public Vector2[] getRandomTiles(int n){
+    public Vector2[] getRandomTiles(int n, long seed){
+        Random rand = new Random(seed);
         Vector2[] results = new Vector2[n];
         BitSet taken_temp = (BitSet) taken_base.clone();
-        for (int i = 0; i<n; i++){
-            int random_idx = (int) (Math.random() * taken_temp.size());
-            int next_non_visited = taken_temp.nextClearBit(random_idx);
-            if(next_non_visited >= taken_temp.size()){
-                next_non_visited = taken_temp.nextClearBit(0);
+        int n_chosen = 0;
+        while(n_chosen < n){
+            int x = rand.nextInt(ocupiedTiles.length);
+            int y = rand.nextInt(ocupiedTiles[0].length);
+
+            int index = x*ocupiedTiles.length+y;
+            if(!taken_temp.get(index)){
+                results[n_chosen] = new Vector2(x,y);
+                taken_temp.set(index, true);
+                ++n_chosen;
             }
-            results[i] = new Vector2(next_non_visited % ocupiedTiles.length,
-                    next_non_visited / ocupiedTiles.length);
-            taken_temp.set(next_non_visited);
         }
-        return results;
+        return interest_points = results.clone();
     }
 }

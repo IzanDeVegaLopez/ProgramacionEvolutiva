@@ -28,9 +28,11 @@ public class MainMenu extends MyFrame{
     JCheckBox ponderadoBox;
     NumericField mutationProbability;
     NumericField crossProbability;
+    NumericField seedField;
     JComboBox selectionTypeComboBox;
     JComboBox crossMethodComboBox;
     JComboBox mutationMethodComboBox;
+    NumericField tiles_of_interest_field;
     //JComboBox codificationTypeComboBox;
     JLabel maxValue;
     JLabel enforcingValue;
@@ -176,6 +178,18 @@ public class MainMenu extends MyFrame{
         p7.add(createLabel("Porcentaje cruce (%)"));
         p7.add(crossProbability= createNumericField(60));
 
+        //Seed
+        MyPanel p8 = new MyPanel();
+        p8.setLayout(new BoxLayout(p8,BoxLayout.X_AXIS));
+        p8.add(createLabel("Semilla"));
+        p8.add(seedField= createNumericField(3000));
+
+        MyPanel p9 = new MyPanel();
+        p9.setLayout(new BoxLayout(p9,BoxLayout.X_AXIS));
+        p9.add(createLabel("Tiles con Cámara"));
+        p9.add(tiles_of_interest_field= createNumericField(10));
+
+
         //panelConjunto.add(p);
         panelConjunto.add(p1);
         panelConjunto.add(p2);
@@ -184,6 +198,8 @@ public class MainMenu extends MyFrame{
         panelConjunto.add(p5);
         panelConjunto.add(p6);
         panelConjunto.add(p7);
+        panelConjunto.add(p8);
+        panelConjunto.add(p9);
         return panelConjunto;
     }
 
@@ -277,7 +293,20 @@ public class MainMenu extends MyFrame{
         });
         but.setSize(new Dimension(100,100));
 
+        Button but2 = new Button("Map Gen");
+        but2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
+                        Integer.parseInt(tiles_of_interest_field.textField.getText()),
+                        Long.parseLong(seedField.textField.getText())
+                );
+            }
+        });
+        but2.setSize(new Dimension(100,100));
+
         butPan.add(but);
+        butPan.add(but2);
         pan.add(butPan, BorderLayout.SOUTH);
 
         return pan;
