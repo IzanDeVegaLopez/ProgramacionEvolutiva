@@ -48,8 +48,12 @@ public class NavA {
                 // If node has been accessed or is inaccessible
                 if (!map.usableTile(newpos.x,newpos.y))
                     continue;
+
+                int extra_cost = 0;
+                if(map.has_camera(newpos.x,newpos.y) && destination.equals(newpos)) extra_cost = map.penalty;
+
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination, top.origin, top.stepCount + map.importanceMap[newpos.y][newpos.x]));
+                open_nodes.add(new PQElem(map.importanceMap,newpos,destination, top.origin, extra_cost + top.stepCount + map.importanceMap[newpos.y][newpos.x]));
             }
             // Horizontal exploration
             for (int x = -1; x < 2; x+=2){
@@ -57,8 +61,11 @@ public class NavA {
                 // If node has been accessed or is inaccessible
                 if (!map.usableTile(newpos.x,newpos.y))
                     continue;
+
+                int extra_cost = 0;
+                if(map.has_camera(newpos.x,newpos.y) && destination.equals(newpos)) extra_cost = map.penalty;
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.origin, top.stepCount + map.importanceMap[newpos.y][newpos.x]));
+                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.origin, extra_cost + top.stepCount + map.importanceMap[newpos.y][newpos.x]));
             }
 
         }

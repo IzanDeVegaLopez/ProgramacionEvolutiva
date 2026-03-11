@@ -11,22 +11,25 @@ public class Map {
     public boolean[][] ocupiedTiles;
     //Para llevar la cuenta de cuales he tocado ya con una cámara en este recorrido
     public boolean[][] tainted;
+    public boolean[][] camera_tiles;
     public Vector2[][] previous;
     //Last position is reserved for start position
     public Vector2[] interest_points;
-    BitSet taken_base;
+    public int penalty=500;
 
-    public int penalty=100;
     Map(int[][] imp, boolean [][]ocup){
         importanceMap = imp;
         ocupiedTiles = ocup;
         tainted = new boolean[ocup.length][ocup[0].length];
         previous = new Vector2[ocup.length][ocup[0].length];
     }
+    public boolean has_camera(int x, int y){
+        return camera_tiles[y][x];
+    }
     public boolean validTile(int x, int y){
         return x >= 0 && y >= 0 &&
                x < ocupiedTiles.length && y < ocupiedTiles[0].length &&
-               !ocupiedTiles[x][y];
+               !ocupiedTiles[y][x];
     }
     public boolean usableTile(int x, int y){
         return x >= 0 && y >= 0 &&
@@ -38,6 +41,13 @@ public class Map {
         for(int i = 0; i < ocupiedTiles.length; ++i){
             for(int j = 0; j < ocupiedTiles[0].length; ++j){
                 tainted[i][j] = false;
+            }
+        }
+    }
+    public void resetCameraTiles(){
+        for(int i = 0; i < ocupiedTiles.length; ++i){
+            for(int j = 0; j < ocupiedTiles[0].length; ++j){
+                camera_tiles[i][j] = false;
             }
         }
     }
@@ -64,6 +74,7 @@ public class Map {
      */
     public Vector2[] getRandomTiles(int n, long seed){
         set_tainted_as_walls();
+        resetCameraTiles();
 
         Random rand = new Random(seed);
         Vector2[] results = new Vector2[n+1];
@@ -80,6 +91,7 @@ public class Map {
             if(usableTile(x,y)){
                 results[n_chosen] = new Vector2(x,y);
                 tainted[y][x] = true;
+                camera_tiles[y][x] = true;
                 ++n_chosen;
             }
         }
