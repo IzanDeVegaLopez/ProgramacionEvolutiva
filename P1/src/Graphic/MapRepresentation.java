@@ -69,6 +69,16 @@ public class MapRepresentation extends MyPanel{
         revalidate();
         repaint();
     }
+    public void WipeMapBackground(){
+        for(int i = 0; i < myTiles.length; ++i){
+            for(int j = 0; j < myTiles[0].length; ++j){
+//                myTiles[i][j].removeAll();
+                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] ? Color.BLACK : Color.WHITE);
+            }
+        }
+        revalidate();
+        repaint();
+    }
     public void WipeMap(){
         for(int i = 0; i < myTiles.length; ++i){
             for(int j = 0; j < myTiles[0].length; ++j){

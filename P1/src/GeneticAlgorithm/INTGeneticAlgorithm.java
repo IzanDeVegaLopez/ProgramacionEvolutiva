@@ -342,6 +342,7 @@ public class INTGeneticAlgorithm {
 
             //TODO: repaint map
             if(mapUpdated) {
+                p.m.WipeMapBackground();
                 p.m.DrawPaths(ft.best_fitness_result.path);
                 p.log.clear_text();
                 int dron = 0;
@@ -354,6 +355,7 @@ public class INTGeneticAlgorithm {
                         ++dron;
                     }
                 }
+                IO.print("\n");
             }//p.m.putAllBinCameras(bestSol);
 
             //PINTAR
