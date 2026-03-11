@@ -22,14 +22,6 @@ public class Map {
         ocupiedTiles = ocup;
         tainted = new boolean[ocup.length][ocup[0].length];
         previous = new Vector2[ocup.length][ocup[0].length];
-        taken_base = new BitSet(ocup.length*ocup[0].length);
-        int n = 0;
-        for (boolean[] booleans : ocup) {
-            for (boolean b : booleans) {
-                taken_base.set(n, b);
-                ++n;
-            }
-        }
     }
     public boolean validTile(int x, int y){
         return x >= 0 && y >= 0 &&
@@ -57,29 +49,39 @@ public class Map {
         }
     }
 
+    public void set_tainted_as_walls(){
+        for(int i = 0; i < ocupiedTiles.length; ++i){
+            for(int j = 0; j < ocupiedTiles[0].length; ++j){
+                tainted[i][j] = ocupiedTiles[i][j];
+            }
+        }
+    }
+
     /**
      * Selects a number of random unique empty tiles from the map.
      * @param n The number of random empty tiles to return.
      * @return `n` random unique empty tiles.
      */
     public Vector2[] getRandomTiles(int n, long seed){
+        set_tainted_as_walls();
+
         Random rand = new Random(seed);
-        Vector2[] results = new Vector2[n];
+        Vector2[] results = new Vector2[n+1];
         results[results.length-1] = new Vector2(1,1);
-        BitSet taken_temp = (BitSet) taken_base.clone();
-        taken_temp.set(ocupiedTiles.length+1, true);
+        tainted[1][1] = true;
         int n_chosen = 0;
         while(n_chosen < n){
             int x = rand.nextInt(ocupiedTiles[0].length);
             int y = rand.nextInt(ocupiedTiles.length);
-
-            int index = y*ocupiedTiles.length+x;
-            if(!taken_temp.get(index)){
+            if(usableTile(x,y)){
                 results[n_chosen] = new Vector2(x,y);
-                taken_temp.set(index, true);
+                tainted[y][x] = true;
                 ++n_chosen;
             }
         }
+
+        resetTainted();
+
         return interest_points = results.clone();
     }
 }
