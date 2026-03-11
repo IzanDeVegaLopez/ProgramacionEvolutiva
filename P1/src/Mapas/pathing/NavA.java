@@ -17,6 +17,9 @@ public class NavA {
         Vector<Vector2> path = new Vector<>();
 
         int best = -1;
+        // Reset map matrices
+        map.resetTainted();
+        map.resetPrevious();
 
         if(!map.usableTile(origin.x, origin.y)) return new navA_return_type(path,best, false);
 
@@ -24,10 +27,6 @@ public class NavA {
 
         // Add first node to visit
         open_nodes.add(new PQElem(map.importanceMap,origin,destination, origin));
-
-        // Reset map matrices
-        map.resetTainted();
-        map.resetPrevious();
 
         //map.previous[destination.y][destination.x] = new Vector2(-1,-1);
 
