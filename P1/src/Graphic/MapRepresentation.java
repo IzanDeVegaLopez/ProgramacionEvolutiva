@@ -61,6 +61,20 @@ public class MapRepresentation extends MyPanel{
             }
         }
     }
+    public void DrawPoints(Vector2[] points){
+        int i = 0;
+        for (Vector2 point : points){
+            MyPanel mark = new MyPanel(100,150,200);
+            myTiles[point.y][point.x].add(mark);
+        }
+    }
+    public void WipeMap(){
+        for(int i = 0; i < myTiles.length; ++i){
+            for(int j = 0; j < myTiles[0].length; ++j){
+                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] ? Color.BLACK : Color.WHITE);
+            }
+        }
+    }
 /*
     public void putAllBinCameras(FitnessReturnClass frc){
         emptyCamerasOnMap();
