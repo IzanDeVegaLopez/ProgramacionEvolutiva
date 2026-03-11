@@ -26,21 +26,33 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
 
     public double calculate_one_codification_fitness(Map m, codificacion_entera cod){
-        double total_fitness = 0;
+        double[] total_fitness = new double[5];
+        for(int i = 0; i < total_fitness.length; ++i){
+            total_fitness[i] = 0;
+        }
+
         //start in start pos
         Vector2 last_pos = m.interest_points[m.interest_points.length-1];
         int dron = 0;
         for(int i = 0; i < cod.get_size(); ++i){
             //if codification value is greater than the number of points we set the starting point
             int index = Math.min(cod.get_value(i),m.interest_points.length-1);
-            total_fitness += dron_multiplier[dron] * return_new_cost(m,last_pos, m.interest_points[index]);
+            total_fitness[dron] += dron_multiplier[dron] * return_new_cost(m,last_pos, m.interest_points[index]);
             if(index==m.interest_points.length)++dron;
             last_pos = m.interest_points[index];
         }
         //end in start pos
-        total_fitness += return_new_cost(m, last_pos, m.interest_points[m.interest_points.length-1]);
+        total_fitness[dron] += return_new_cost(m, last_pos, m.interest_points[m.interest_points.length-1]);
 
-        return total_fitness;
+        int i = 0;
+        double max = 0;
+        double min = 10000;
+        while(i < 5 && total_fitness[i]>0){
+            max = Math.max(max,total_fitness[i]);
+            min = Math.min(min,total_fitness[i]);
+            ++i;
+        }
+        return max + (max-min)*0.5f;
     }
 
     int return_new_cost(Map m, Vector2 last_point, Vector2 next_point){

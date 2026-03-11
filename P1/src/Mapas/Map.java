@@ -22,6 +22,7 @@ public class Map {
         ocupiedTiles = ocup;
         tainted = new boolean[ocup.length][ocup[0].length];
         previous = new Vector2[ocup.length][ocup[0].length];
+        camera_tiles = new boolean[ocup.length][ocup[0].length];
     }
     public boolean has_camera(int x, int y){
         return camera_tiles[y][x];
