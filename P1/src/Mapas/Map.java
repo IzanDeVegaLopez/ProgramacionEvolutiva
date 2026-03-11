@@ -67,8 +67,12 @@ public class Map {
 
         Random rand = new Random(seed);
         Vector2[] results = new Vector2[n+1];
-        results[results.length-1] = new Vector2(1,1);
-        tainted[1][1] = true;
+
+        int i = 0;
+        while(ocupiedTiles[i][i]) ++i;
+
+        results[results.length-1] = new Vector2(i,i);
+        tainted[i][i] = true;
         int n_chosen = 0;
         while(n_chosen < n){
             int x = rand.nextInt(ocupiedTiles[0].length);
