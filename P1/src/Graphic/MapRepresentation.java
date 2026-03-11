@@ -21,20 +21,20 @@ public class MapRepresentation extends MyPanel{
     MapRepresentation(int mapID){
         super(255,255,255);
         m = mapReader.readMap(mapID);
-        int x = m.ocupiedTiles.length,y=m.ocupiedTiles[0].length;
+        int y = m.ocupiedTiles.length, x=m.ocupiedTiles[0].length;
         this.setLayout(new GridLayout(y, x));
         int xx=300; int yy=300;
         this.setMaximumSize(new Dimension(xx,yy));
         this.setMinimumSize(new Dimension(xx,yy));
-        myTiles = new JPanel[x][y];
+        myTiles = new JPanel[y][x];
         for(int i = 0; i < y; ++i){
             for(int j = 0; j < x; ++j){
                 //Si esta ocupada pintala negra
-                int val = m.ocupiedTiles[j][i] ? 0 : 255;
-                myTiles[j][i] = new MyPanel(val);
-                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[j][i]/5]);
-                myTiles[j][i].setBorder(mborder);
-                this.add(myTiles[j][i]);
+                int val = m.ocupiedTiles[i][j] ? 0 : 255;
+                myTiles[i][j] = new MyPanel(val);
+                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j]/5]);
+                myTiles[i][j].setBorder(mborder);
+                this.add(myTiles[i][j]);
             }
         }
     }

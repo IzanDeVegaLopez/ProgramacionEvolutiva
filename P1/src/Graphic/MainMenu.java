@@ -118,9 +118,9 @@ public class MainMenu extends MyFrame{
 
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
-//        Vector<Vector2> testPath1 = NavA.findPath(m.m, new Vector2(5,5),new Vector2(8,8));
-//        Vector<Vector2> testPath2 = NavA.findPath(m.m, new Vector2(9,5),new Vector2(5,7));
-//        m.DrawPaths(new Vector[]{testPath1, testPath2});
+        Vector<Vector2> testPath1 = NavA.findPath(m.m, new Vector2(5,5),new Vector2(8,8));
+        Vector<Vector2> testPath2 = NavA.findPath(m.m, new Vector2(9,5),new Vector2(5,6));
+        m.DrawPaths(new Vector[]{testPath1, testPath2});
         return m;
     }
 
