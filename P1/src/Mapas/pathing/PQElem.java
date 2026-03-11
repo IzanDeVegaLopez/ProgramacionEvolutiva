@@ -6,19 +6,22 @@ import java.util.Vector;
 
 public class PQElem implements Comparable<PQElem> {
     public Vector2 origin;
+    public Vector2 previous_tile;
     //Destination is implied in PQElem's context.
     public int heuristic;
     public int stepCount;
 
-    PQElem(int [][] map, Vector2 o, Vector2 d){
+    PQElem(int [][] map, Vector2 o, Vector2 d, Vector2 _previous_tile){
         origin = o;
         heuristic = distance_heuristic(o,d) + map[origin.y][origin.x];
         stepCount = 0;
+        previous_tile = _previous_tile;
     }
-    PQElem(int [][] map, Vector2 o, Vector2 d, int sc){
+    PQElem(int [][] map, Vector2 o, Vector2 d, Vector2 _previous_tile, int sc){
         origin = o;
-        stepCount = sc+1;
+        stepCount = sc;
         heuristic = distance_heuristic(o,d) + map[origin.y][origin.x] + stepCount;
+        previous_tile = _previous_tile;
     }
 
     /**

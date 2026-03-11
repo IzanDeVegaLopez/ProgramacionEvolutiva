@@ -48,7 +48,6 @@ public class MapRepresentation extends MyPanel{
 
         int colorIdx = 0;
         for (Vector<Vector2> path : paths) {
-            if (path.elementAt(0).x == (-1) || path.elementAt(0).y == (-1)) continue;
             for (Vector2 step : path) {
                 tileColors[step.y][step.x].addColor(mapReader.PathColors[colorIdx]);
             }

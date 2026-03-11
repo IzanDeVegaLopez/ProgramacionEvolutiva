@@ -43,7 +43,6 @@ public class oxpp_cross  implements base_cross_method{
             if(child1.get_conflict_index(value_padre2)==-1){
                 lista_elementos_child1[index_child1++] = value_padre2;
             }
-
             int value_padre1 = padre1.get_value(i);
             if(child2.get_conflict_index(value_padre1)==-1){
                 lista_elementos_child2[index_child2++] = value_padre1;

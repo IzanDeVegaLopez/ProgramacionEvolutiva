@@ -122,9 +122,9 @@ public class MainMenu extends MyFrame{
         Vector2[] points = new Vector2[]{new Vector2(1,2), new Vector2(8,8),
                 new Vector2(9,5), new Vector2(1,7),
                 new Vector2(6,3), new Vector2(4,8)};
-        Vector<Vector2> testPath1 = NavA.findPath(m.m, points[0],points[1]);
-        Vector<Vector2> testPath2 = NavA.findPath(m.m, points[2],points[3]);
-        Vector<Vector2> testPath3 = NavA.findPath(m.m, points[4],points[5]);
+        Vector<Vector2> testPath1 = NavA.findPath(m.m, points[0],points[1]).path;
+        Vector<Vector2> testPath2 = NavA.findPath(m.m, points[2],points[3]).path;
+        Vector<Vector2> testPath3 = NavA.findPath(m.m, points[4],points[5]).path;
         m.DrawPaths(new Vector[]{testPath1, testPath2, testPath3});
         m.DrawPoints(points);
         return m;

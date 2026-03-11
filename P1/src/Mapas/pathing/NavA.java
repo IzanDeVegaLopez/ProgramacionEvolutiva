@@ -13,27 +13,36 @@ public class NavA {
      * @param destination The endpoint to calculate the path to.
      * @return An array of coordinates representing the spaces that comprise the path.
      */
-    public static Vector<Vector2> findPath(Map map, Vector2 origin, Vector2 destination){
+    public static navA_return_type findPath(Map map, Vector2 origin, Vector2 destination){
         Vector<Vector2> path = new Vector<>();
+
+        int best = -1;
+
+        if(!map.usableTile(origin.x, origin.y)) return new navA_return_type(path,best, false);
 
         PriorityQueue<PQElem> open_nodes = new PriorityQueue<>();
 
         // Add first node to visit
-        open_nodes.add(new PQElem(map.importanceMap,origin,destination));
+        open_nodes.add(new PQElem(map.importanceMap,origin,destination, origin));
 
         // Reset map matrices
         map.resetTainted();
         map.resetPrevious();
 
-        map.previous[origin.y][origin.x] = origin;
+        //map.previous[destination.y][destination.x] = new Vector2(-1,-1);
 
         PQElem top;
         while (!open_nodes.isEmpty()){
             top = open_nodes.poll();
-            if (top.origin.equals(destination))
-                break;
+            if(map.tainted[top.origin.y][top.origin.x]) continue;
 
             map.tainted[top.origin.y][top.origin.x] = true;
+            map.previous[top.origin.y][top.origin.x] = new Vector2(top.previous_tile.x, top.previous_tile.y);
+
+            if (top.origin.equals(destination)) {
+                best = top.stepCount;
+                break;
+            }
             // Vertical exploration
             for (int y = -1; y < 2; y+=2){
                 Vector2 newpos = new Vector2(top.origin.x, top.origin.y + y);
@@ -41,9 +50,7 @@ public class NavA {
                 if (!map.usableTile(newpos.x,newpos.y))
                     continue;
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.stepCount));
-                // Reference previous node
-                map.previous[newpos.y][newpos.x] = top.origin;
+                open_nodes.add(new PQElem(map.importanceMap,newpos,destination, top.origin, top.stepCount + map.importanceMap[newpos.y][newpos.x]));
             }
             // Horizontal exploration
             for (int x = -1; x < 2; x+=2){
@@ -52,16 +59,14 @@ public class NavA {
                 if (!map.usableTile(newpos.x,newpos.y))
                     continue;
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.stepCount));
-                // Reference previous node
-                map.previous[newpos.y][newpos.x] = top.origin;
+                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.origin, top.stepCount + map.importanceMap[newpos.y][newpos.x]));
             }
 
         }
 
         // If destination was not found
         if (map.previous[destination.y][destination.x].x == -1 || map.previous[destination.y][destination.x].y == -1)
-            path.add(new Vector2(-1,-1));
+            return new navA_return_type(path,best,false);
         // Otherwise
         else {
             Vector2 currentPos = destination;
@@ -72,7 +77,7 @@ public class NavA {
             path.addFirst(origin);
         }
 
-        return path;
+        return new navA_return_type(path, best, true);
     };
 
 }

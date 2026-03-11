@@ -47,7 +47,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         int i_index = last_point.x*m.importanceMap.length+ last_point.y;
         int j_index = next_point.x*m.importanceMap.length+next_point.y;
         if(cost_already_calculated[i_index][j_index] != -1) return cost_already_calculated[i_index][j_index];
-        return cost_already_calculated[i_index][j_index] = NavA.findPath(m,last_point,next_point).size();
+        return cost_already_calculated[i_index][j_index] = NavA.findPath(m,last_point,next_point).best;
         //TODO: Figure out what to do with saving the path
     }
 
