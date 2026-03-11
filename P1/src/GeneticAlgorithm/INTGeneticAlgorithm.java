@@ -20,7 +20,7 @@ public class INTGeneticAlgorithm {
     double[][] plotValues;
     int currentGen = 0;
     int n_elites;
-    double best_sol_yet = -1;
+    double best_sol_yet = 10000000;
     selection_method select_method;
     base_fitness_calculator fit_calculator;
     base_cross_method crux;
@@ -121,7 +121,7 @@ public class INTGeneticAlgorithm {
             plotValues[3][i] = i;
         }
         //erase lines already written
-        if(p.plot2d.getPlots().size()==0) {
+        if(p.plot2d.getPlots().isEmpty()) {
             p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
@@ -306,8 +306,9 @@ public class INTGeneticAlgorithm {
             boolean mapUpdated = false;
 
             FitnessReturnClass ft = fit_calculator.calculate_fitness(p.m.m, cod[using_cod_n]);
-            if(ft.best_value < best_sol_yet){
-                best_sol_yet = ft.best_value;
+            if(ft.best_fitness_result.value < best_sol_yet){
+                best_sol_yet = ft.best_fitness_result.value;
+                mapUpdated = true;
             }
 
             //ELITISMO------------------------------------------------------------------------------------------------
@@ -339,7 +340,9 @@ public class INTGeneticAlgorithm {
             //--------------------------------------------------------------------------------------------------------
 
             //TODO: repaint map
-            if(mapUpdated) {}//p.m.putAllBinCameras(bestSol);
+            if(mapUpdated) {
+                p.m.DrawPaths(ft.best_fitness_result.path);
+            }//p.m.putAllBinCameras(bestSol);
 
             //PINTAR
             //eliminate all lines
@@ -349,7 +352,7 @@ public class INTGeneticAlgorithm {
             }
 
             plotValues[0][currentGen] = ft.mid;
-            plotValues[1][currentGen] = ft.best_value;
+            plotValues[1][currentGen] = ft.best_fitness_result.value;
             plotValues[2][currentGen] = best_sol_yet;
             p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
             p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);

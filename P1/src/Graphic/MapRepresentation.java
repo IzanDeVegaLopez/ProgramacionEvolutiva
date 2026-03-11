@@ -40,8 +40,8 @@ public class MapRepresentation extends MyPanel{
     }
     public void DrawPaths(Vector<Vector2>[] paths){
         CompoundColor[][] tileColors = new CompoundColor[myTiles.length][myTiles[0].length];
-        for (int i = 0; i<myTiles.length;i++){
-            for (int j = 0; j<myTiles[0].length;j++){
+        for (int i = 0; i<myTiles.length;++i){
+            for (int j = 0; j<myTiles[0].length;++j){
                 tileColors[i][j] = new CompoundColor(myTiles[i][j].getBackground());
             }
         }

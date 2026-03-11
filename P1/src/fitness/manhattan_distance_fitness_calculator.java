@@ -2,8 +2,11 @@ package fitness;
 
 import Mapas.Map;
 import Mapas.pathing.NavA;
+import Mapas.pathing.navA_return_type;
 import codification.codificacion_entera;
 import utils.Vector2;
+
+import java.util.Vector;
 
 public class manhattan_distance_fitness_calculator implements base_fitness_calculator{
     float[] dron_multiplier = {1/1.5f, 1, 1/0.7f, 1/1.2f, 2};
@@ -12,12 +15,13 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
     public FitnessReturnClass calculate_fitness(Map m, codificacion_entera[] cod){
         FitnessReturnClass fit = new FitnessReturnClass(cod.length);
-        fit.best_value = 1000000;
-        for(int i = 1; i < cod.length; ++i){
+        fit.best_fitness_result.value = 1000000;
+        for(int i = 0; i < cod.length; ++i){
             //TODO: return true value
-            fit.totalValue[i] = calculate_one_codification_fitness(m,cod[i]);
-            if(fit.totalValue[i] < fit.best_value){
-                fit.best_value = fit.totalValue[i];
+            fitness_return_type fitfit = calculate_one_codification_fitness(m,cod[i]);
+            fit.totalValue[i] = fitfit.value;
+            if(fit.totalValue[i] < fit.best_fitness_result.value){
+                fit.best_fitness_result = fitfit;
             }
             fit.mid += fit.totalValue[i];
         }
@@ -25,7 +29,12 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         return fit;
     }
 
-    public double calculate_one_codification_fitness(Map m, codificacion_entera cod){
+    public fitness_return_type calculate_one_codification_fitness(Map m, codificacion_entera cod){
+        Vector<Vector2>[] path = new Vector[5];
+        for(int i = 0; i < path.length; ++i){
+            path[i] = new Vector<>(0);
+        }
+
         double[] total_fitness = new double[5];
         for(int i = 0; i < total_fitness.length; ++i){
             total_fitness[i] = 0;
@@ -34,15 +43,26 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         //start in start pos
         Vector2 last_pos = m.interest_points[m.interest_points.length-1];
         int dron = 0;
+        path[dron] = new Vector<>(0);
         for(int i = 0; i < cod.get_size(); ++i){
             //if codification value is greater than the number of points we set the starting point
             int index = Math.min(cod.get_value(i),m.interest_points.length-1);
-            total_fitness[dron] += dron_multiplier[dron] * return_new_cost(m,last_pos, m.interest_points[index]);
-            if(index==m.interest_points.length)++dron;
+            total_fitness[dron] += dron_multiplier[dron] * return_new_cost(m,last_pos, m.interest_points[index]).best;
+
+            int i_index = last_pos.x*m.importanceMap.length+ last_pos.y;
+            int j_index = m.interest_points[index].x*m.importanceMap.length+m.interest_points[index].y;
+            for(int l = 1; l < cost_already_calculated[i_index][j_index].path.size(); ++l){
+                path[dron].add(cost_already_calculated[i_index][j_index].path.get(l));
+            }
+
             last_pos = m.interest_points[index];
+            if(index==m.interest_points.length-1) {
+                ++dron;
+            }
         }
         //end in start pos
-        total_fitness[dron] += return_new_cost(m, last_pos, m.interest_points[m.interest_points.length-1]);
+        navA_return_type ret = return_new_cost(m, last_pos, m.interest_points[m.interest_points.length-1]);
+        total_fitness[dron] += ret.best;
 
         int i = 0;
         double max = 0;
@@ -52,26 +72,29 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             min = Math.min(min,total_fitness[i]);
             ++i;
         }
-        return max + (max-min)*0.5f;
+        return new fitness_return_type(path,max + (max-min)*0.5f);
     }
 
-    int return_new_cost(Map m, Vector2 last_point, Vector2 next_point){
+    navA_return_type return_new_cost(Map m, Vector2 last_point, Vector2 next_point){
         int i_index = last_point.x*m.importanceMap.length+ last_point.y;
         int j_index = next_point.x*m.importanceMap.length+next_point.y;
-        if(cost_already_calculated[i_index][j_index] != -1) return cost_already_calculated[i_index][j_index];
-        return cost_already_calculated[i_index][j_index] = NavA.findPath(m,last_point,next_point).best;
+        if(already_calculated[i_index][j_index]) return cost_already_calculated[i_index][j_index];
+        already_calculated[i_index][j_index] = true;
+        return cost_already_calculated[i_index][j_index] = NavA.findPath(m,last_point,next_point);
         //TODO: Figure out what to do with saving the path
     }
 
     static void reset_already_calculated_costs(Map m){
         int total_tiles =m.importanceMap.length*m.importanceMap[0].length;
-        cost_already_calculated = new int[total_tiles][total_tiles];
+        cost_already_calculated = new navA_return_type[total_tiles][total_tiles];
+        already_calculated = new boolean[total_tiles][total_tiles];
         for (int i = 0; i < cost_already_calculated.length; ++i){
             for(int j = 0; j < cost_already_calculated[0].length; ++j){
-                cost_already_calculated[i][j]=-1;
+                already_calculated[i][j]=false;
             }
         }
     }
 
-    static int[][] cost_already_calculated;
+    static navA_return_type[][] cost_already_calculated;
+    static boolean[][] already_calculated;
 }

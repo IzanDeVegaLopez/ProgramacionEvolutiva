@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class FitnessReturnClass {
     public double[] totalValue;
-    public double best_value;
     public double mid;
+    public fitness_return_type best_fitness_result;
     public FitnessReturnClass(int size){
         totalValue = new double[size];
-        best_value = 0;
         mid = 0;
+        best_fitness_result = new fitness_return_type();
     }
 }
