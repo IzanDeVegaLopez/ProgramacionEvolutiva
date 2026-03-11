@@ -27,7 +27,7 @@ public class Map {
         for (boolean[] booleans : ocup) {
             for (boolean b : booleans) {
                 taken_base.set(n, b);
-                n++;
+                ++n;
             }
         }
     }
