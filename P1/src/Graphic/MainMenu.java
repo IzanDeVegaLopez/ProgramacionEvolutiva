@@ -121,14 +121,14 @@ public class MainMenu extends MyFrame{
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
         m.WipeMap();
-        Vector2[] points = new Vector2[]{new Vector2(1,2), new Vector2(8,8),
-                new Vector2(9,5), new Vector2(1,7),
-                new Vector2(6,3), new Vector2(4,8)};
-        Vector<Vector2> testPath1 = NavA.findPath(m.m, points[0],points[1]).path;
-        Vector<Vector2> testPath2 = NavA.findPath(m.m, points[2],points[3]).path;
-        Vector<Vector2> testPath3 = NavA.findPath(m.m, points[4],points[5]).path;
-        m.DrawPaths(new Vector[]{testPath1, testPath2, testPath3});
-        m.DrawPoints(points);
+//        Vector2[] points = new Vector2[]{new Vector2(1,2), new Vector2(8,8),
+//                new Vector2(9,5), new Vector2(1,7),
+//                new Vector2(6,3), new Vector2(4,8)};
+//        Vector<Vector2> testPath1 = NavA.findPath(m.m, points[0],points[1]).path;
+//        Vector<Vector2> testPath2 = NavA.findPath(m.m, points[2],points[3]).path;
+//        Vector<Vector2> testPath3 = NavA.findPath(m.m, points[4],points[5]).path;
+//        m.DrawPaths(new Vector[]{testPath1, testPath2, testPath3});
+        //m.DrawPoints(points);
         return m;
     }
 
@@ -323,10 +323,15 @@ public class MainMenu extends MyFrame{
         but2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
-                        Integer.parseInt(tiles_of_interest_field.textField.getText()),
-                        Long.parseLong(seedField.textField.getText())
+                mapRepresentation[mapsTabs.getSelectedIndex()].WipeMap();
+                mapRepresentation[mapsTabs.getSelectedIndex()].DrawPoints(
+                    mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
+                            Integer.parseInt(tiles_of_interest_field.textField.getText()),
+                            Long.parseLong(seedField.textField.getText())
+                    )
                 );
+                revalidate();
+                repaint();
             }
         });
         but2.setSize(new Dimension(100,100));
@@ -335,9 +340,12 @@ public class MainMenu extends MyFrame{
         butPan.add(but2);
         pan.add(butPan, BorderLayout.SOUTH);
 
-        mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
-                Integer.parseInt(tiles_of_interest_field.textField.getText()),
-                Long.parseLong(seedField.textField.getText())
+        mapRepresentation[mapsTabs.getSelectedIndex()].WipeMap();
+        mapRepresentation[mapsTabs.getSelectedIndex()].DrawPoints(
+            mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
+                    Integer.parseInt(tiles_of_interest_field.textField.getText()),
+                    Long.parseLong(seedField.textField.getText())
+            )
         );
 
         return pan;
