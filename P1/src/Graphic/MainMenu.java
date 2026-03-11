@@ -39,6 +39,8 @@ public class MainMenu extends MyFrame{
     JLabel enforcingValue;
     JTabbedPane mapsTabs;
 
+    ScrollTextField logs;
+
     HashMap<String,Integer> selectionHash;
     HashMap<String,Integer> mutationHash;
     HashMap<String,Integer> crossHash;
@@ -246,11 +248,22 @@ public class MainMenu extends MyFrame{
     JPanel createGraphicsMenu(){
         JPanel pan = new JPanel();
         pan.setLayout(new BorderLayout());
+
+        MyPanel central_panel = new MyPanel();
+        central_panel.setLayout(new BoxLayout(central_panel, BoxLayout.Y_AXIS));
+        pan.add(central_panel, BorderLayout.CENTER);
+
         plot2D = new Plot2DPanel();
         //plot.setSize(100,100);
         plot2D.addLegend("SOUTH");
         plot2D.setVisible(true);
-        pan.add(plot2D, BorderLayout.CENTER);
+        central_panel.add(plot2D);
+
+        // ADD LOGS
+        central_panel.add(logs = new ScrollTextField());
+        logs.set_text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        // ADD BUTTOM BUTTONS
+
 
         JPanel infoPan = new JPanel();
         infoPan.setLayout(new BoxLayout(infoPan, BoxLayout.X_AXIS));
