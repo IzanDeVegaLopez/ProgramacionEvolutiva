@@ -22,6 +22,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             fit.totalValue[i] = fitfit.value;
             if(fit.totalValue[i] < fit.best_fitness_result.value){
                 fit.best_fitness_result = fitfit;
+                fit.best_codification_index = i;
             }
             fit.mid += fit.totalValue[i];
         }

@@ -1,6 +1,7 @@
 package GeneticAlgorithm;
 
 //import elitism_methods.elitismo;
+import Mapas.mapReader;
 import codification.codificacion_entera;
 import crossmethods.*;
 import elitism_methods.*;
@@ -342,6 +343,17 @@ public class INTGeneticAlgorithm {
             //TODO: repaint map
             if(mapUpdated) {
                 p.m.DrawPaths(ft.best_fitness_result.path);
+                p.log.clear_text();
+                int dron = 0;
+                int size = cod[using_cod_n][ft.best_codification_index].get_size();
+                for(int i = 0; i < size; ++i){
+                    int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
+                    p.log.add_text(Integer.toString(value)+" ", mapReader.PathColors[dron]);
+                    IO.print(value+" ");
+                    if(value >= size){
+                        ++dron;
+                    }
+                }
             }//p.m.putAllBinCameras(bestSol);
 
             //PINTAR

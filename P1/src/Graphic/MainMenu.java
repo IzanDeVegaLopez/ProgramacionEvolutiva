@@ -306,6 +306,8 @@ public class MainMenu extends MyFrame{
                 g.n_interest_points = g.m.m.interest_points.length;
                 g.n_drones = Integer.parseInt(number_of_drones.textField.getText());
 
+                g.log = logs;
+
                 INTGeneticAlgorithm algorithm = new INTGeneticAlgorithm(g);
                 /*
                 float[] Enforcing_n_Max = codeType==0 ?
