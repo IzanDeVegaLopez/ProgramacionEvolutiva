@@ -70,10 +70,10 @@ public class Map {
         taken_temp.set(ocupiedTiles.length+1, true);
         int n_chosen = 0;
         while(n_chosen < n){
-            int x = rand.nextInt(ocupiedTiles.length);
-            int y = rand.nextInt(ocupiedTiles[0].length);
+            int x = rand.nextInt(ocupiedTiles[0].length);
+            int y = rand.nextInt(ocupiedTiles.length);
 
-            int index = x*ocupiedTiles.length+y;
+            int index = y*ocupiedTiles.length+x;
             if(!taken_temp.get(index)){
                 results[n_chosen] = new Vector2(x,y);
                 taken_temp.set(index, true);
