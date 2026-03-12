@@ -54,10 +54,16 @@ public class co_cross implements base_cross_method{
             int idx = 0;
             int suma = 0;
             int value_to_reach = ordinal[i];
-            while((idx=b.nextSetBit(idx))<value_to_reach && idx != -1){
-                ++idx; ++suma;
+
+            //si esta posición está cogida salto a la siguiente, desciendo el contador solo cuando no lo esté
+            while(value_to_reach>=0 && idx < ordinal.length){
+                if(!b.get(idx)) --value_to_reach;
+                else ++suma;
+                ++idx;
             }
-            cod.set_value(i, value_to_reach+suma);
+            int total_value =ordinal[i]+suma;
+            b.set(total_value);
+            cod.set_value(i, total_value);
         }
         return cod;
     }
