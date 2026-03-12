@@ -16,6 +16,6 @@ public class Main {
  }
 
  public static void init(){
-  MainMenu mm = new MainMenu(800,600);
+  MainMenu mm = new MainMenu();
  }
 }

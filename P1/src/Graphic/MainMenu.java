@@ -15,7 +15,7 @@ import Mapas.pathing.NavA;
 import org.math.plot.*;
 import utils.Vector2;
 
-public class MainMenu extends MyFrame{
+public class MainMenu extends JFrame{
     int boxSizeY = 20;
     int labelSizeX = 175;
     int menuDesplegableSizeX = 100;
@@ -45,9 +45,26 @@ public class MainMenu extends MyFrame{
     HashMap<String,Integer> mutationHash;
     HashMap<String,Integer> crossHash;
 
+    void config(){
+         //GraphicsEnvironment graphics =
+                //GraphicsEnvironment.getLocalGraphicsEnvironment();
+        //GraphicsDevice device = graphics.getDefaultScreenDevice();
 
-    public MainMenu(int x,int y){
-        super(x,y);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setUndecorated(true);
+        //setResizable(true);
+        //device.setFullScreenWindow(this);
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(new Dimension(d.width, d.height-40));
+        setVisible(true);
+        //pack();
+    }
+
+    public MainMenu(){
+        super("PEV P2");
+        config();
+
+
 
         initHashMaps();
 
@@ -60,8 +77,6 @@ public class MainMenu extends MyFrame{
         parent.add(createGraphicsMenu());
 
         add(parent);
-        pack();
-        setSize(800,600);
     }
     void initHashMaps(){
         selectionHash = new HashMap<>();
