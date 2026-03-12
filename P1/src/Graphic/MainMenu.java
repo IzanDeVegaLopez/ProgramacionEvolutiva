@@ -56,7 +56,6 @@ public class MainMenu extends JFrame{
         //device.setFullScreenWindow(this);
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(new Dimension(d.width, d.height-40));
-        setVisible(true);
         //pack();
     }
 
@@ -77,6 +76,8 @@ public class MainMenu extends JFrame{
         parent.add(createGraphicsMenu());
 
         add(parent);
+
+        setVisible(true);
     }
     void initHashMaps(){
         selectionHash = new HashMap<>();

@@ -10,15 +10,17 @@ import java.util.Vector;
 
 public class manhattan_distance_fitness_calculator implements base_fitness_calculator{
     float[] dron_multiplier = {1/1.5f, 1, 1/0.7f, 1/1.2f, 2};
-    public manhattan_distance_fitness_calculator(Map m){
-        reset_already_calculated_costs(m);
+    Map m;
+    public manhattan_distance_fitness_calculator(Map _m){
+        m = _m;
+        reset_already_calculated_costs();
     }
-    public FitnessReturnClass calculate_fitness(Map m, codificacion_entera[] cod){
+    public FitnessReturnClass calculate_fitness(codificacion_entera[] cod){
         FitnessReturnClass fit = new FitnessReturnClass(cod.length);
         fit.best_fitness_result.value = 1000000;
         for(int i = 0; i < cod.length; ++i){
             //TODO: return true value
-            fitness_return_type fitfit = calculate_one_codification_fitness(m,cod[i]);
+            fitness_return_type fitfit = calculate_one_codification_fitness(cod[i]);
             fit.totalValue[i] = fitfit.value;
             if(fit.totalValue[i] < fit.best_fitness_result.value){
                 fit.best_fitness_result = fitfit;
@@ -30,7 +32,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         return fit;
     }
 
-    public fitness_return_type calculate_one_codification_fitness(Map m, codificacion_entera cod){
+    public fitness_return_type calculate_one_codification_fitness(codificacion_entera cod){
         Vector<Vector2>[] path = new Vector[5];
         for(int i = 0; i < path.length; ++i){
             path[i] = new Vector<>(0);
@@ -48,7 +50,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         for(int i = 0; i < cod.get_size(); ++i){
             //if codification value is greater than the number of points we set the starting point
             int index = Math.min(cod.get_value(i),m.interest_points.length-1);
-            total_fitness[dron] += dron_multiplier[dron] * return_new_cost(m,last_pos, m.interest_points[index]).best;
+            total_fitness[dron] += dron_multiplier[dron] * return_new_cost(last_pos, m.interest_points[index]).best;
 
             int i_index = last_pos.x*m.importanceMap.length+ last_pos.y;
             int j_index = m.interest_points[index].x*m.importanceMap.length+m.interest_points[index].y;
@@ -62,7 +64,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             }
         }
         //end in start pos
-        navA_return_type ret = return_new_cost(m, last_pos, m.interest_points[m.interest_points.length-1]);
+        navA_return_type ret = return_new_cost(last_pos, m.interest_points[m.interest_points.length-1]);
         total_fitness[dron] += ret.best;
 
         int i = 0;
@@ -76,7 +78,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         return new fitness_return_type(path,max + (max-min)*0.5f);
     }
 
-    navA_return_type return_new_cost(Map m, Vector2 last_point, Vector2 next_point){
+    navA_return_type return_new_cost(Vector2 last_point, Vector2 next_point){
         int i_index = last_point.x*m.importanceMap.length+ last_point.y;
         int j_index = next_point.x*m.importanceMap.length+next_point.y;
         if(already_calculated[i_index][j_index]) return cost_already_calculated[i_index][j_index];
@@ -85,7 +87,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         //TODO: Figure out what to do with saving the path
     }
 
-    static void reset_already_calculated_costs(Map m){
+    void reset_already_calculated_costs(){
         int total_tiles =m.importanceMap.length*m.importanceMap[0].length;
         cost_already_calculated = new navA_return_type[total_tiles][total_tiles];
         already_calculated = new boolean[total_tiles][total_tiles];
@@ -96,6 +98,6 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         }
     }
 
-    static navA_return_type[][] cost_already_calculated;
-    static boolean[][] already_calculated;
+    navA_return_type[][] cost_already_calculated;
+    boolean[][] already_calculated;
 }

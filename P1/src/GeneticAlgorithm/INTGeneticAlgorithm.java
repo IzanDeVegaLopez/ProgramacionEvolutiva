@@ -23,7 +23,7 @@ public class INTGeneticAlgorithm {
     int n_elites;
     double best_sol_yet = 10000000;
     selection_method select_method;
-    base_fitness_calculator fit_calculator;
+    manhattan_distance_fitness_calculator fit_calculator;
     base_cross_method crux;
     mutation_base mut;
     int[][] elite_values;// 0 value, 1 penalty
@@ -38,7 +38,7 @@ public class INTGeneticAlgorithm {
     public void choose_mutation_method(int i){
         switch(i) {
             case 0: { //heuristic
-                mut = new heuristic_mutation();
+                mut = new heuristic_mutation(fit_calculator);
                 break;
             }
             case 1: {//insertion
@@ -130,9 +130,8 @@ public class INTGeneticAlgorithm {
     }
     void initialize_codification(GeneticAlgorithmParameters p){
         int alternate = (using_cod_n+1)%2;
-        fit_calculator = new manhattan_distance_fitness_calculator(p.m.m);
         cod = new codificacion_entera[][]{new codificacion_entera[p.nIndInGen],new codificacion_entera[p.nIndInGen]};
-        int n_elems_total = p.n_drones + p.n_interest_points;
+        int n_elems_total = p.n_drones-1 + p.n_interest_points;
         for(int i = 0; i < p.nIndInGen; ++i){
             cod[using_cod_n][i] = new codificacion_entera(n_elems_total);
             cod[using_cod_n][i].initialize_with_stair_shape();
@@ -158,6 +157,7 @@ public class INTGeneticAlgorithm {
         currentGen = 0;
         using_cod_n = 0;
 
+        fit_calculator = new manhattan_distance_fitness_calculator(p.m.m);
 
         choose_selection_method(p.selectionType);
         choose_cross_method(p.crossType);
@@ -306,7 +306,7 @@ public class INTGeneticAlgorithm {
             int max = 0;
             boolean mapUpdated = false;
 
-            FitnessReturnClass ft = fit_calculator.calculate_fitness(p.m.m, cod[using_cod_n]);
+            FitnessReturnClass ft = fit_calculator.calculate_fitness(cod[using_cod_n]);
             if(ft.best_fitness_result.value < best_sol_yet){
                 best_sol_yet = ft.best_fitness_result.value;
                 mapUpdated = true;
