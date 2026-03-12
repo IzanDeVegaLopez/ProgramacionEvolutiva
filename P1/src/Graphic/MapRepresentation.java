@@ -63,7 +63,7 @@ public class MapRepresentation extends MyPanel{
     public void DrawPoints(Vector2[] points){
         int i = 0;
         for (Vector2 point : points){
-            CircularPanel mark = new CircularPanel(new Color(100,150,200),Integer.toString(i),1.0f,1.0f, 16);
+            CircularPanel mark = new CircularPanel(new Color(100,150,200),Integer.toString(i),1.0f,1.0f, 20);
             mark.setMinimumSize(new Dimension(20,20));
             myTiles[point.y][point.x].add(mark);
             ++i;

@@ -11,13 +11,13 @@ public class CircularPanel extends JPanel {
     Color c;
     public CircularPanel(Color _c,String s, float _proportional_width, float _proportional_height, int font_size){
         c=_c;
-        //setLayout(new GridBagLayout());
+        setLayout(new GridBagLayout());
         JLabel txt = new JLabel();
-        //GridBagConstraints gc = new GridBagConstraints();
-        //gc.gridy = 0;
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.gridy = 0;
         txt.setText(s);
         txt.setFont(new Font("Monospaced", Font.BOLD, font_size));
-        add(txt);//, gc);
+        add(txt, gc);
         setBackground(c);
         proportional_width = _proportional_width;
         proportional_height = _proportional_height;
