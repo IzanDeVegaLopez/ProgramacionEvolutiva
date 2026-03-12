@@ -319,7 +319,7 @@ public class MainMenu extends JFrame{
                 g.isPonderado = ponderadoBox.isSelected();
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
 
-                g.n_interest_points = g.m.m.interest_points.length;
+                g.n_interest_points = Integer.parseInt(tiles_of_interest_field.textField.getText());
                 g.n_drones = Integer.parseInt(number_of_drones.textField.getText());
 
                 g.log = logs;

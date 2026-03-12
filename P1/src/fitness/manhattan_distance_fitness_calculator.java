@@ -48,16 +48,20 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         int dron = 0;
         path[dron] = new Vector<>(0);
         for(int i = 0; i < cod.get_size(); ++i){
-            //if codification value is greater than the number of points we set the starting point
             int index = Math.min(cod.get_value(i),m.interest_points.length-1);
-            total_fitness[dron] += dron_multiplier[dron] * return_new_cost(last_pos, m.interest_points[index]).best;
-
             int i_index = last_pos.x*m.importanceMap.length+ last_pos.y;
             int j_index = m.interest_points[index].x*m.importanceMap.length+m.interest_points[index].y;
+
+            if(!already_calculated[i_index][j_index]){
+                cost_already_calculated[i_index][j_index] = return_new_cost(last_pos, m.interest_points[index]);
+            }
+            total_fitness[dron] += dron_multiplier[dron] * cost_already_calculated[i_index][j_index].best;
+
             for(int l = 1; l < cost_already_calculated[i_index][j_index].path.size(); ++l){
                 path[dron].add(cost_already_calculated[i_index][j_index].path.get(l));
             }
 
+            //if codification value is greater than the number of points we set the starting point
             last_pos = m.interest_points[index];
             if(index==m.interest_points.length-1) {
                 ++dron;
@@ -66,6 +70,9 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         //end in start pos
         navA_return_type ret = return_new_cost(last_pos, m.interest_points[m.interest_points.length-1]);
         total_fitness[dron] += ret.best;
+        for(int l = 1; l < ret.path.size(); ++l){
+            path[dron].add(ret.path.get(l));
+        }
 
         int i = 0;
         double max = 0;
