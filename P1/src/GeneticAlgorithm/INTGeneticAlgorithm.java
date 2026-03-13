@@ -304,9 +304,6 @@ public class INTGeneticAlgorithm {
         while(currentGen < p.nGen) {
             int alternate = (using_cod_n + 1) %2;
             //FITNESS
-            int[] results = new int[p.nIndInGen];
-            long acum = 0;
-            int max = 0;
             boolean mapUpdated = false;
 
             FitnessReturnClass ft = fit_calculator.calculate_fitness(cod[using_cod_n]);
@@ -354,7 +351,7 @@ public class INTGeneticAlgorithm {
                 int size = cod[using_cod_n][ft.best_codification_index].get_size();
                 for(int i = 0; i < size; ++i){
                     int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
-                    p.log.add_text(Integer.toString(value)+" ", mapReader.PathColors[dron]);
+                    p.log.add_text(value+" ", mapReader.PathColors[dron]);
                     IO.print(value+" ");
                     if(value >= p.n_interest_points){
                         ++dron;
@@ -380,8 +377,7 @@ public class INTGeneticAlgorithm {
 
 
             //SELECCIÓN
-            int[] select=new int[0];
-            select_method.chooseEntities(ft.totalValue);
+            int[] select = select_method.chooseEntities(ft.totalValue);
             //Copy the selected entities into the next generation slot
             for(int i=0;i<select.length;++i){
                 cod[alternate][i].copy(cod[using_cod_n][select[i]]);
