@@ -62,8 +62,17 @@ public class codificacion_entera {
      * turns this into the cod passed
      */
     public void copy(codificacion_entera cod){
-        values = cod.get_values().clone();
-        conflict_point = cod.get_conflict_point().clone();
+        int[] val = cod.get_values();
+        values = new int[val.length];
+        for(int i = 0; i < val.length; ++i){
+            values[i] = val[i];
+        }
+
+        int[] conf = cod.get_conflict_point();
+        conflict_point = new int[conf.length];
+        for(int i = 0; i < conf.length; ++i){
+            conflict_point[i] = conf[i];
+        }
     }
 
     public  void swap(int index1, int index2){

@@ -14,7 +14,7 @@ public class torneo implements selection_method{
             }
             selected[i] = muestra_seleccionada[0];
             for (int j = 1; j<muestra;j++){
-                selected[i] = fitness[selected[i]] >= fitness[muestra_seleccionada[j]]
+                selected[i] = fitness[selected[i]] < fitness[muestra_seleccionada[j]]
                         ? selected[i] : muestra_seleccionada[j];
             }
         }
