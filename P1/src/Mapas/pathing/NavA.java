@@ -26,7 +26,7 @@ public class NavA {
         PriorityQueue<PQElem> open_nodes = new PriorityQueue<>();
 
         // Add first node to visit
-        open_nodes.add(new PQElem(map.importanceMap,origin,destination, origin));
+        open_nodes.add(new PQElem(origin,destination, origin));
 
         //map.previous[destination.y][destination.x] = new Vector2(-1,-1);
 
@@ -53,7 +53,7 @@ public class NavA {
                 if(map.has_camera(newpos.x,newpos.y) && !destination.equals(newpos)) extra_cost = map.penalty;
 
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination, top.origin, extra_cost + top.stepCount + map.importanceMap[newpos.y][newpos.x]));
+                open_nodes.add(new PQElem(newpos,destination, top.origin, extra_cost + top.stepCount + map.importanceMap[newpos.y][newpos.x]));
             }
             // Horizontal exploration
             for (int x = -1; x < 2; x+=2){
@@ -65,7 +65,7 @@ public class NavA {
                 int extra_cost = 0;
                 if(map.has_camera(newpos.x,newpos.y) && !destination.equals(newpos)) extra_cost = map.penalty;
                 // Add next node to visit
-                open_nodes.add(new PQElem(map.importanceMap,newpos,destination,top.origin, extra_cost + top.stepCount + map.importanceMap[newpos.y][newpos.x]));
+                open_nodes.add(new PQElem(newpos,destination,top.origin, extra_cost + top.stepCount + map.importanceMap[newpos.y][newpos.x]));
             }
 
         }

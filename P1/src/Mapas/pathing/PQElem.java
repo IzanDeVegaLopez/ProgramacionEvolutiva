@@ -11,16 +11,16 @@ public class PQElem implements Comparable<PQElem> {
     public int heuristic;
     public int stepCount;
 
-    PQElem(int [][] map, Vector2 o, Vector2 d, Vector2 _previous_tile){
+    PQElem(Vector2 o, Vector2 d, Vector2 _previous_tile){
         origin = o;
-        heuristic = distance_heuristic(o,d) + map[origin.y][origin.x];
+        heuristic = distance_heuristic(o,d);
         stepCount = 0;
         previous_tile = _previous_tile;
     }
-    PQElem(int [][] map, Vector2 o, Vector2 d, Vector2 _previous_tile, int sc){
+    PQElem(Vector2 o, Vector2 d, Vector2 _previous_tile, int sc){
         origin = o;
         stepCount = sc;
-        heuristic = distance_heuristic(o,d) + map[origin.y][origin.x] + stepCount;
+        heuristic = distance_heuristic(o,d) + stepCount;
         previous_tile = _previous_tile;
     }
 

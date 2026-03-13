@@ -348,6 +348,8 @@ public class INTGeneticAlgorithm {
                 p.m.WipeMapBackground();
                 p.m.DrawPaths(ft.best_fitness_result.path);
                 p.log.clear_text();
+
+                p.log.add_text("Mejor resultado: "+best_sol_yet+"\n");
                 int dron = 0;
                 int size = cod[using_cod_n][ft.best_codification_index].get_size();
                 for(int i = 0; i < size; ++i){
