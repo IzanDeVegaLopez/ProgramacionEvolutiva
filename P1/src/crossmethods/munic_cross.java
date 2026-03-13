@@ -32,9 +32,9 @@ public class munic_cross implements base_cross_method{
                 boolean first_attacking = glad1.spd >= glad2.spd;
                 while (glad1.arm > 0 && glad2.arm > 0) {
                     if (first_attacking) {
-                        glad2.arm -= glad1.atk;
+                        glad2.arm -= glad1.atk+1;
                     } else {
-                        glad1.arm -= glad2.atk;
+                        glad1.arm -= glad2.atk+1;
                     }
                     first_attacking = !first_attacking;
                 }
