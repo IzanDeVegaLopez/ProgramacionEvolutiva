@@ -26,4 +26,8 @@ public class truncamiento implements selection_method {
         }
         return selected;
     }
+    @Override
+    public double get_selection_enforcer() {
+        return t.presion_selectiva;
+    }
 }

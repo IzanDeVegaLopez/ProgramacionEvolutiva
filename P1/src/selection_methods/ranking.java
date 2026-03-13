@@ -35,7 +35,10 @@ public class ranking implements selection_method{
             while (t.frec_rel_acumulada[index] < temp) index++;
             selected[i] = index;
         }
-
         return selected;
+    }
+    @Override
+    public double get_selection_enforcer() {
+        return t.presion_selectiva;
     }
 }

@@ -5,6 +5,7 @@ import Mapas.mapReader;
 import codification.codificacion_entera;
 import crossmethods.*;
 //import mutation_methods.*;
+import elitism_methods.elitism;
 import fitness.*;
 import mutation_methods.*;
 import selection_methods.*;
@@ -25,9 +26,10 @@ public class INTGeneticAlgorithm {
     manhattan_distance_fitness_calculator fit_calculator;
     base_cross_method crux;
     mutation_base mut;
-    int[][] elite_values;// 0 value, 1 penalty
-    //    int[] last_elite;
-//    int[] last_elite_values;
+    double presion_selectiva_suma;
+    double[] elite_values;// 0 value, 1 penalty
+
+    elitism elt;
     public INTGeneticAlgorithm(GeneticAlgorithmParameters p){
         startGeneticAlgorithm(p);
         do_first_gen(p);
@@ -154,7 +156,9 @@ public class INTGeneticAlgorithm {
             elite_elems[i] = new codificacion_entera(n_elems_total);
             elite_elems[i].initialize_with_stair_shape();
         }
-        elite_values = new int[2][n_elites];
+        elite_values = new double[n_elites];
+
+        elt = new elitism();
     }
     void startGeneticAlgorithm(GeneticAlgorithmParameters p){
         currentGen = 0;
@@ -174,44 +178,24 @@ public class INTGeneticAlgorithm {
     }
 
     void do_first_gen(GeneticAlgorithmParameters p){
-/*        int alternate = (using_cod_n + 1) %2;
-        //FITNESS - errors
-        int[] results = new int[p.nIndInGen];
-        FitnessReturnClass[] ft = new FitnessReturnClass[p.nIndInGen];
-        long acum = 0;
-        int max = 0;
+        int alternate = (using_cod_n + 1) %2;
+        //FITNESS
         boolean mapUpdated = false;
-        for (int i = 0; i<p.nIndInGen; i++){
-            FitnessReturnClass temp = fitnessFunctions.getBinFitness(p.m.m,cod[using_cod_n][i], p.isPonderado);
-            results[0][i] = temp.totalValue;
-            results[1][i] = temp.totalNPenalties;
-            ft[i] = temp;
-            int graphicResult = results[0][i] - (p.m.m.nCamaras-results[1][i]) *p.m.m.penalty;
-            acum += graphicResult;
-            max = Math.max(graphicResult,max);
-            if(max > (bestSol.totalValue-(p.m.m.nCamaras - bestSol.totalNPenalties)*p.m.m.penalty)){
-                bestSol = temp;
-                mapUpdated = true;
-            }
+
+        FitnessReturnClass ft = fit_calculator.calculate_fitness(cod[using_cod_n]);
+        if(ft.best_fitness_result.value < best_sol_yet){
+            best_sol_yet = ft.best_fitness_result.value;
+            mapUpdated = true;
         }
-        //get media gen
-        int mid = (int)acum/p.nIndInGen;
-        //get max gen DONE
-        //get max abs DONE
 
         //ELITISMO------------------------------------------------------------------------------------------------
         //CHOSE FIRST GEN ELITES
-        if(n_elites > 0) {
-            int[] best = new elitism().choose_elite(n_elites, results[0]);
-            for (int i = 0; i < best.length; ++i) {
-                elite_elems[i].setAllData(cod[currentGen][best[i]].retrieveAllData());
-                elite_values[0][i] = results[0][best[i]];
-                elite_values[1][i] = results[1][best[i]];
-            }
+        int[] best = new elitism().choose_elite(n_elites, ft.totalValue);
+        for (int i = 0; i < best.length; ++i) {
+            elite_elems[i].copy(cod[using_cod_n][best[i]]);
+            elite_values[i] = ft.totalValue[best[i]];
         }
         //--------------------------------------------------------------------------------------------------------
-
-        if(mapUpdated) p.m.putAllBinCameras(bestSol);
 
         //PINTAR
         //eliminate all lines
@@ -220,9 +204,9 @@ public class INTGeneticAlgorithm {
             p.plot2d.removePlot(0);
         }
 
-        plotValues[0][currentGen] = mid;
-        plotValues[1][currentGen] = max;
-        plotValues[2][currentGen] = bestSol.totalValue -(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;
+        plotValues[0][currentGen] = ft.mid;
+        plotValues[1][currentGen] = ft.best_fitness_result.value;
+        plotValues[2][currentGen] = best_sol_yet;
         p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
         p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
         p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
@@ -230,74 +214,53 @@ public class INTGeneticAlgorithm {
 
 
         //SELECCIÓN
-        int[] select=new int[0];
-        switch(p.selectionType){
-            case 0:{//RULETA
-                ruleta r = new selection_methods.ruleta();
-                select = r.chooseEntities(results[0]);
-                midSelectionEnforcer += r.t.presion_selectiva;
-                break;
-            }
-            case 1:{//TORNEO
-                torneo t = new selection_methods.torneo();
-                select = t.chooseEntities(results[0]);
-                midSelectionEnforcer += t.t.presion_selectiva;
-                break;
-            }
-            case 2:{//ESTOCASTICO
-                estocastico e = new selection_methods.estocastico();
-                select = e.chooseEntities(results[0]);
-                midSelectionEnforcer+=e.t.presion_selectiva;
-                break;
-            }
-            case 3:{//TRUNCAMIENTO
-                truncamiento t = new truncamiento();
-                select = t.chooseEntities(results[0]);
-                midSelectionEnforcer+=t.t.presion_selectiva;
-                break;
-            }
-            case 4:{//RESTOS
-                restos r = new restos();
-                select = r.chooseEntities(results[0]);
-                midSelectionEnforcer+=r.t.presion_selectiva;
-                break;
-            }
-        }
+        int[] select = select_method.chooseEntities(ft.totalValue);
+        //Copy the selected entities into the next generation slot
         for(int i=0;i<select.length;++i){
-            cod[alternate][i].setAllData(cod[using_cod_n][select[i]].retrieveAllData());
+            cod[alternate][i].copy(cod[using_cod_n][select[i]]);
         }
         using_cod_n = alternate;
+
         //CRUCE
         //--> param probabilidad de cruce
         ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
         for(int i = 0; i < p.nIndInGen; ++i){
             if(Math.random() <= p.crossProbability) chosenForCross.add(i);
         }
-        switch(p.crossType) {
-            case 0: { //MONOPUNTO
-                cruce_monopunto crux = new cruce_monopunto();
-                for (int i = 0; i + 1 < chosenForCross.size(); i += 2) {
-                    crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i + 1));
-                }
-                break;
-            }
-            case 1: {//UNIFORME
-                cruce_uniforme crux = new cruce_uniforme();
-                for (int i = 0; i + 1 < chosenForCross.size(); i += 2) {
-                    crux.crossAll(cod[using_cod_n], chosenForCross.get(i), chosenForCross.get(i + 1));
-                }
-                break;
-            }
+        int total_number_of_crosses = chosenForCross.size();
+        for(int i = 1; i < total_number_of_crosses; i = i+2){
+            crux.cruzar(cod[using_cod_n][chosenForCross.get(i)], cod[using_cod_n][chosenForCross.get(i-1)]);
         }
 
         //MUTACIÓN
-        mutacion_a_nivel_de_gen m = new mutacion_a_nivel_de_gen(p.mutationprobability);
         for(int i = 0; i < p.nIndInGen; ++i){
-            m.mutar(cod[using_cod_n][i]);
+            if(Math.random() < p.mutationprobability) mut.mutate(cod[using_cod_n][i]);
         }
-        ++currentGen;
 
- */
+        presion_selectiva_suma += select_method.get_selection_enforcer();
+
+        if(mapUpdated) {
+            p.m.WipeMapBackground();
+            p.m.DrawPaths(ft.best_fitness_result.path);
+            p.log.clear_text();
+
+
+            p.log.add_text("Mejor resultado: "+best_sol_yet+"\n");
+            p.log.add_text("Presión selectiva: " + presion_selectiva_suma + "\n", Color.RED);
+            int dron = 0;
+            int size = cod[using_cod_n][ft.best_codification_index].get_size();
+            for(int i = 0; i < size; ++i){
+                int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
+                p.log.add_text(value+" ", mapReader.PathColors[dron]);
+                IO.print(value+" ");
+                if(value >= p.n_interest_points){
+                    ++dron;
+                }
+            }
+            IO.print("\n");
+        }
+
+    ++currentGen;
     }
 
     void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
@@ -313,52 +276,28 @@ public class INTGeneticAlgorithm {
             }
 
             //ELITISMO------------------------------------------------------------------------------------------------
-            /* TODO: Rehacer elitismo
             if(n_elites > 0) {
                 //INTRODUCE LAST ELITES
-                int[] worst = new elitism().choose_worst(n_elites, results[0]);
+                int[] worst = new elitism().choose_worst(n_elites, ft.totalValue);
                 //int worst_total_value = 0;
                 for (int i = 0; i < worst.length; ++i) {
                     //worst_total_value -= results[0][worst[i]] - ((p.m.m.nCamaras-results[1][worst[i]]) *p.m.m.penalty);
                     //worst_total_value += elite_values[0][i] - (p.m.m.nCamaras-elite_values[1][i])*p.m.m.penalty;
-                    cod[using_cod_n][worst[i]].setAllData(elite_elems[i].retrieveAllData());
-                    results[0][worst[i]] = elite_values[0][i];
-                    results[1][worst[i]] = elite_values[1][i];
+                    cod[using_cod_n][worst[i]].copy(elite_elems[i]);
+                    ft.totalValue[worst[i]] = elite_values[i];
                 }
                 //worst_total_value *= (float) (n_elites) / (float) (p.nIndInGen);
-                int graphicResult = bestSol.totalValue - ((p.m.m.nCamaras- bestSol.totalNPenalties) *p.m.m.penalty);
+                //int graphicResult = best_sol_yet - ((p.m.m.nCamaras- bestSol.totalNPenalties) *p.m.m.penalty);
                 //mid += worst_total_value;
-                max = Math.max(max, graphicResult);
+                ft.best_fitness_result.value = best_sol_yet;
                 //CHOSE NEW ELITES
-                int[] best = new elitism().choose_elite(n_elites, results[0]);
+                int[] best = new elitism().choose_elite(n_elites, ft.totalValue);
                 for (int i = 0; i < best.length; ++i) {
-                    elite_elems[i].setAllData(cod[using_cod_n][best[i]].retrieveAllData());
-                    elite_values[0][i] = results[0][best[i]];
-                    elite_values[1][i] = results[1][best[i]];
+                    elite_elems[i].copy(cod[using_cod_n][best[i]]);
+                    elite_values[i] = ft.totalValue[best[i]];
                 }
             }
-            */
             //--------------------------------------------------------------------------------------------------------
-
-            //TODO: repaint map
-            if(mapUpdated) {
-                p.m.WipeMapBackground();
-                p.m.DrawPaths(ft.best_fitness_result.path);
-                p.log.clear_text();
-
-                p.log.add_text("Mejor resultado: "+best_sol_yet+"\n");
-                int dron = 0;
-                int size = cod[using_cod_n][ft.best_codification_index].get_size();
-                for(int i = 0; i < size; ++i){
-                    int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
-                    p.log.add_text(value+" ", mapReader.PathColors[dron]);
-                    IO.print(value+" ");
-                    if(value >= p.n_interest_points){
-                        ++dron;
-                    }
-                }
-                IO.print("\n");
-            }//p.m.putAllBinCameras(bestSol);
 
             //PINTAR
             //eliminate all lines
@@ -399,11 +338,32 @@ public class INTGeneticAlgorithm {
             for(int i = 0; i < p.nIndInGen; ++i){
                 if(Math.random() < p.mutationprobability) mut.mutate(cod[using_cod_n][i]);
             }
+
+            presion_selectiva_suma += select_method.get_selection_enforcer();
+
+            if(mapUpdated) {
+                p.m.WipeMapBackground();
+                p.m.DrawPaths(ft.best_fitness_result.path);
+                p.log.clear_text();
+
+                p.log.add_text("Mejor resultado: " + best_sol_yet + "\n", Color.BLUE);
+                p.log.add_text("Presión selectiva: " + presion_selectiva_suma/currentGen + "\n", Color.RED);
+                int dron = 0;
+                int size = cod[using_cod_n][ft.best_codification_index].get_size();
+                for(int i = 0; i < size; ++i){
+                    int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
+                    p.log.add_text(value+" ", mapReader.PathColors[dron]);
+                    IO.print(value+" ");
+                    if(value >= p.n_interest_points){
+                        ++dron;
+                    }
+                }
+                IO.print("\n");
+            }
+
             ++currentGen;
         }
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
-        //midSelectionEnforcer /= p.nGen;
-        //bestSol.totalValue-=(p.m.m.nCamaras- bestSol.totalNPenalties)*p.m.m.penalty;
     }
 }

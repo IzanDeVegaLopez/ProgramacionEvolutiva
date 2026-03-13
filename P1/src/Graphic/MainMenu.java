@@ -35,8 +35,8 @@ public class MainMenu extends JFrame{
     NumericField tiles_of_interest_field;
     NumericField number_of_drones;
     //JComboBox codificationTypeComboBox;
-    JLabel maxValue;
-    JLabel enforcingValue;
+    //JLabel maxValue;
+    //JLabel enforcingValue;
     JTabbedPane mapsTabs;
 
     ScrollTextField logs;
@@ -62,8 +62,6 @@ public class MainMenu extends JFrame{
     public MainMenu(){
         super("PEV P2");
         config();
-
-
 
         initHashMaps();
 
@@ -108,7 +106,6 @@ public class MainMenu extends JFrame{
 
     JPanel createControlsMenu(){
         MyPanel pan = new MyPanel();
-        //pan.setMinimumSize(new Dimension(500,800));
         pan.setSize(100,100);
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
@@ -138,14 +135,6 @@ public class MainMenu extends JFrame{
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
         m.WipeMap();
-//        Vector2[] points = new Vector2[]{new Vector2(1,2), new Vector2(8,8),
-//                new Vector2(9,5), new Vector2(1,7),
-//                new Vector2(6,3), new Vector2(4,8)};
-//        Vector<Vector2> testPath1 = NavA.findPath(m.m, points[0],points[1]).path;
-//        Vector<Vector2> testPath2 = NavA.findPath(m.m, points[2],points[3]).path;
-//        Vector<Vector2> testPath3 = NavA.findPath(m.m, points[4],points[5]).path;
-//        m.DrawPaths(new Vector[]{testPath1, testPath2, testPath3});
-        //m.DrawPoints(points);
         return m;
     }
 
@@ -157,11 +146,6 @@ public class MainMenu extends JFrame{
         panelConjunto.setMaximumSize(new Dimension(labelSizeX + menuDesplegableSizeX + 6*NumericField.x, Math.max(boxSizeY,NumericField.y)*nElems));
         panelConjunto.setMinimumSize(new Dimension(labelSizeX + menuDesplegableSizeX + 6*NumericField.x, Math.max(boxSizeY,NumericField.y)*nElems));
 
-        //Codificación
-        //MyPanel p = new MyPanel();
-        //p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
-        //p.add(createLabel("Codificación"));
-        //p.add(codificationTypeComboBox= createMenuDesplegable(new String[]{"Binario", "Punto flotante"}));
         //método de Selección
         MyPanel p1 = new MyPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.X_AXIS));
@@ -285,6 +269,7 @@ public class MainMenu extends JFrame{
         JPanel infoPan = new JPanel();
         infoPan.setLayout(new BoxLayout(infoPan, BoxLayout.X_AXIS));
 
+        /*
         JPanel L = new JPanel();
         L.setLayout(new BoxLayout(L, BoxLayout.X_AXIS));
         L.add(createLabel("Presión Selectiva: "));
@@ -296,6 +281,7 @@ public class MainMenu extends JFrame{
         R.add(maxValue = createLabel("0"));
 
         infoPan.add(L); infoPan.add(R);
+        */
         pan.add(infoPan, BorderLayout.NORTH);
 
         JPanel butPan = new JPanel();
