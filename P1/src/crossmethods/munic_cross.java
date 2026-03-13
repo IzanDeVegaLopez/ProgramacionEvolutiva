@@ -20,7 +20,8 @@ public class munic_cross implements base_cross_method{
                 mictor.set_value(i,id2);
             }
             else{
-                int atk_idx = (i - 1) % size;
+                int atk_idx = i - 1;
+                atk_idx = atk_idx < 0 ? size - 1 : atk_idx;
                 int arm_idx = (i + 1) % size;
                 gladiator glad1 = new gladiator(element1.get_value(i),
                         element1.get_value(atk_idx),
