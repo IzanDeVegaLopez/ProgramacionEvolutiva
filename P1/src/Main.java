@@ -9,8 +9,6 @@ import Graphic.*;
 
 
 public class Main {
- Map m;
- MainMenu mm;
  public static void main(String[] args) {
   init();
  }

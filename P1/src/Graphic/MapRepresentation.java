@@ -32,7 +32,7 @@ public class MapRepresentation extends MyPanel{
                 //Si esta ocupada pintala negra
                 int val = m.ocupiedTiles[i][j] ? 0 : 255;
                 myTiles[i][j] = new MyPanel(val);
-                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j]/5]);
+                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j]/5], 2);
                 myTiles[i][j].setBorder(mborder);
                 this.add(myTiles[i][j]);
             }

@@ -12,6 +12,7 @@ public class ScrollTextField extends JScrollPane {
     public ScrollTextField(){
         super(my_text_area = new JTextPane(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         my_text_area.setText("");
+        my_text_area.setFont(new Font("Arial", Font.BOLD, 24));
     }
     public void clear_text(){
         my_text_area.setText("");
