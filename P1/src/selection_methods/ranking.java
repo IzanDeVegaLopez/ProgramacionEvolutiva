@@ -2,7 +2,7 @@ package selection_methods;
 
 public class ranking implements selection_method{
     public double pressure = 1.0;
-    public tabla_frecuencias t;
+    public tabla_frecuencias_de_minimos t;
     public int[] chooseEntities(double[] fitness) {
         int[] selected = new int[fitness.length];
 
@@ -28,7 +28,7 @@ public class ranking implements selection_method{
             rates[i] = 1.0/ fitness.length*(pressure-2*(pressure-1)*(rank-1)/(fitness.length-1));
         }
 
-        t = new tabla_frecuencias(rates);
+        t = new tabla_frecuencias_de_minimos(rates);
         for (int i = 0; i<selected.length; i++){
             float temp = (float)Math.random();
             int index = 0;

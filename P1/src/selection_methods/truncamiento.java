@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 public class truncamiento implements selection_method {
     double ratio = 0.5;
-    public tabla_frecuencias t;
+    public tabla_frecuencias_de_minimos t;
     public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
-        t = new tabla_frecuencias(fitness);
+        t = new tabla_frecuencias_de_minimos(fitness);
         int num_trunc = (int) Math.round(fitness.length*ratio);
         for (int i = 0; i<num_trunc; i++) {
             double max = -1;

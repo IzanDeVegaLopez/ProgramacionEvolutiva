@@ -3,10 +3,10 @@ package selection_methods;
 public class restos implements selection_method{
     methods metodo_restantes = methods.ruleta;
     selection_method aux_method;
-    public tabla_frecuencias t;
+    public tabla_frecuencias_de_minimos t;
     public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
-        t = new tabla_frecuencias(fitness);
+        t = new tabla_frecuencias_de_minimos(fitness);
         int index = 0;
         for (int i = 0; i< fitness.length;i++){
             int temp = (int)(t.frec_rel[i] * fitness.length);
