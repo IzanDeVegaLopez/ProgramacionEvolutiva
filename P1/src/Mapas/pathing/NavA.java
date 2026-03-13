@@ -84,7 +84,7 @@ public class NavA {
         }
 
         return new navA_return_type(path, best, true);
-    };
+    }
 
 }
 

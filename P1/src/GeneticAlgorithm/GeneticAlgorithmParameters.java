@@ -18,7 +18,6 @@ public class GeneticAlgorithmParameters {
     public int mutationType;
     public int selectionType;
     public float elite_ratio;
-    public boolean isPonderado;
 
     public int n_drones;
     public int n_interest_points;
