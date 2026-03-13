@@ -5,7 +5,8 @@ enum methods{
     restos,
     ruleta,
     torneo,
-    truncamiento
+    truncamiento,
+    ranking
 }
 public interface selection_method {
     public float selectionEnforcer=0;

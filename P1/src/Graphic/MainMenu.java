@@ -86,6 +86,7 @@ public class MainMenu extends JFrame{
         selectionHash.put("Estocástico",2);
         selectionHash.put("Truncamiento",3);
         selectionHash.put("Restos",4);
+        selectionHash.put("Ranking",5);
 
         crossHash = new HashMap<>();
         crossHash.put("CO",0);
@@ -165,7 +166,7 @@ public class MainMenu extends JFrame{
         MyPanel p1 = new MyPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.X_AXIS));
         p1.add(createLabel("Método de Selección"));
-        p1.add(selectionTypeComboBox= createMenuDesplegable(new String[]{"Ruleta", "Torneo", "Estocástico", "Truncamiento", "Restos"}));
+        p1.add(selectionTypeComboBox= createMenuDesplegable(new String[]{"Ruleta", "Torneo", "Estocástico", "Truncamiento", "Restos", "Ranking"}));
         //Operadores de cruce
         MyPanel p2 = new MyPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.X_AXIS));

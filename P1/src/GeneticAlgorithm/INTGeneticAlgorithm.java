@@ -81,6 +81,10 @@ public class INTGeneticAlgorithm {
                 select_method = new restos();
                 break;
             }
+            case 5:{//RANKING
+                select_method = new ranking();
+                break;
+            }
         }
     }
     public void choose_cross_method(int i){

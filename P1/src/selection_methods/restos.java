@@ -30,6 +30,9 @@ public class restos implements selection_method{
                 case truncamiento:
                     aux_method = new truncamiento();
                     break;
+                case ranking:
+                    aux_method = new ranking();
+                    break;
             }
             int[] aux = aux_method.chooseEntities(fitness);
             int i = 0;
