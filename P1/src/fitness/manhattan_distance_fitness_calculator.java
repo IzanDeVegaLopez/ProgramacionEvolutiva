@@ -77,7 +77,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         int i = 0;
         double max = 0;
         double min = 10000;
-        while(i < 5 && total_fitness[i]>0){
+        while(i <= dron){
             max = Math.max(max,total_fitness[i]);
             min = Math.min(min,total_fitness[i]);
             ++i;

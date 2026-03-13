@@ -354,7 +354,7 @@ public class INTGeneticAlgorithm {
                     int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
                     p.log.add_text(Integer.toString(value)+" ", mapReader.PathColors[dron]);
                     IO.print(value+" ");
-                    if(value >= size){
+                    if(value >= p.n_interest_points){
                         ++dron;
                     }
                 }

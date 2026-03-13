@@ -50,7 +50,7 @@ public class NavA {
                     continue;
 
                 int extra_cost = 0;
-                if(map.has_camera(newpos.x,newpos.y) && destination.equals(newpos)) extra_cost = map.penalty;
+                if(map.has_camera(newpos.x,newpos.y) && !destination.equals(newpos)) extra_cost = map.penalty;
 
                 // Add next node to visit
                 open_nodes.add(new PQElem(map.importanceMap,newpos,destination, top.origin, extra_cost + top.stepCount + map.importanceMap[newpos.y][newpos.x]));
