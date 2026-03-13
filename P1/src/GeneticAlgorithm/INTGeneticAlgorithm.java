@@ -4,7 +4,6 @@ package GeneticAlgorithm;
 import Mapas.mapReader;
 import codification.codificacion_entera;
 import crossmethods.*;
-import elitism_methods.*;
 //import mutation_methods.*;
 import fitness.*;
 import mutation_methods.*;
@@ -102,7 +101,7 @@ public class INTGeneticAlgorithm {
                 break;
             }
             case 3: {//Invented Cross
-                crux = new invented_cross();
+                crux = new munic_cross();
                 break;
             }
             case 4: {//OX_Cross
