@@ -30,6 +30,7 @@ public class oxpp_cross  implements base_cross_method{
             int pos_escogida;
             while(pos_ya_escogidas.get(pos_escogida=(int)(padre1.get_size()*Math.random())));
             //Copy elements del otro padre
+            pos_ya_escogidas.set(pos_escogida);
             child1.set_value(pos_escogida, padre2.get_value(pos_escogida));
             child2.set_value(pos_escogida, padre1.get_value(pos_escogida));
         }
