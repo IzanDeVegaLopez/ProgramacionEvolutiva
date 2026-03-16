@@ -51,7 +51,7 @@ public class INTGeneticAlgorithm {
                 break;
             }
             case 3: {//Invented Cross
-                mut = new invented_mutation();
+                mut = new rock_paper_scissors_mutation();
                 break;
             }
             case 4: {//Inversion
