@@ -3,6 +3,7 @@ package crossmethods;
 import codification.codificacion_entera;
 
 public class munic_cross implements base_cross_method{
+    int armor_factor = 2;
     public void cruzar(codificacion_entera element1, codificacion_entera element2) {
         int size = element1.get_size();
         codificacion_entera victor = new codificacion_entera(size);
@@ -24,17 +25,17 @@ public class munic_cross implements base_cross_method{
                 atk_idx = atk_idx < 0 ? size - 1 : atk_idx;
                 int arm_idx = (i + 1) % size;
                 gladiator glad1 = new gladiator(element1.get_value(i),
-                        element1.get_value(atk_idx),
-                        element1.get_value(arm_idx));
+                        element1.get_value(atk_idx)+1,
+                        element1.get_value(arm_idx)*armor_factor);
                 gladiator glad2 = new gladiator(element2.get_value(i),
-                        element2.get_value(atk_idx),
-                        element2.get_value(arm_idx));
+                        element2.get_value(atk_idx)+1,
+                        element2.get_value(arm_idx)*armor_factor);
                 boolean first_attacking = glad1.spd >= glad2.spd;
                 while (glad1.arm > 0 && glad2.arm > 0) {
                     if (first_attacking) {
-                        glad2.arm -= glad1.atk+1;
+                        glad2.arm -= glad1.atk;
                     } else {
-                        glad1.arm -= glad2.atk+1;
+                        glad1.arm -= glad2.atk;
                     }
                     first_attacking = !first_attacking;
                 }
