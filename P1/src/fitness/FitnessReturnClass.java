@@ -10,6 +10,6 @@ public class FitnessReturnClass {
     public FitnessReturnClass(int size){
         totalValue = new double[size];
         mid = 0;
-        best_fitness_result = new fitness_return_type();
+        best_fitness_result = new fitness_return_type(5);
     }
 }

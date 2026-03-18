@@ -245,19 +245,19 @@ public class INTGeneticAlgorithm {
             p.log.clear_text();
 
 
-            p.log.add_text("Mejor resultado: "+best_sol_yet+"\n");
+            p.log.add_text("Mejor resultado: "+best_sol_yet+"s\n", Color.BLUE);
             p.log.add_text("Presión selectiva: " + presion_selectiva_suma + "\n", Color.RED);
             int dron = 0;
             int size = cod[using_cod_n][ft.best_codification_index].get_size();
             for(int i = 0; i < size; ++i){
                 int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
                 p.log.add_text(value+" ", mapReader.PathColors[dron]);
-                IO.print(value+" ");
+                //IO.print(value+" ");
                 if(value >= p.n_interest_points){
                     ++dron;
                 }
             }
-            IO.print("\n");
+            //IO.print("\n");
         }
 
     ++currentGen;
@@ -346,19 +346,24 @@ public class INTGeneticAlgorithm {
                 p.m.DrawPaths(ft.best_fitness_result.path);
                 p.log.clear_text();
 
-                p.log.add_text("Mejor resultado: " + best_sol_yet + "\n", Color.BLUE);
+                p.log.add_text("Mejor resultado: " + best_sol_yet + "s.\n", Color.BLUE);
+                p.log.add_text("Tiempo por drón: ", Color.BLUE);
+                for(int i = 0; i < p.n_drones; ++i){
+                    p.log.add_text(Double.toString(ft.best_fitness_result.route_duration_per_drone[i])+"s, ", mapReader.PathColors[i]);
+                }
+                p.log.add_text("\n");
                 p.log.add_text("Presión selectiva: " + presion_selectiva_suma/currentGen + "\n", Color.RED);
                 int dron = 0;
                 int size = cod[using_cod_n][ft.best_codification_index].get_size();
                 for(int i = 0; i < size; ++i){
                     int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
                     p.log.add_text(value+" ", mapReader.PathColors[dron]);
-                    IO.print(value+" ");
+                    //IO.print(value+" ");
                     if(value >= p.n_interest_points){
                         ++dron;
                     }
                 }
-                IO.print("\n");
+                //IO.print("\n");
             }
 
             ++currentGen;

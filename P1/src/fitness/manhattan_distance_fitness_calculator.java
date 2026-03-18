@@ -52,9 +52,8 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             int i_index = last_pos.x*m.importanceMap.length+ last_pos.y;
             int j_index = m.interest_points[index].x*m.importanceMap.length+m.interest_points[index].y;
 
-            if(!already_calculated[i_index][j_index]){
-                cost_already_calculated[i_index][j_index] = return_new_cost(last_pos, m.interest_points[index]);
-            }
+
+            cost_already_calculated[i_index][j_index] = return_new_cost(last_pos, m.interest_points[index]);
             total_fitness[dron] += dron_multiplier[dron] * cost_already_calculated[i_index][j_index].best;
 
             for(int l = 1; l < cost_already_calculated[i_index][j_index].path.size(); ++l){
@@ -82,7 +81,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             min = Math.min(min,total_fitness[i]);
             ++i;
         }
-        return new fitness_return_type(path,max + (max-min)*0.5f);
+        return new fitness_return_type(path, total_fitness, max + (max-min)*0.5f);
     }
 
     navA_return_type return_new_cost(Vector2 last_point, Vector2 next_point){
