@@ -1,8 +1,8 @@
 package selection_methods;
 
 public class ranking implements selection_method{
-    public double pressure = 1.0;
-    public tabla_frecuencias_de_minimos t;
+    public double pressure = 1.5;
+    public tabla_frecuencias t;
     public int[] chooseEntities(double[] fitness) {
         int[] selected = new int[fitness.length];
 
@@ -10,16 +10,16 @@ public class ranking implements selection_method{
         // fitness[n].
         int[] indexes_by_order = new int [fitness.length];
         for (int i = 0; i<fitness.length; i++) {
-            double max = -1;
-            int maxInd = -1;
+            double min = Double.MAX_VALUE;
+            int minInd = Integer.MAX_VALUE;
             for (int j = 0; j < fitness.length; j++) {
-                if (fitness[j] > max) {
-                    max = fitness[j];
-                    maxInd = j;
+                if (fitness[j] < min) {
+                    min = fitness[j];
+                    minInd = j;
                 }
             }
-            indexes_by_order[maxInd] = i;
-            fitness[maxInd] = -1;
+            indexes_by_order[minInd] = i;
+            fitness[minInd] = Double.MAX_VALUE;
         }
 
         double[] rates = new double[fitness.length];
@@ -28,7 +28,7 @@ public class ranking implements selection_method{
             rates[i] = 1.0/ fitness.length*(pressure-2*(pressure-1)*(rank-1)/(fitness.length-1));
         }
 
-        t = new tabla_frecuencias_de_minimos(rates);
+        t = new tabla_frecuencias(rates);
         for (int i = 0; i<selected.length; i++){
             float temp = (float)Math.random();
             int index = 0;
