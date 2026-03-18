@@ -25,7 +25,7 @@ public class MainMenu extends JFrame{
     NumericField nIndInGenField;
     NumericField elitismRatio;
     JCheckBox elitismBox;
-    JCheckBox ponderadoBox;
+    //JCheckBox ponderadoBox;
     NumericField mutationProbability;
     NumericField crossProbability;
     NumericField seedField;
@@ -121,7 +121,7 @@ public class MainMenu extends JFrame{
 
         pan.add(createAllMenusDesplegables());
 
-        pan.add(ponderadoBox = createCheckBox("Método Ponderado"));
+        //pan.add(ponderadoBox = createCheckBox("Método Ponderado"));
         pan.add(elitismBox = createCheckBox("Usar elitismo"));
         MyPanel elitismPanel = new MyPanel();
         elitismPanel.setLayout(new BoxLayout(elitismPanel,BoxLayout.X_AXIS));

@@ -13,7 +13,7 @@ public class tabla_frecuencias_de_minimos {
         frec_rel_acumulada = new double[data.length];
 
         for (int i = 0 ; i< data.length; i++){
-            frec_absoluta[i] = 1/data[i];
+            frec_absoluta[i] = 1.0/data[i];
 
             double prev = i == 0 ? 0 : frec_acumulada[i-1];
             frec_acumulada[i] = prev + frec_absoluta[i];
