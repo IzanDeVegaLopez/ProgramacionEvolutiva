@@ -113,7 +113,7 @@ public class MainMenu extends JFrame{
         String[] s = new String[]{"MUSEO","PASILLOS","SUPERMERCADO"};
         mapsTabs = new JTabbedPane();
         mapRepresentation = new MapRepresentation[3];
-        for(int i = 0; i < s.length; ++i){
+        for(int i = s.length-1; i >= 0; --i){
             mapRepresentation[i] = createMap(i);
             mapsTabs.addTab(s[i],mapRepresentation[i]);
         }
@@ -194,7 +194,7 @@ public class MainMenu extends JFrame{
         MyPanel p9 = new MyPanel();
         p9.setLayout(new BoxLayout(p9,BoxLayout.X_AXIS));
         p9.add(createLabel("Tiles con Cámara"));
-        p9.add(tiles_of_interest_field= createNumericField(10));
+        p9.add(tiles_of_interest_field= createNumericField(40));
 
         MyPanel p10 = new MyPanel();
         p10.setLayout(new BoxLayout(p10,BoxLayout.X_AXIS));
@@ -292,7 +292,7 @@ public class MainMenu extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
                 g.plot2d = plot2D;
-                g.m = mapRepresentation[mapsTabs.getSelectedIndex()];
+                g.m = mapRepresentation[2-mapsTabs.getSelectedIndex()];
                 //
                 g.nGen = Integer.parseInt(nGensField.textField.getText());
                 g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
