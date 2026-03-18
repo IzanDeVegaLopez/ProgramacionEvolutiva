@@ -14,7 +14,7 @@ public class AStar_aux_functions {
         Vector2 Ltile = new Vector2(current_pos.x-1, current_pos.y);
         Vector2 Rtile = new Vector2(current_pos.x+1, current_pos.y);
         Vector2 Utile = new Vector2(current_pos.x, current_pos.y-1);
-        Vector2 Dtile = new Vector2(current_pos.x-1, current_pos.y+1);
+        Vector2 Dtile = new Vector2(current_pos.x, current_pos.y+1);
 
         Vector<Vector2> ret = new Vector<>(0);
         if(m.validTile(Ltile)) ret.add(Ltile);
