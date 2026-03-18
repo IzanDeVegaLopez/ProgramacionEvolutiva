@@ -249,15 +249,16 @@ public class INTGeneticAlgorithm {
             p.log.add_text("Presión selectiva: " + presion_selectiva_suma + "\n", Color.RED);
             int dron = 0;
             int size = cod[using_cod_n][ft.best_codification_index].get_size();
+            p.log.add_text("Dron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
             for(int i = 0; i < size; ++i){
                 int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
                 p.log.add_text(value+" ", mapReader.PathColors[dron]);
                 //IO.print(value+" ");
                 if(value >= p.n_interest_points){
                     ++dron;
+                    p.log.add_text("\nDron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
                 }
             }
-            //IO.print("\n");
         }
 
     ++currentGen;
@@ -355,12 +356,14 @@ public class INTGeneticAlgorithm {
                 p.log.add_text("Presión selectiva: " + presion_selectiva_suma/currentGen + "\n", Color.RED);
                 int dron = 0;
                 int size = cod[using_cod_n][ft.best_codification_index].get_size();
+                p.log.add_text("Dron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
                 for(int i = 0; i < size; ++i){
                     int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
                     p.log.add_text(value+" ", mapReader.PathColors[dron]);
                     //IO.print(value+" ");
                     if(value >= p.n_interest_points){
                         ++dron;
+                        p.log.add_text("\nDron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
                     }
                 }
                 //IO.print("\n");

@@ -9,7 +9,7 @@ import utils.Vector2;
 import java.util.Vector;
 
 public class manhattan_distance_fitness_calculator implements base_fitness_calculator{
-    float[] dron_multiplier = {1/1.5f, 1, 1/0.7f, 1/1.2f, 2};
+    public static float[] dron_multiplier = {1/1.5f, 1, 1/0.7f, 1/1.2f, 2};
     Map m;
     public manhattan_distance_fitness_calculator(Map _m){
         m = _m;
@@ -52,11 +52,12 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             int i_index = last_pos.x*m.importanceMap.length+ last_pos.y;
             int j_index = m.interest_points[index].x*m.importanceMap.length+m.interest_points[index].y;
 
+            if(!already_calculated[i_index][j_index])
+                cost_already_calculated[i_index][j_index] = return_new_cost(last_pos, m.interest_points[index]);
 
-            cost_already_calculated[i_index][j_index] = return_new_cost(last_pos, m.interest_points[index]);
             total_fitness[dron] += dron_multiplier[dron] * cost_already_calculated[i_index][j_index].best;
 
-            for(int l = 1; l < cost_already_calculated[i_index][j_index].path.size(); ++l){
+            for(int l = 0; l < cost_already_calculated[i_index][j_index].path.size(); ++l){
                 path[dron].add(cost_already_calculated[i_index][j_index].path.get(l));
             }
 
@@ -69,7 +70,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         //end in start pos
         navA_return_type ret = return_new_cost(last_pos, m.interest_points[m.interest_points.length-1]);
         total_fitness[dron] += ret.best;
-        for(int l = 1; l < ret.path.size(); ++l){
+        for(int l = 0; l < ret.path.size(); ++l){
             path[dron].add(ret.path.get(l));
         }
 
