@@ -2,6 +2,7 @@ package Mapas.pathing;
 
 import utils.Vector2;
 
+import java.util.Comparator;
 import java.util.Vector;
 
 public class PQElem implements Comparable<PQElem> {
@@ -10,6 +11,7 @@ public class PQElem implements Comparable<PQElem> {
     //Destination is implied in PQElem's context.
     public int heuristic;
     public int stepCount;
+    public int distance;
 
     PQElem(Vector2 o, Vector2 d, Vector2 _previous_tile){
         origin = o;
@@ -20,7 +22,8 @@ public class PQElem implements Comparable<PQElem> {
     PQElem(Vector2 o, Vector2 d, Vector2 _previous_tile, int sc){
         origin = o;
         stepCount = sc;
-        heuristic = distance_heuristic(o,d) + stepCount;
+        distance = distance_heuristic(o,d);
+        heuristic = distance + stepCount;
         previous_tile = _previous_tile;
     }
 
@@ -35,6 +38,8 @@ public class PQElem implements Comparable<PQElem> {
     }
 
     public int compareTo(PQElem other){
-        return Integer.compare(heuristic,other.heuristic);
+        return heuristic == other.heuristic ?
+                Integer.compare(distance,other.distance) :
+                Integer.compare(heuristic,other.heuristic);
     }
 }
