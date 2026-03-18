@@ -326,9 +326,9 @@ public class MainMenu extends JFrame{
         but2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mapRepresentation[mapsTabs.getSelectedIndex()].WipeMap();
-                mapRepresentation[mapsTabs.getSelectedIndex()].DrawPoints(
-                    mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
+                mapRepresentation[2-mapsTabs.getSelectedIndex()].WipeMap();
+                mapRepresentation[2-mapsTabs.getSelectedIndex()].DrawPoints(
+                    mapRepresentation[2-mapsTabs.getSelectedIndex()].m.getRandomTiles(
                             Integer.parseInt(tiles_of_interest_field.textField.getText()),
                             Long.parseLong(seedField.textField.getText())
                     )
