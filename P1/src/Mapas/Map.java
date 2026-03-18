@@ -12,7 +12,6 @@ public class Map {
     //Para llevar la cuenta de cuales he tocado ya con una cámara en este recorrido
     public boolean[][] tainted;
     public boolean[][] camera_tiles;
-    public Vector2[][] previous;
     //Last position is reserved for start position
     public Vector2[] interest_points;
     public int penalty=500;
@@ -21,11 +20,16 @@ public class Map {
         importanceMap = imp;
         ocupiedTiles = ocup;
         tainted = new boolean[ocup.length][ocup[0].length];
-        previous = new Vector2[ocup.length][ocup[0].length];
         camera_tiles = new boolean[ocup.length][ocup[0].length];
     }
     public boolean has_camera(int x, int y){
         return camera_tiles[y][x];
+    }
+    public boolean validTile(Vector2 v){
+        return validTile(v.x,v.y);
+    }
+    public double get_tile_cost(Vector2 v){
+        return importanceMap[v.y][v.x];
     }
     public boolean validTile(int x, int y){
         return x >= 0 && y >= 0 &&
@@ -49,13 +53,6 @@ public class Map {
         for(int i = 0; i < ocupiedTiles.length; ++i){
             for(int j = 0; j < ocupiedTiles[0].length; ++j){
                 camera_tiles[i][j] = false;
-            }
-        }
-    }
-    public void resetPrevious(){
-        for(int i = 0; i < ocupiedTiles.length; ++i){
-            for(int j = 0; j < ocupiedTiles[0].length; ++j){
-                previous[i][j] = new Vector2(-1,-1);
             }
         }
     }
