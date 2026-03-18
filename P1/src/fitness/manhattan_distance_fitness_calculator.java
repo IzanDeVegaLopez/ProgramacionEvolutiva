@@ -1,12 +1,13 @@
 package fitness;
 
 import Mapas.Map;
-import Mapas.pathing.NavA;
-import Mapas.pathing.navA_return_type;
+import Mapas.pathing.AStar_return_type;
 import codification.codificacion_entera;
 import utils.Vector2;
 
 import java.util.Vector;
+
+import static Mapas.pathing.AStar_redone_main_body.find_path;
 
 public class manhattan_distance_fitness_calculator implements base_fitness_calculator{
     public static float[] dron_multiplier = {1/1.5f, 1, 1/0.7f, 1/1.2f, 2};
@@ -49,16 +50,12 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         path[dron] = new Vector<>(0);
         for(int i = 0; i < cod.get_size(); ++i){
             int index = Math.min(cod.get_value(i),m.interest_points.length-1);
-            int i_index = last_pos.x*m.importanceMap.length+ last_pos.y;
-            int j_index = m.interest_points[index].x*m.importanceMap.length+m.interest_points[index].y;
+            AStar_return_type nav = return_new_cost(last_pos, m.interest_points[index]);
 
-            if(!already_calculated[i_index][j_index])
-                cost_already_calculated[i_index][j_index] = return_new_cost(last_pos, m.interest_points[index]);
+            total_fitness[dron] += dron_multiplier[dron] * nav.value;
 
-            total_fitness[dron] += dron_multiplier[dron] * cost_already_calculated[i_index][j_index].best;
-
-            for(int l = 0; l < cost_already_calculated[i_index][j_index].path.size(); ++l){
-                path[dron].add(cost_already_calculated[i_index][j_index].path.get(l));
+            for(int l = 0; l < nav.path.size(); ++l){
+                path[dron].add(nav.path.get(l));
             }
 
             //if codification value is greater than the number of points we set the starting point
@@ -68,8 +65,8 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             }
         }
         //end in start pos
-        navA_return_type ret = return_new_cost(last_pos, m.interest_points[m.interest_points.length-1]);
-        total_fitness[dron] += ret.best;
+        AStar_return_type ret = return_new_cost(last_pos, m.interest_points[m.interest_points.length-1]);
+        total_fitness[dron] += ret.value;
         for(int l = 0; l < ret.path.size(); ++l){
             path[dron].add(ret.path.get(l));
         }
@@ -85,15 +82,19 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         return new fitness_return_type(path, total_fitness, max + (max-min)*0.5f);
     }
 
-    navA_return_type return_new_cost(Vector2 last_point, Vector2 next_point){
+    AStar_return_type return_new_cost(Vector2 last_point, Vector2 next_point){
         int i_index = last_point.x*m.importanceMap.length+ last_point.y;
         int j_index = next_point.x*m.importanceMap.length+next_point.y;
-        if(already_calculated[i_index][j_index]) return cost_already_calculated[i_index][j_index];
-        already_calculated[i_index][j_index] = true;
-        return cost_already_calculated[i_index][j_index] = NavA.findPath(m,last_point,next_point);
-        //TODO: Figure out what to do with saving the path
+
+        if(!already_calculated[i_index][j_index]) {
+            cost_already_calculated[i_index][j_index] = find_path(m, last_point, next_point);
+            already_calculated[i_index][j_index] = true;
+        }
+
+        return cost_already_calculated[i_index][j_index];
     }
 
+    /*
     void reset_already_calculated_costs(){
         int total_tiles =m.importanceMap.length*m.importanceMap[0].length;
         cost_already_calculated = new navA_return_type[total_tiles][total_tiles];
@@ -104,7 +105,19 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
             }
         }
     }
+    */
 
-    navA_return_type[][] cost_already_calculated;
+    void reset_already_calculated_costs(){
+        int total_tiles = m.importanceMap.length*m.importanceMap[0].length;
+        cost_already_calculated = new AStar_return_type[total_tiles][total_tiles];
+        already_calculated = new boolean[total_tiles][total_tiles];
+        for (int i = 0; i < already_calculated.length; ++i){
+            for(int j = 0; j < already_calculated[0].length; ++j){
+                already_calculated[i][j]=false;
+            }
+        }
+    }
+
+    AStar_return_type[][] cost_already_calculated;
     boolean[][] already_calculated;
 }

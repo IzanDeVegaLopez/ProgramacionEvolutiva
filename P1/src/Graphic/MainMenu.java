@@ -7,13 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
 import java.util.HashMap;
-import java.util.Vector;
 
 import GeneticAlgorithm.*;
 
-import Mapas.pathing.NavA;
 import org.math.plot.*;
-import utils.Vector2;
 
 public class MainMenu extends JFrame{
     int boxSizeY = 20;
