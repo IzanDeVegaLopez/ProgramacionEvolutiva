@@ -343,13 +343,15 @@ public class MainMenu extends JFrame{
         butPan.add(but2);
         pan.add(butPan, BorderLayout.SOUTH);
 
-        mapRepresentation[mapsTabs.getSelectedIndex()].WipeMap();
-        mapRepresentation[mapsTabs.getSelectedIndex()].DrawPoints(
-            mapRepresentation[mapsTabs.getSelectedIndex()].m.getRandomTiles(
-                    Integer.parseInt(tiles_of_interest_field.textField.getText()),
-                    Long.parseLong(seedField.textField.getText())
-            )
-        );
+        for(int i = 0; i < mapRepresentation.length; ++i) {
+            mapRepresentation[i].WipeMap();
+            mapRepresentation[i].DrawPoints(
+                    mapRepresentation[i].m.getRandomTiles(
+                            Integer.parseInt(tiles_of_interest_field.textField.getText()),
+                            Long.parseLong(seedField.textField.getText())
+                    )
+            );
+        }
 
         return pan;
     }
