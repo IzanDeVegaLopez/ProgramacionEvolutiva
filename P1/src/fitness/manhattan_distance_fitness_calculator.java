@@ -14,7 +14,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     Map m;
     public manhattan_distance_fitness_calculator(Map _m){
         m = _m;
-        //reset_already_calculated_costs();
+        reset_already_calculated_costs();
     }
     public FitnessReturnClass calculate_fitness(codificacion_entera[] cod){
         FitnessReturnClass fit = new FitnessReturnClass(cod.length);
@@ -50,12 +50,6 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         path[dron] = new Vector<>(0);
         for(int i = 0; i < cod.get_size(); ++i){
             int index = Math.min(cod.get_value(i),m.interest_points.length-1);
-            //int i_index = last_pos.x*m.importanceMap.length+ last_pos.y;
-            //int j_index = m.interest_points[index].x*m.importanceMap.length+m.interest_points[index].y;
-
-            //if(!already_calculated[i_index][j_index])
-            //    cost_already_calculated[i_index][j_index] = return_new_cost(last_pos, m.interest_points[index]);
-
             AStar_return_type nav = return_new_cost(last_pos, m.interest_points[index]);
 
             total_fitness[dron] += dron_multiplier[dron] * nav.value;
@@ -89,7 +83,15 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
 
     AStar_return_type return_new_cost(Vector2 last_point, Vector2 next_point){
-        return find_path(m, last_point, next_point);
+        int i_index = last_point.x*m.importanceMap.length+ last_point.y;
+        int j_index = next_point.x*m.importanceMap.length+next_point.y;
+
+        if(!already_calculated[i_index][j_index]) {
+            cost_already_calculated[i_index][j_index] = find_path(m, last_point, next_point);
+            already_calculated[i_index][j_index] = true;
+        }
+
+        return cost_already_calculated[i_index][j_index];
     }
 
     /*
@@ -105,6 +107,17 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
     */
 
-    //navA_return_type[][] cost_already_calculated;
+    void reset_already_calculated_costs(){
+        int total_tiles = m.importanceMap.length*m.importanceMap[0].length;
+        cost_already_calculated = new AStar_return_type[total_tiles][total_tiles];
+        already_calculated = new boolean[total_tiles][total_tiles];
+        for (int i = 0; i < already_calculated.length; ++i){
+            for(int j = 0; j < already_calculated[0].length; ++j){
+                already_calculated[i][j]=false;
+            }
+        }
+    }
+
+    AStar_return_type[][] cost_already_calculated;
     boolean[][] already_calculated;
 }
