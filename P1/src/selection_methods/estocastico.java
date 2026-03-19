@@ -4,6 +4,7 @@ public class estocastico implements selection_method{
     public tabla_frecuencias_de_minimos t;
     public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
+
         t = new tabla_frecuencias_de_minimos(fitness);
         float separacion = 1.0f / fitness.length;
         float marca = (float)Math.random()*separacion;
