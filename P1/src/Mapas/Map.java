@@ -33,7 +33,7 @@ public class Map {
     }
     public boolean validTile(int x, int y){
         return x >= 0 && y >= 0 &&
-               x < ocupiedTiles.length && y < ocupiedTiles[0].length &&
+               y < ocupiedTiles.length && x < ocupiedTiles[0].length &&
                !ocupiedTiles[y][x];
     }
     public boolean usableTile(int x, int y){

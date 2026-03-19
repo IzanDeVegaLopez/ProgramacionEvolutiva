@@ -25,5 +25,14 @@ public class AStar_node implements Comparable<AStar_node>{
         return Double.compare(this.heurística, other.heurística);
     }
 
+    public AStar_node clone(){
+        return new AStar_node(
+                this.current_pos == null ? null : this.current_pos.clone(),
+                this.parent_pos == null ? null : this.parent_pos.clone(),
+                estimado,
+                real_acumulado
+        );
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package selection_methods;
 
+import java.util.Arrays;
+
 public class tabla_frecuencias_de_minimos {
     public double[] frec_absoluta;
     public double[] frec_acumulada;
@@ -12,8 +14,11 @@ public class tabla_frecuencias_de_minimos {
         frec_rel = new double[data.length];
         frec_rel_acumulada = new double[data.length];
 
+        double min = Arrays.stream(data).min().getAsDouble();
+        double eps = 1e-9;
+
         for (int i = 0 ; i< data.length; i++){
-            frec_absoluta[i] = 1.0/data[i];
+            frec_absoluta[i] = 1.0 / (data[i] - min + 1.0 + eps);
 
             double prev = i == 0 ? 0 : frec_acumulada[i-1];
             frec_acumulada[i] = prev + frec_absoluta[i];

@@ -5,6 +5,7 @@ import Mapas.pathing.AStar_return_type;
 import codification.codificacion_entera;
 import utils.Vector2;
 
+import java.util.Collections;
 import java.util.Vector;
 
 import static Mapas.pathing.AStar_redone_main_body.find_path;
@@ -18,7 +19,7 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
     public FitnessReturnClass calculate_fitness(codificacion_entera[] cod){
         FitnessReturnClass fit = new FitnessReturnClass(cod.length);
-        fit.best_fitness_result.value = 1000000;
+        fit.best_fitness_result.value = Double.POSITIVE_INFINITY;
         for(int i = 0; i < cod.length; ++i){
             //TODO: return true value
             fitness_return_type fitfit = calculate_one_codification_fitness(cod[i]);
@@ -34,6 +35,8 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
 
     public fitness_return_type calculate_one_codification_fitness(codificacion_entera cod){
+        int depot_index = m.interest_points.length-1;
+
         Vector<Vector2>[] path = new Vector[5];
         for(int i = 0; i < path.length; ++i){
             path[i] = new Vector<>(0);
@@ -45,11 +48,11 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
         }
 
         //start in start pos
-        Vector2 last_pos = m.interest_points[m.interest_points.length-1];
+        Vector2 last_pos = m.interest_points[depot_index];
         int dron = 0;
         path[dron] = new Vector<>(0);
         for(int i = 0; i < cod.get_size(); ++i){
-            int index = Math.min(cod.get_value(i),m.interest_points.length-1);
+            int index = Math.min(cod.get_value(i),depot_index);
             AStar_return_type nav = return_new_cost(last_pos, m.interest_points[index]);
 
             total_fitness[dron] += dron_multiplier[dron] * nav.value;
@@ -60,21 +63,28 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
 
             //if codification value is greater than the number of points we set the starting point
             last_pos = m.interest_points[index];
-            if(index==m.interest_points.length-1) {
-                ++dron;
+            if (index == m.interest_points.length-1) {
+                AStar_return_type retToBase = return_new_cost(last_pos, m.interest_points[depot_index]);
+                total_fitness[dron] += dron_multiplier[dron] * retToBase.value;
+                for(int l = 0; l < retToBase.path.size(); ++l){
+                    path[dron].add(retToBase.path.get(l));
+                }
+                dron++;
+                last_pos = m.interest_points[depot_index];
             }
         }
         //end in start pos
         AStar_return_type ret = return_new_cost(last_pos, m.interest_points[m.interest_points.length-1]);
-        total_fitness[dron] += ret.value;
+        total_fitness[dron] += dron_multiplier[dron]* ret.value;
         for(int l = 0; l < ret.path.size(); ++l){
             path[dron].add(ret.path.get(l));
         }
 
         int i = 0;
         double max = 0;
-        double min = 10000;
+        double min = Double.POSITIVE_INFINITY;
         while(i <= dron){
+            Collections.reverse(path[i]);
             max = Math.max(max,total_fitness[i]);
             min = Math.min(min,total_fitness[i]);
             ++i;
@@ -83,8 +93,9 @@ public class manhattan_distance_fitness_calculator implements base_fitness_calcu
     }
 
     AStar_return_type return_new_cost(Vector2 last_point, Vector2 next_point){
-        int i_index = last_point.x*m.importanceMap.length+ last_point.y;
-        int j_index = next_point.x*m.importanceMap.length+next_point.y;
+        int width = m.importanceMap[0].length;
+        int i_index = last_point.y * width + last_point.x;
+        int j_index = next_point.y * width + next_point.x;
 
         if(!already_calculated[i_index][j_index]) {
             cost_already_calculated[i_index][j_index] = find_path(m, last_point, next_point);

@@ -14,7 +14,7 @@ public class fitness_return_type {
         route_duration_per_drone = d;
     }
     public fitness_return_type(int n_drones){
-        value = 0;
+        value = Double.POSITIVE_INFINITY;;
         route_duration_per_drone = new double[n_drones];
         //path = new Vector<Vector2>(n_drones);
     }

@@ -9,7 +9,7 @@ public class torneo implements selection_method{
         int[] muestra_seleccionada = new int[muestra];
         t = new tabla_frecuencias_de_minimos(fitness);
         for (int i = 0; i<selected.length; i++) {
-            for (int j = 1; j<muestra;j++) {
+            for (int j = 0; j<muestra;j++) {
                 muestra_seleccionada[j] = (int) (Math.random() * fitness.length);
             }
             selected[i] = muestra_seleccionada[0];

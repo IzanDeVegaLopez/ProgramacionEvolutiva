@@ -17,19 +17,18 @@ public class erx_cross implements base_cross_method{
             return tab;
         }
         public int[] get_ady(int i){
-            //int[] ret = Arrays.stream(mapa[i].toArray()).mapToInt(Integer::intValue).ToArray();
-            ArrayList<Integer> array_list_intermedia = new ArrayList<>();
+            ArrayList<Integer> tmp = new ArrayList<>();
             for(int x = 0; x < mapa[i].size(); ++x) {
-                if (!taken.get(mapa[i].get(x))) {
-                    array_list_intermedia.add(mapa[i].get(i));
-                    //taken.set(mapa[i].get(x));
+                int vecino = mapa[i].get(x);
+                if (!taken.get(vecino)) {
+                    tmp.add(vecino);
                 }
             }
-            int[] array_to_return = new int[array_list_intermedia.size()];
-            for(int x = 0; x < array_list_intermedia.size(); ++x){
-                array_to_return[i] = array_list_intermedia.get(x);
+            int[] ret = new int[tmp.size()];
+            for(int x = 0; x < tmp.size(); ++x){
+                ret[x] = tmp.get(x);
             }
-            return array_to_return;
+            return ret;
         }
         public void set_as_taken(int i){
             taken.set(i);
@@ -134,10 +133,10 @@ public class erx_cross implements base_cross_method{
         codificacion_entera child1 = new codificacion_entera(padre1.get_size());
         if(padre1.get_size() > 0) {
             int cam_actual = padre1.get_value(0);
-            tab.set_as_taken(0);
+            tab.set_as_taken(cam_actual);
             child1.set_value(0, cam_actual);
 
-            int i = 0;
+            int pos = 1;
             while (child1.get_free() > 0) {
                 int[] vecinos = tab.get_ady(cam_actual);
                 if (vecinos.length > 0) {
@@ -145,7 +144,7 @@ public class erx_cross implements base_cross_method{
                 } else {
                     cam_actual = tab.get_non_visited_idx();
                 }
-                child1.set_value(i++, cam_actual);
+                child1.set_value(pos++, cam_actual);
             }
         }
         return child1;

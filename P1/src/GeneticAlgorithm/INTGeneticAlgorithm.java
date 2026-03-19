@@ -144,14 +144,19 @@ public class INTGeneticAlgorithm {
             cod[alternate][i] = new codificacion_entera(n_elems_total);
             cod[alternate][i].initialize_with_stair_shape();
 
-            //Mutación inicial
-            mut.mutate(cod[using_cod_n][i]);
+            // stronger randomization
+            for(int k = 0; k < n_elems_total; ++k){
+                int a = (int)Math.floor((Math.random() * n_elems_total));
+                int b = (int)Math.floor((Math.random() * n_elems_total));
+                cod[using_cod_n][i].swap(a, b);
+            }
         }
+        IO.print("Parate aquí señor");
     }
     void initialize_elites(GeneticAlgorithmParameters p){
         n_elites = (int)(p.elite_ratio * p.nIndInGen);
         elite_elems = new codificacion_entera[n_elites];
-        int n_elems_total = p.n_drones + p.n_interest_points;
+        int n_elems_total = p.n_drones -1 + p.n_interest_points;
         for(int i = 0; i < n_elites; ++i){
             elite_elems[i] = new codificacion_entera(n_elems_total);
             elite_elems[i].initialize_with_stair_shape();
@@ -212,33 +217,7 @@ public class INTGeneticAlgorithm {
         p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
         //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
 
-
-        //SELECCIÓN
-        int[] select = select_method.chooseEntities(ft.totalValue);
-        //Copy the selected entities into the next generation slot
-        for(int i=0;i<select.length;++i){
-            cod[alternate][i].copy(cod[using_cod_n][select[i]]);
-        }
-        using_cod_n = alternate;
-
-        //CRUCE
-        //--> param probabilidad de cruce
-        ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
-        for(int i = 0; i < p.nIndInGen; ++i){
-            if(Math.random() <= p.crossProbability) chosenForCross.add(i);
-        }
-        int total_number_of_crosses = chosenForCross.size();
-        for(int i = 1; i < total_number_of_crosses; i = i+2){
-            crux.cruzar(cod[using_cod_n][chosenForCross.get(i)], cod[using_cod_n][chosenForCross.get(i-1)]);
-        }
-
-        //MUTACIÓN
-        for(int i = 0; i < p.nIndInGen; ++i){
-            if(Math.random() < p.mutationprobability) mut.mutate(cod[using_cod_n][i]);
-        }
-
-        presion_selectiva_suma += select_method.get_selection_enforcer();
-
+        //PAINT IF NEEDED
         if(mapUpdated) {
             p.m.WipeMapBackground();
             p.m.DrawPaths(ft.best_fitness_result.path);
@@ -260,6 +239,35 @@ public class INTGeneticAlgorithm {
                 }
             }
         }
+
+
+        //SELECCIÓN
+        int[] select = select_method.chooseEntities(ft.totalValue);
+        //Copy the selected entities into the next generation slot
+        for(int i=0;i<select.length;++i){
+            cod[alternate][i].copy(cod[using_cod_n][select[i]]);
+        }
+
+
+        using_cod_n = alternate;
+
+        //CRUCE
+        //--> param probabilidad de cruce
+        ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
+        for(int i = 0; i < p.nIndInGen; ++i){
+            if(Math.random() <= p.crossProbability) chosenForCross.add(i);
+        }
+        int total_number_of_crosses = chosenForCross.size();
+        for(int i = 1; i < total_number_of_crosses; i = i+2){
+            crux.cruzar(cod[using_cod_n][chosenForCross.get(i)], cod[using_cod_n][chosenForCross.get(i-1)]);
+        }
+
+        //MUTACIÓN
+        for(int i = 0; i < p.nIndInGen; ++i){
+            if(Math.random() < p.mutationprobability) mut.mutate(cod[using_cod_n][i]);
+        }
+
+        presion_selectiva_suma += select_method.get_selection_enforcer();
 
     ++currentGen;
     }

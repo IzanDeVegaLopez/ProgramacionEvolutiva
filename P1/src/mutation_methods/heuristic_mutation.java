@@ -47,7 +47,7 @@ public class heuristic_mutation implements mutation_base{
         for(int i=0;i<current_permutation.length;++i)current_permutation[i]=i;
 
         //TODO: this should be equal to its fitness
-        double best_fitness = 1000000;
+        double best_fitness = Double.POSITIVE_INFINITY;;
         codificacion_entera best_cod = new codificacion_entera(cod.get_size());
         best_cod.copy(cod);
         for (int i = 0; i < factorial_result; ++i){

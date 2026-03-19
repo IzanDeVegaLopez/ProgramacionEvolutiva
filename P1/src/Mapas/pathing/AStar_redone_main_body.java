@@ -27,6 +27,9 @@ public class AStar_redone_main_body {
 
         while(!pq.isEmpty()){
             AStar_node current_node = pq.poll();
+
+            if(closed_set.contains(current_node.current_pos)) continue;
+            //current_node = open_map.get(current_node.current_pos).clone();
             if(current_node.current_pos.equals(goal)){
                 ret.value = current_node.real_acumulado;
                 ret.path = reconstruct_path(open_map, goal);
@@ -37,9 +40,12 @@ public class AStar_redone_main_body {
 
             for( Vector2 neigh : get_valid_neighbours(current_node.current_pos, m)){
                 if(closed_set.contains(neigh)) continue;
+                double extra_cost = 0;
+                if(m.has_camera(neigh.x,neigh.y) && !neigh.equals(goal)) extra_cost = m.penalty;
                 double path_cost =
                         current_node.real_acumulado +
-                        m.get_tile_cost(neigh);
+                        m.get_tile_cost(neigh) +
+                        extra_cost;
 
                 if(!open_map.containsKey(neigh)){
                     AStar_node neighbor_node =
@@ -56,6 +62,7 @@ public class AStar_redone_main_body {
                     neighbor_node.real_acumulado = path_cost;
                     neighbor_node.heurística = path_cost + neighbor_node.estimado;
                     neighbor_node.parent_pos = current_node.current_pos.clone();
+                    pq.add(neighbor_node.clone());
                 }
             }
         }

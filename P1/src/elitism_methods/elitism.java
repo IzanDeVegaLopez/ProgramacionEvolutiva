@@ -12,7 +12,9 @@ public class elitism {
         }
     };
     public int[] choose_elite(int nElite, double[] fitness){
-        PriorityQueue<value_n_index> pq = new PriorityQueue<>((a,b)-> (int)(a.value - b.value));
+        PriorityQueue<value_n_index> pq = new PriorityQueue<>(
+                (a,b) -> Double.compare(a.value, b.value)
+        );
         for(int i = 0; i < fitness.length; ++i){
             pq.add(new value_n_index(fitness[i], i));
         }
@@ -23,7 +25,9 @@ public class elitism {
         return worst;
     }
     public int[] choose_worst(int nElite, double[] fitness){
-        PriorityQueue<value_n_index> pq = new PriorityQueue<>((a,b)-> (int)(b.value - a.value));
+        PriorityQueue<value_n_index> pq = new PriorityQueue<>(
+                (a,b) -> Double.compare(b.value, a.value)
+        );
         for(int i = 0; i < fitness.length; ++i){
             pq.add(new value_n_index(fitness[i], i));
         }

@@ -8,9 +8,10 @@ public class restos implements selection_method{
         int[] selected = new int[fitness.length];
         t = new tabla_frecuencias_de_minimos(fitness);
         int index = 0;
-        for (int i = 0; i< fitness.length;i++){
-            int temp = (int)(t.frec_rel[i] * fitness.length);
-            fitness[i] = temp > 0 ? -1 : fitness[i];
+        double[] fit = fitness.clone();
+        for (int i = 0; i< fit.length;i++){
+            int temp = (int)(t.frec_rel[i] * fit.length);
+            fit[i] = temp > 0 ? Double.POSITIVE_INFINITY : fitness[i];
             for (int j = 0; j<temp;j++){
                 selected[index] = i;
                 index++;
