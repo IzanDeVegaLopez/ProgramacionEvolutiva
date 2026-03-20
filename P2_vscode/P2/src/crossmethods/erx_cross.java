@@ -43,7 +43,7 @@ public class erx_cross implements base_cross_method{
             return next_non_visited;
         }
         public int take_vecino_con_menos_conexiones(int[] vecinos){
-            int idx_vecino_con_menos_conexiones = vecinos[0];
+            int idx_vecino_con_menos_conexiones = 0;
             int min_vecinos = n_conexiones(vecinos[0]);
 
             for(int i = 1; i < vecinos.length; ++i){
@@ -82,37 +82,37 @@ public class erx_cross implements base_cross_method{
 
             if(cod1.get_size() > 1) {
                 //FIRST
-                //b.clear();
-                add_if_unchecked(0, cod1.get_value(1));
-                add_if_unchecked(0, cod1.get_value(last_elem));
-                add_if_unchecked(0, cod2.get_value(1));
-                add_if_unchecked(0, cod2.get_value(last_elem));
+                b.clear();
+                add_if_unchecked(0, cod1.get_value(1), b);
+                add_if_unchecked(0, cod1.get_value(last_elem), b);
+                add_if_unchecked(0, cod2.get_value(1), b);
+                add_if_unchecked(0, cod2.get_value(last_elem), b);
 
                 //LAST
-                //b.clear();
-                add_if_unchecked(last_elem,cod1.get_value(0));
-                add_if_unchecked(last_elem,cod1.get_value(last_elem-1));
-                add_if_unchecked(last_elem,cod2.get_value(0));
-                add_if_unchecked(last_elem,cod2.get_value(last_elem-1));
+                b.clear();
+                add_if_unchecked(last_elem,cod1.get_value(0),b);
+                add_if_unchecked(last_elem,cod1.get_value(last_elem-1),b);
+                add_if_unchecked(last_elem,cod2.get_value(0),b);
+                add_if_unchecked(last_elem,cod2.get_value(last_elem-1),b);
             }
 
             //IN BETWEEN
             b.clear();
-            for(int i = 1; i < last_elem; ++i){
-                add_if_unchecked(i,cod1.get_value(i+1));
-                add_if_unchecked(i,cod1.get_value(i-1));
-                add_if_unchecked(i,cod2.get_value(i+1));
-                add_if_unchecked(i,cod2.get_value(i-1));
+            for(int i = 1; i < last_elem-1; ++i){
+                add_if_unchecked(i,cod1.get_value(i+1),b);
+                add_if_unchecked(i,cod1.get_value(i-1),b);
+                add_if_unchecked(i,cod2.get_value(i+1),b);
+                add_if_unchecked(i,cod2.get_value(i-1),b);
             }
 
             taken = new BitSet(cod1.get_size());
             taken.clear();
         }
-        private void add_if_unchecked(int idx, int i){
-            //if(!b.get(i)){
-            //    b.set(i);
-               mapa[idx].add(i);
-            //}
+        private void add_if_unchecked(int idx, int i, BitSet b){
+            if(!b.get(i)){
+                b.set(i);
+                mapa[idx].add(i);
+            }
         }
         public void take(int i){
             taken.set(i);
@@ -120,7 +120,7 @@ public class erx_cross implements base_cross_method{
     }
     public void cruzar(codificacion_entera padre1, codificacion_entera padre2) {
         //Crear los 2 arrays a devolver
-        //codificacion_entera child2 = new codificacion_entera(padre2.get_size());
+        codificacion_entera child2 = new codificacion_entera(padre2.get_size());
 
         tabla_de_conectividad tab1 = new tabla_de_conectividad(padre1,padre2);
         tabla_de_conectividad tab2 = tab1.my_clone();
