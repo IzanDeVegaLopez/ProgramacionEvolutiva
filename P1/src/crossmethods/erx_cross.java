@@ -37,7 +37,7 @@ public class erx_cross implements base_cross_method{
         public int get_non_visited_idx(){
             int random_idx = (int) Math.floor(Math.random() * mapa.length);
             int next_non_visited = taken.nextClearBit(random_idx);
-            if(next_non_visited >= taken.size()){
+            if(next_non_visited >= mapa.length){
                 next_non_visited = taken.nextClearBit(0);
             }
             set_as_taken(next_non_visited);
