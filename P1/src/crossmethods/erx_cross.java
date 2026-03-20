@@ -83,26 +83,26 @@ public class erx_cross implements base_cross_method{
             if(cod1.get_size() > 1) {
                 //FIRST
                 //b.clear();
-                add_if_unchecked(0, cod1.get_value(1));
-                add_if_unchecked(0, cod1.get_value(last_elem));
-                add_if_unchecked(0, cod2.get_value(1));
-                add_if_unchecked(0, cod2.get_value(last_elem));
+                add_if_unchecked(cod1.get_value(0), cod1.get_value(1));
+                add_if_unchecked(cod1.get_value(0), cod1.get_value(last_elem));
+                add_if_unchecked(cod2.get_value(0), cod2.get_value(1));
+                add_if_unchecked(cod2.get_value(0), cod2.get_value(last_elem));
 
                 //LAST
                 //b.clear();
-                add_if_unchecked(last_elem,cod1.get_value(0));
-                add_if_unchecked(last_elem,cod1.get_value(last_elem-1));
-                add_if_unchecked(last_elem,cod2.get_value(0));
-                add_if_unchecked(last_elem,cod2.get_value(last_elem-1));
+                add_if_unchecked(cod1.get_value(last_elem),cod1.get_value(0));
+                add_if_unchecked(cod1.get_value(last_elem),cod1.get_value(last_elem-1));
+                add_if_unchecked(cod2.get_value(last_elem),cod2.get_value(0));
+                add_if_unchecked(cod2.get_value(last_elem),cod2.get_value(last_elem-1));
             }
 
             //IN BETWEEN
             b.clear();
             for(int i = 1; i < last_elem; ++i){
-                add_if_unchecked(i,cod1.get_value(i+1));
-                add_if_unchecked(i,cod1.get_value(i-1));
-                add_if_unchecked(i,cod2.get_value(i+1));
-                add_if_unchecked(i,cod2.get_value(i-1));
+                add_if_unchecked(cod1.get_value(i),cod1.get_value(i+1));
+                add_if_unchecked(cod1.get_value(i),cod1.get_value(i-1));
+                add_if_unchecked(cod2.get_value(i), cod2.get_value(i+1));
+                add_if_unchecked(cod2.get_value(i),cod2.get_value(i-1));
             }
 
             taken = new BitSet(cod1.get_size());
