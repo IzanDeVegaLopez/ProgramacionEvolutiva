@@ -10,10 +10,11 @@ public class erx_cross implements base_cross_method{
     private class tabla_de_conectividad{
         java.util.ArrayList<Integer>[] mapa;
         BitSet taken;
+        int freacking_size;
         public tabla_de_conectividad my_clone(){
-            tabla_de_conectividad tab = new tabla_de_conectividad(taken.size());
+            tabla_de_conectividad tab = new tabla_de_conectividad(mapa.length);
             tab.mapa = mapa.clone();
-            tab.taken = new BitSet(taken.size());
+            tab.taken = new BitSet(mapa.length);
             return tab;
         }
         public int[] get_ady(int i){
@@ -34,7 +35,7 @@ public class erx_cross implements base_cross_method{
             taken.set(i);
         }
         public int get_non_visited_idx(){
-            int random_idx = (int) (Math.random() * taken.size());
+            int random_idx = (int) Math.floor(Math.random() * mapa.length);
             int next_non_visited = taken.nextClearBit(random_idx);
             if(next_non_visited >= taken.size()){
                 next_non_visited = taken.nextClearBit(0);
@@ -144,7 +145,8 @@ public class erx_cross implements base_cross_method{
                 } else {
                     cam_actual = tab.get_non_visited_idx();
                 }
-                child1.set_value(pos++, cam_actual);
+                child1.set_value(pos, cam_actual);
+                ++pos;
             }
         }
         return child1;
