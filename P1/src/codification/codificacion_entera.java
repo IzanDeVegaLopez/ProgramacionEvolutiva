@@ -1,6 +1,7 @@
 package codification;
 
 import java.util.BitSet;
+import java.util.Collections;
 
 import static utils.my_utils.array_index_swap;
 
@@ -33,7 +34,13 @@ public class codificacion_entera {
     }
     public int get_free(){return free_values;}
     public void set_value(int index, int new_value){
-        if(values[index]!=-1 || conflict_point[new_value]!=-1){
+        if(new_value >= conflict_point.length){
+            IO.print("Explotar");
+        }
+        if(values[index]!=-1){
+            IO.print("Se ha intentado asignar un elemento que ya estaba asignado");
+        }
+        if(conflict_point[new_value]!=-1){
             IO.print("Se ha intentado asignar un elemento que ya estaba asignado");
         }
         values[index] = new_value;
@@ -64,11 +71,14 @@ public class codificacion_entera {
     public void copy(codificacion_entera cod){
         values = cod.get_values().clone();
         conflict_point = cod.get_conflict_point().clone();
+        free_values = cod.get_free();
     }
 
     public  void swap(int index1, int index2){
+        if(index1 == index2) return;
+        //Collections.swap(conflict_point, values[index1], values[index2]);
         array_index_swap(conflict_point, values[index1], values[index2]);
-        array_index_swap(values, index1,index2);
+        array_index_swap(values, index1, index2);
     }
 
     public void insert(int element_to_displace_index, int new_index){
