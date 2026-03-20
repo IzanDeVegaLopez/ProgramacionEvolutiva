@@ -134,6 +134,7 @@ public class INTGeneticAlgorithm {
         }
     }
     void initialize_codification(GeneticAlgorithmParameters p){
+        using_cod_n = 0;
         int alternate = (using_cod_n+1)%2;
         cod = new codificacion_entera[][]{new codificacion_entera[p.nIndInGen],new codificacion_entera[p.nIndInGen]};
         int n_elems_total = p.n_drones-1 + p.n_interest_points;
@@ -148,6 +149,20 @@ public class INTGeneticAlgorithm {
             mut.mutate(cod[using_cod_n][i]);
         }
     }
+
+    void hard_reset_half(){
+        int n_elems_total = cod[using_cod_n].length;
+        int half = n_elems_total/2;
+        int n_bichos = cod[using_cod_n][0].get_size();
+        for(int i = 0; i < half; ++i) {
+            for (int k = 0; k < cod[using_cod_n][0].get_size(); ++k) {
+                int a = (int) Math.floor((Math.random() * n_bichos));
+                int b = (int) Math.floor((Math.random() * n_bichos));
+                cod[using_cod_n][k].swap(a, b);
+            }
+        }
+    }
+
     void initialize_elites(GeneticAlgorithmParameters p){
         n_elites = (int)(p.elite_ratio * p.nIndInGen);
         elite_elems = new codificacion_entera[n_elites];
@@ -370,6 +385,8 @@ public class INTGeneticAlgorithm {
             }
 
             ++currentGen;
+
+            if(currentGen%100==0) hard_reset_half();
         }
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
