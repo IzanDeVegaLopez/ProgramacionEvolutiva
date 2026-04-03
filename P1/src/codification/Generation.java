@@ -11,7 +11,7 @@ public class Generation {
             all_individuals[i] = new IndividualCodification();
         }
     }
-    public Generation(int n_individuals, randomization rand){
+    public Generation(int n_individuals, randomization rand) throws Exception{
         all_individuals = new IndividualCodification[n_individuals];
         for(int i = 0; i < n_individuals; ++i){
             all_individuals[i] = new IndividualCodification();
