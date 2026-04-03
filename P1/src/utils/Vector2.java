@@ -31,6 +31,10 @@ public class Vector2 {
         return x == that.x && y == that.y;
     }
 
+    public Vector2 add(Vector2 other){
+        return new Vector2(other.x+this.x, other.y+this.y);
+    }
+
     @Override
     public int hashCode() {
         return  Objects.hash(x,y);
