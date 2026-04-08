@@ -72,22 +72,27 @@ public class NodeFactory {
         };
     }
 
-    public static TreeNode choose_random_node(TreeNode t_node){
-        enum options{
-            stay, go_left, go_right, count
-        }
+
+    enum options{
+        stay, go_left, go_right, count
+    }
+
+    public static TreeNode choose_random_node(TreeNode t_node) throws Exception{
         TreeNode aux = t_node;
-        boolean still_going = true;
-        while(still_going && !aux.is_leaf()){
+        while(!aux.is_leaf()){
             int random_idx = utils.my_utils.get_random(options.count.ordinal());
-            options option_chosen = options.values()[random_idx];
-            switch(option_chosen){
-                case stay : still_going = false;
+            options opt = options.values()[random_idx];
+            switch(opt){
+                case options.go_left :
+                    aux = ((BranchNode)aux).L_child;
                 break;
-                case go_left : aux = ((BranchNode)aux).L_child;
+                case options.go_right :
+                    aux = ((BranchNode)aux).R_child;
                 break;
-                case go_right : aux = ((BranchNode)aux).R_child;
-                break;
+                case options.stay :
+                    return aux;
+                default:
+                    throw new UnreachableCode("Count is not a real option, this should not have been chosen");
             }
         }
         return aux;
