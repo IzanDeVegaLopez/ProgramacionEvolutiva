@@ -71,4 +71,25 @@ public class NodeFactory {
             default -> throw new UnreachableCode("branch node type was count, that should have never happened");
         };
     }
+
+    public static TreeNode choose_random_node(TreeNode t_node){
+        enum options{
+            stay, go_left, go_right, count
+        }
+        TreeNode aux = t_node;
+        boolean still_going = true;
+        while(still_going && !aux.is_leaf()){
+            int random_idx = utils.my_utils.get_random(options.count.ordinal());
+            options option_chosen = options.values()[random_idx];
+            switch(option_chosen){
+                case stay : still_going = false;
+                break;
+                case go_left : aux = ((BranchNode)aux).L_child;
+                break;
+                case go_right : aux = ((BranchNode)aux).R_child;
+                break;
+            }
+        }
+        return aux;
+    }
 }
