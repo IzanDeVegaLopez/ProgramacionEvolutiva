@@ -7,14 +7,14 @@ public class NodeFactory {
     public static TreeNode create_random_grow_tree(int current_depth, int max_depth) throws Exception{
         //NEED A LEAF NODE
         if(max_depth==current_depth){
-            return create_random_leaf_node();
+            return create_random_leaf_node_advance_double_prob();
         }
 
         //Select between the different types of branch node and a leaf node
         boolean use_terminal_node = Math.random() <= leaf_node_probability;
         //Leaf node was chosen
         if(use_terminal_node){
-            return create_random_leaf_node();
+            return create_random_leaf_node_advance_double_prob();
         }
         //Branch node was chosen
         BranchNode created_branch_node = create_random_childless_branch_node();
@@ -26,10 +26,30 @@ public class NodeFactory {
     public static TreeNode create_random_complete_tree(int current_depth, int max_depth) throws Exception{
         //NEED A LEAF NODE
         if(max_depth==current_depth){
-            return create_random_leaf_node();
+            return create_random_leaf_node_advance_double_prob();
         }
+
         //Branch node was chosen
         BranchNode created_branch_node = create_random_childless_branch_node();
+        //Create the branch node childs
+        created_branch_node.L_child = create_random_complete_tree(current_depth+1, max_depth);
+        created_branch_node.R_child = create_random_complete_tree(current_depth+1, max_depth);
+        return created_branch_node;
+    }
+    public static TreeNode create_random_tree(int current_depth, int max_depth) throws Exception{
+        //NEED A LEAF NODE
+        if(max_depth==current_depth){
+            return create_random_leaf_node();
+        }
+
+        boolean use_terminal_node = Math.random() <= 0.5;
+        if(use_terminal_node){
+            return create_random_leaf_node();
+        }
+
+        //Branch node was chosen
+        BranchNode created_branch_node = create_random_childless_branch_node();
+
         //Create the branch node childs
         created_branch_node.L_child = create_random_complete_tree(current_depth+1, max_depth);
         created_branch_node.R_child = create_random_complete_tree(current_depth+1, max_depth);
@@ -39,6 +59,12 @@ public class NodeFactory {
     private static LeafNode create_random_leaf_node() throws Exception{
         int random_idx = utils.my_utils.
                 get_random(leaf_node_types.LNT_COUNT.ordinal());
+        return create_leaf_node(leaf_node_types.values()[random_idx]);
+    }
+    private static LeafNode create_random_leaf_node_advance_double_prob() throws Exception{
+        int random_idx = utils.my_utils.
+                get_random(leaf_node_types.LNT_COUNT.ordinal()+1);
+        if(leaf_node_types.LNT_COUNT.ordinal()==random_idx) return create_leaf_node(leaf_node_types.LNT_ADVANCE);
         return create_leaf_node(leaf_node_types.values()[random_idx]);
     }
     //This may create a branch node or a leaf node
