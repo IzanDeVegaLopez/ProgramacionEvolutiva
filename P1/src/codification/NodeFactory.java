@@ -109,8 +109,8 @@ public class NodeFactory {
     }
 
 
-    enum options{
-        stay, go_left, go_right, count
+    public enum options{
+        go_left, go_right, stay, count
     }
 
     public static TreeNode choose_random_node(TreeNode t_node) throws Exception{
@@ -132,5 +132,69 @@ public class NodeFactory {
             }
         }
         return aux;
+    }
+    public static class parent_and_child_node_return{
+        public BranchNode parent;
+        public options option_chosen;
+        public int depth;
+        public parent_and_child_node_return(BranchNode _parent, options _option, int _depth){
+            parent = _parent;
+            option_chosen = _option;
+            depth = _depth;
+        }
+    }
+    public static parent_and_child_node_return choose_random_node_n_parent(TreeNode t_node) throws Exception{
+        TreeNode aux = t_node;
+        options last_opt = options.stay;
+        BranchNode parent = null;
+        int depth = 0;
+        while(!aux.is_leaf()){
+            int random_idx = utils.my_utils.get_random(options.count.ordinal());
+            options opt = options.values()[random_idx];
+            switch(opt){
+                case options.go_left :
+                    parent = ((BranchNode)aux);
+                    aux = parent.L_child;
+                    break;
+                case options.go_right :
+                    parent = ((BranchNode)aux);
+                    aux = parent.R_child;
+                    break;
+                case options.stay :
+                    return new parent_and_child_node_return(parent, last_opt, depth);
+                default:
+                    throw new UnreachableCode("Count is not a real option, this should not have been chosen");
+            }
+            ++depth;
+        }
+        return new parent_and_child_node_return(parent, last_opt, depth);
+    }
+    public static parent_and_child_node_return choose_random_leaf(TreeNode t_node) throws Exception{
+        TreeNode aux = t_node;
+        int depth = 0;
+        while(!aux.is_leaf()){
+            int random_idx = utils.my_utils.get_random(options.stay.ordinal());
+            options opt = options.values()[random_idx];
+            switch(opt){
+                case options.go_left : {
+                    BranchNode bn = ((BranchNode) aux);
+                    if (bn.L_child.is_leaf())
+                        return new parent_and_child_node_return(bn, options.go_left, depth);
+                    aux = bn.L_child;
+                    break;
+                }
+                case options.go_right : {
+                    BranchNode bn = ((BranchNode) aux);
+                    if (bn.R_child.is_leaf())
+                        return new parent_and_child_node_return(bn, options.go_right, depth);
+                    aux = bn.R_child;
+                    break;
+                }
+                default:
+                    throw new UnreachableCode("Count is not a real option, this should not have been chosen");
+            }
+            ++depth;
+        }
+        return new parent_and_child_node_return(null, options.stay, depth);
     }
 }

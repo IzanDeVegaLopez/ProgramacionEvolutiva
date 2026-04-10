@@ -3,8 +3,8 @@ package codification;
 import Error.UnreachableCode;
 
 public class BranchNode<T extends BranchNode<T>> implements TreeNode<T>{
-    TreeNode L_child;
-    TreeNode R_child;
+    public TreeNode L_child;
+    public TreeNode R_child;
     @Override
     public void execute_action(RoverExecutionContext ctx) throws Exception {
         throw new UnreachableCode("This function must be overriden by other node classes, cannot be called by itself");

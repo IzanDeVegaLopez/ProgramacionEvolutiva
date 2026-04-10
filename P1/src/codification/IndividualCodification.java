@@ -8,4 +8,7 @@ public class IndividualCodification  {
     public void impersonate(IndividualCodification other) throws Exception{
         node_tree = other.node_tree.get_deep_copy();
     }
+    public void impersonate(TreeNode other) throws Exception{
+        node_tree = other.get_deep_copy();
+    }
 }
