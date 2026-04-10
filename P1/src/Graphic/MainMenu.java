@@ -10,7 +10,10 @@ import java.util.HashMap;
 
 import GeneticAlgorithm.*;
 
+import Mapas.mapStorage;
 import org.math.plot.*;
+
+import static Mapas.mapGenerator.generateMap;
 
 public class MainMenu extends JFrame{
     int boxSizeY = 20;
@@ -106,6 +109,13 @@ public class MainMenu extends JFrame{
         pan.setSize(100,100);
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+        pan.add(createAllMenusDesplegables());
+
+        int height = 15;
+        int width = 15;
+        for (int i = 0; i<3;i++){
+            mapStorage.add_map(generateMap(width,height,Long.parseLong(seedField.textField.getText())),i);
+        }
 
         String[] s = new String[]{"MUSEO","PASILLOS","SUPERMERCADO"};
         mapsTabs = new JTabbedPane();
@@ -116,7 +126,6 @@ public class MainMenu extends JFrame{
         }
         pan.add(mapsTabs);
 
-        pan.add(createAllMenusDesplegables());
 
         //pan.add(ponderadoBox = createCheckBox("Método Ponderado"));
         pan.add(elitismBox = createCheckBox("Usar elitismo"));

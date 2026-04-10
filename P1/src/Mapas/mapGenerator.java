@@ -2,36 +2,27 @@ package Mapas;
 
 import utils.Vector2;
 
+import java.util.Random;
+
 public class mapGenerator {
-    public static Map generateMap(int x, int y, long seed, int walls, int sand_tiles, int samples){
+    public static Map generateMap(int x, int y, long seed){
         int[][] importance_map = new int[y][x];
         TileContents[][] ocup_map = new TileContents[y][x];
 
+        Random rand = new Random(seed);
         for (int i = 0; i<y;i++){
             for (int j = 0; j<x;j++){
-                boolean wall = i == 0 || i == y-1 || j == 0 || j == x-1;
-                importance_map[i][j] = wall ? 0 : 1;
-                ocup_map[i][j] = wall ? TileContents.WALL : TileContents.EMPTY;
+                if (i == 0 || i == y-1 || j == 0 || j == x-1) ocup_map[i][j] = TileContents.WALL;
+                else if (rand.nextDouble() < 0.15) ocup_map[i][j] = TileContents.WALL;
+                else if (rand.nextDouble() < 0.15) ocup_map[i][j] = TileContents.SAND;
+                else if (rand.nextDouble() < 0.08) ocup_map[i][j] = TileContents.SAMPLE;
+                else ocup_map[i][j] = TileContents.EMPTY;
+                importance_map[i][j] = ocup_map[i][j].weight;
             }
         }
-        Map new_map = new Map(importance_map,ocup_map);
+        ocup_map[1][1] = TileContents.EMPTY;
+        importance_map[1][1] = TileContents.EMPTY.weight;
 
-        int final_sand_tiles = walls+sand_tiles;
-        int final_tiles = final_sand_tiles+samples;
-        Vector2[] wall_positions =  new_map.getRandomTiles(final_tiles, seed);
-        int i = 0;
-        for (Vector2 v : wall_positions){
-            if (i < walls){
-                new_map.set_contents(v.x,v.y,TileContents.WALL);
-            }
-            else if (i<final_sand_tiles){
-                new_map.set_contents(v.x,v.y,TileContents.SAND);
-            }
-            else{
-                new_map.set_contents(v.x,v.y,TileContents.SAMPLE);
-            }
-            ++i;
-        }
-        return new_map;
+        return new Map(importance_map,ocup_map);
     }
 }

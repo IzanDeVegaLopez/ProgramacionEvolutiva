@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import Mapas.TileContents;
 import Mapas.mapReader;
+import Mapas.mapStorage;
 import utils.Vector2;
 //import fitness.FitnessReturnClass;
 
@@ -21,7 +22,7 @@ public class MapRepresentation extends MyPanel{
     Color[] colorPerCamera;
     MapRepresentation(int mapID){
         super(255,255,255);
-        m = mapReader.readMap(mapID);
+        m = mapStorage.get_map(mapID);
         int y = m.ocupiedTiles.length, x=m.ocupiedTiles[0].length;
         this.setLayout(new GridLayout(y, x));
         int xx=300; int yy=300;
