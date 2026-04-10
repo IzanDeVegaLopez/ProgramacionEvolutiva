@@ -3,26 +3,36 @@ package codification;
 import Error.UnreachableCode;
 
 public class NodeFactory {
-    final static int max_depth = 3;
-
-    public static TreeNode create_random_node_tree(int current_depth) throws Exception{
+    final static float leaf_node_probability = 0.7f;
+    public static TreeNode create_random_grow_tree(int current_depth, int max_depth) throws Exception{
         //NEED A LEAF NODE
         if(max_depth==current_depth){
             return create_random_leaf_node();
         }
 
         //Select between the different types of branch node and a leaf node
-        int random_idx = utils.my_utils.
-                get_random(1+branch_node_types.BNT_COUNT.ordinal());
+        boolean use_terminal_node = Math.random() <= leaf_node_probability;
         //Leaf node was chosen
-        if(random_idx == branch_node_types.BNT_COUNT.ordinal()){
+        if(use_terminal_node){
             return create_random_leaf_node();
         }
         //Branch node was chosen
         BranchNode created_branch_node = create_random_childless_branch_node();
         //Create the branch node childs
-        created_branch_node.L_child = create_random_node_tree(current_depth+1);
-        created_branch_node.R_child = create_random_node_tree(current_depth+1);
+        created_branch_node.L_child = create_random_grow_tree(current_depth+1, max_depth);
+        created_branch_node.R_child = create_random_grow_tree(current_depth+1, max_depth);
+        return created_branch_node;
+    }
+    public static TreeNode create_random_complete_tree(int current_depth, int max_depth) throws Exception{
+        //NEED A LEAF NODE
+        if(max_depth==current_depth){
+            return create_random_leaf_node();
+        }
+        //Branch node was chosen
+        BranchNode created_branch_node = create_random_childless_branch_node();
+        //Create the branch node childs
+        created_branch_node.L_child = create_random_complete_tree(current_depth+1, max_depth);
+        created_branch_node.R_child = create_random_complete_tree(current_depth+1, max_depth);
         return created_branch_node;
     }
 
