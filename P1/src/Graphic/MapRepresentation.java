@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 
+import Mapas.TileContents;
 import Mapas.mapReader;
 import utils.Vector2;
 //import fitness.FitnessReturnClass;
@@ -30,7 +31,7 @@ public class MapRepresentation extends MyPanel{
         for(int i = 0; i < y; ++i){
             for(int j = 0; j < x; ++j){
                 //Si esta ocupada pintala negra
-                int val = m.ocupiedTiles[i][j] ? 0 : 255;
+                int val = m.ocupiedTiles[i][j] == TileContents.WALL ? 0 : 255;
                 myTiles[i][j] = new MyPanel(val);
                 Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j]/5], 2);
                 myTiles[i][j].setBorder(mborder);
@@ -78,7 +79,7 @@ public class MapRepresentation extends MyPanel{
         for(int i = 0; i < myTiles.length; ++i){
             for(int j = 0; j < myTiles[0].length; ++j){
 //                myTiles[i][j].removeAll();
-                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] ? Color.BLACK : Color.WHITE);
+                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] == TileContents.WALL ? Color.BLACK : Color.WHITE);
             }
         }
         revalidate();
@@ -88,7 +89,7 @@ public class MapRepresentation extends MyPanel{
         for(int i = 0; i < myTiles.length; ++i){
             for(int j = 0; j < myTiles[0].length; ++j){
                 myTiles[i][j].removeAll();
-                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] ? Color.BLACK : Color.WHITE);
+                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] == TileContents.WALL ? Color.BLACK : Color.WHITE);
             }
         }
         revalidate();

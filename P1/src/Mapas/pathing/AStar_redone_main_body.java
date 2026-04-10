@@ -41,7 +41,7 @@ public class AStar_redone_main_body {
             for( Vector2 neigh : get_valid_neighbours(current_node.current_pos, m)){
                 if(closed_set.contains(neigh)) continue;
                 double extra_cost = 0;
-                if(m.has_camera(neigh.x,neigh.y) && !neigh.equals(goal)) extra_cost = m.penalty;
+                if(neigh.equals(goal)) extra_cost = m.penalty;
                 double path_cost =
                         current_node.real_acumulado +
                         m.get_tile_cost(neigh) +

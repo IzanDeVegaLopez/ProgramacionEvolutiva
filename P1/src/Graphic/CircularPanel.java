@@ -22,6 +22,13 @@ public class CircularPanel extends JPanel {
         proportional_width = _proportional_width;
         proportional_height = _proportional_height;
     }
+    public CircularPanel(Color _c,float _proportional_width, float _proportional_height){
+        c=_c;
+        setLayout(new GridBagLayout());
+        setBackground(c);
+        proportional_width = _proportional_width;
+        proportional_height = _proportional_height;
+    }
     @Override
     protected void paintComponent(Graphics g) {
         g.setColor(c);

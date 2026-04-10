@@ -83,7 +83,7 @@ public class mapReader {
     public static int SUPERMERCADO = 2;
     public static Map readMap(int mapID){
         File f = new File("src/Mapas/"+mapFiles[mapID]);
-        boolean [][] b;
+        TileContents [][] b;
         int nCam, rng;
         float angle;
 
@@ -103,10 +103,10 @@ public class mapReader {
             int height = myReader.nextInt(),
                     width = myReader.nextInt();
 
-            b = new boolean[height][width];
+            b = new TileContents[height][width];
             for(int i = 0; i < height; ++i){
                 for(int j = 0; j < width; ++j){
-                    b[i][j] = 1==myReader.nextInt();
+                    b[i][j] = 1==myReader.nextInt() ? TileContents.WALL : TileContents.EMPTY;
                 }
             }
             return new Map(importanceMaps[mapID], b);

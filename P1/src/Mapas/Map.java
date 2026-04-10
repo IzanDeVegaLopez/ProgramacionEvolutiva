@@ -8,22 +8,16 @@ import java.util.Vector;
 
 public class Map {
     public int [][] importanceMap;
-    public boolean[][] ocupiedTiles;
+    public TileContents[][] ocupiedTiles;
     //Para llevar la cuenta de cuales he tocado ya con una cámara en este recorrido
     public boolean[][] tainted;
-    public boolean[][] camera_tiles;
     //Last position is reserved for start position
-    public Vector2[] interest_points;
     public int penalty=500;
 
-    Map(int[][] imp, boolean [][]ocup){
+    Map(int[][] imp, TileContents [][]ocup){
         importanceMap = imp;
         ocupiedTiles = ocup;
         tainted = new boolean[ocup.length][ocup[0].length];
-        camera_tiles = new boolean[ocup.length][ocup[0].length];
-    }
-    public boolean has_camera(int x, int y){
-        return camera_tiles[y][x];
     }
     public boolean validTile(Vector2 v){
         return validTile(v.x,v.y);
@@ -34,14 +28,16 @@ public class Map {
     public boolean validTile(int x, int y){
         return x >= 0 && y >= 0 &&
                y < ocupiedTiles.length && x < ocupiedTiles[0].length &&
-               !ocupiedTiles[y][x];
+                !is_wall(x,y);
     }
     public boolean usableTile(int x, int y){
         return x >= 0 && y >= 0 &&
                 y < ocupiedTiles.length && x < ocupiedTiles[0].length &&
-                !ocupiedTiles[y][x] && !tainted[y][x];
+                !is_wall(x,y) && !tainted[y][x];
     }
-
+    public boolean is_wall(int x, int y){
+        return ocupiedTiles[y][x] == TileContents.WALL;
+    }
     public void resetTainted(){
         for(int i = 0; i < ocupiedTiles.length; ++i){
             for(int j = 0; j < ocupiedTiles[0].length; ++j){
@@ -49,18 +45,11 @@ public class Map {
             }
         }
     }
-    public void resetCameraTiles(){
-        for(int i = 0; i < ocupiedTiles.length; ++i){
-            for(int j = 0; j < ocupiedTiles[0].length; ++j){
-                camera_tiles[i][j] = false;
-            }
-        }
-    }
 
     public void set_tainted_as_walls(){
         for(int i = 0; i < ocupiedTiles.length; ++i){
             for(int j = 0; j < ocupiedTiles[0].length; ++j){
-                tainted[i][j] = ocupiedTiles[i][j];
+                tainted[i][j] = ocupiedTiles[i][j] == TileContents.WALL;
             }
         }
     }
@@ -72,13 +61,12 @@ public class Map {
      */
     public Vector2[] getRandomTiles(int n, long seed){
         set_tainted_as_walls();
-        resetCameraTiles();
 
         Random rand = new Random(seed);
         Vector2[] results = new Vector2[n+1];
 
         int i = 0;
-        while(ocupiedTiles[i][i]) ++i;
+        while(ocupiedTiles[i][i] == TileContents.WALL) ++i;
 
         results[results.length-1] = new Vector2(i,i);
         tainted[i][i] = true;
@@ -89,13 +77,18 @@ public class Map {
             if(usableTile(x,y)){
                 results[n_chosen] = new Vector2(x,y);
                 tainted[y][x] = true;
-                camera_tiles[y][x] = true;
                 ++n_chosen;
             }
         }
 
         resetTainted();
 
-        return interest_points = results.clone();
+        return results.clone();
+    }
+    public boolean set_contents(int x, int y, TileContents contents){
+        if (!usableTile(x,y)) return false;
+        ocupiedTiles[y][x] = contents;
+        importanceMap[y][x] = contents.weight;
+        return true;
     }
 }
