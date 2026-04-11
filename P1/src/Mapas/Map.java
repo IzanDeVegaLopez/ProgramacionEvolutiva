@@ -14,10 +14,15 @@ public class Map {
     //Last position is reserved for start position
     public int penalty=500;
 
-    Map(int[][] imp, TileContents [][]ocup){
+    public Map(int[][] imp, TileContents[][] ocup){
         importanceMap = imp;
         ocupiedTiles = ocup;
         tainted = new boolean[ocup.length][ocup[0].length];
+    }
+    public Map(){
+        importanceMap = new int[0][0];
+        ocupiedTiles = new TileContents[0][0];
+        tainted = new boolean[0][0];
     }
     public boolean validTile(Vector2 v){
         return validTile(v.x,v.y);

@@ -10,6 +10,8 @@ import java.util.HashMap;
 
 import GeneticAlgorithm.*;
 
+import Mapas.Map;
+import Mapas.TileContents;
 import Mapas.mapStorage;
 import org.math.plot.*;
 
@@ -109,23 +111,22 @@ public class MainMenu extends JFrame{
         pan.setSize(100,100);
         pan.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
         pan.setLayout(new BoxLayout(pan, BoxLayout.Y_AXIS));
+
+        String[] s = new String[]{"MAPA 3","MAPA 2","MAPA 1"};
+        mapsTabs = new JTabbedPane();
+        mapRepresentation = new MapRepresentation[3];
+        pan.add(mapsTabs);
         pan.add(createAllMenusDesplegables());
 
         int height = 15;
         int width = 15;
         for (int i = 0; i<3;i++){
-            mapStorage.add_map(generateMap(width,height,Long.parseLong(seedField.textField.getText())),i);
+            mapStorage.add_map(generateMap(width,height,Long.parseLong(seedField.textField.getText())+i),i);
         }
-
-        String[] s = new String[]{"MUSEO","PASILLOS","SUPERMERCADO"};
-        mapsTabs = new JTabbedPane();
-        mapRepresentation = new MapRepresentation[3];
         for(int i = s.length-1; i >= 0; --i){
             mapRepresentation[i] = createMap(i);
             mapsTabs.addTab(s[i],mapRepresentation[i]);
         }
-        pan.add(mapsTabs);
-
 
         //pan.add(ponderadoBox = createCheckBox("Método Ponderado"));
         pan.add(elitismBox = createCheckBox("Usar elitismo"));
@@ -332,13 +333,17 @@ public class MainMenu extends JFrame{
         but2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mapRepresentation[2-mapsTabs.getSelectedIndex()].WipeMap();
-                mapRepresentation[2-mapsTabs.getSelectedIndex()].DrawPoints(
-                    mapRepresentation[2-mapsTabs.getSelectedIndex()].m.getRandomTiles(
-                            Integer.parseInt(tiles_of_interest_field.textField.getText()),
-                            Long.parseLong(seedField.textField.getText())
-                    )
-                );
+                mapStorage.add_map(generateMap(15,15,Long.parseLong(seedField.textField.getText())),
+                        2-mapsTabs.getSelectedIndex());
+                mapRepresentation[2-mapsTabs.getSelectedIndex()] = createMap(2-mapsTabs.getSelectedIndex());
+                mapsTabs.setComponentAt(mapsTabs.getSelectedIndex(),mapRepresentation[2-mapsTabs.getSelectedIndex()]);
+//                mapRepresentation[2-mapsTabs.getSelectedIndex()].WipeMap();
+//                mapRepresentation[2-mapsTabs.getSelectedIndex()].DrawPoints(
+//                    mapRepresentation[2-mapsTabs.getSelectedIndex()].m.getRandomTiles(
+//                            Integer.parseInt(tiles_of_interest_field.textField.getText()),
+//                            Long.parseLong(seedField.textField.getText())
+//                    )
+//                );
                 revalidate();
                 repaint();
             }
@@ -350,13 +355,16 @@ public class MainMenu extends JFrame{
         pan.add(butPan, BorderLayout.SOUTH);
 
         for(int i = 0; i < mapRepresentation.length; ++i) {
-            mapRepresentation[i].WipeMap();
-            mapRepresentation[i].DrawPoints(
-                    mapRepresentation[i].m.getRandomTiles(
-                            Integer.parseInt(tiles_of_interest_field.textField.getText()),
-                            Long.parseLong(seedField.textField.getText())
-                    )
-            );
+            mapRepresentation[i] = createMap(i);
+
+            mapsTabs.setComponentAt(i,mapRepresentation[i]);
+//            mapRepresentation[i].WipeMap();
+//            mapRepresentation[i].DrawPoints(
+//                    mapRepresentation[i].m.getRandomTiles(
+//                            Integer.parseInt(tiles_of_interest_field.textField.getText()),
+//                            Long.parseLong(seedField.textField.getText())
+//                    )
+//            );
         }
 
         return pan;
