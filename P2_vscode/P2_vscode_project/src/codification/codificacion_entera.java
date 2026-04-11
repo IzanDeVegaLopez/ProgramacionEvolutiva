@@ -35,13 +35,13 @@ public class codificacion_entera {
     public int get_free(){return free_values;}
     public void set_value(int index, int new_value){
         if(new_value >= conflict_point.length){
-            IO.print("Explotar");
+            //IO.print("Explotar");
         }
         if(values[index]!=-1){
-            IO.print("Se ha intentado asignar un elemento que ya estaba asignado");
+            //IO.print("Se ha intentado asignar un elemento que ya estaba asignado");
         }
         if(conflict_point[new_value]!=-1){
-            IO.print("Se ha intentado asignar un elemento que ya estaba asignado");
+            //IO.print("Se ha intentado asignar un elemento que ya estaba asignado");
         }
         values[index] = new_value;
         conflict_point[new_value]=index;
