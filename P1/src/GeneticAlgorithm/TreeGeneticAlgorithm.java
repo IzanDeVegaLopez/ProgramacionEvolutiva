@@ -6,14 +6,18 @@ import mutation_methods.*;
 import elitism_methods.elitism;
 import selection_methods.*;
 import crossmethods.*;
+import Fitness.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class TreeGeneticAlgorithm {
     //2 buffers y van alternando
     //codificacion_entera[][] cod;
     //codificacion_entera[] elite_elems;
     Generation[] gen = new Generation[2];
+    Generation elite_elems;
+    double[] elite_values;// 0 value, 1 penalty
     int using_cod_n = 0;
     double[][] plotValues;
     int currentGen = 0;
@@ -23,9 +27,8 @@ public class TreeGeneticAlgorithm {
     BaseMutation mutation_method;
     //manhattan_distance_fitness_calculator fit_calculator;
     cross_method crux;
-    //mutation_base mut;
+    BaseMutation mut;
     double presion_selectiva_suma;
-    double[] elite_values;// 0 value, 1 penalty
 
     elitism elt;
     public TreeGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
@@ -106,12 +109,9 @@ public class TreeGeneticAlgorithm {
 
     void initialize_elites(GeneticAlgorithmParameters p){
         n_elites = (int)(p.elite_ratio * p.nIndInGen);
-        //elite_elems = new codificacion_entera[n_elites];
-//        int n_elems_total = p.n_drones -1 + p.n_interest_points;
-        for(int i = 0; i < n_elites; ++i){
-            //elite_elems[i] = new codificacion_entera(n_elems_total);
-            //elite_elems[i].initialize_with_stair_shape();
-        }
+
+        elite_elems = new Generation(n_elites);
+
         elite_values = new double[n_elites];
 
         elt = new elitism();
@@ -132,32 +132,32 @@ public class TreeGeneticAlgorithm {
         initialize_elites(p);
     }
 
-    void do_first_gen(GeneticAlgorithmParameters p){
+    void do_first_gen(GeneticAlgorithmParameters p) throws Exception{
         int alternate = (using_cod_n + 1) %2;
         //FITNESS
         boolean mapUpdated = false;
 
-        /*
-        FitnessReturnClass ft = fit_calculator.calculate_fitness(cod[using_cod_n]);
-        if(ft.best_fitness_result.value < best_sol_yet){
-            best_sol_yet = ft.best_fitness_result.value;
+        FitnessReturnType ft = FitnessCalculator.calculate_fitness(gen[using_cod_n]);
+        if(ft.best_value < best_sol_yet){
+            best_sol_yet = ft.best_value;
             mapUpdated = true;
         }
 
         //ELITISMO------------------------------------------------------------------------------------------------
         //CHOSE FIRST GEN ELITES
-        int[] best = new elitism().choose_elite(n_elites, ft.totalValue);
+        int[] best = new elitism().choose_elite(n_elites, ft.fit);
         for (int i = 0; i < best.length; ++i) {
-            elite_elems[i].copy(cod[using_cod_n][best[i]]);
-            elite_values[i] = ft.totalValue[best[i]];
+            elite_elems.copy_individual(i,gen[using_cod_n].get(best[i]));
+            elite_values[i] = ft.fit[best[i]];
         }
         //--------------------------------------------------------------------------------------------------------
 
         //SELECCIÓN
-        int[] select = select_method.chooseEntities(ft.totalValue);
+        int[] select = select_method.chooseEntities(ft.fit);
         //Copy the selected entities into the next generation slot
         for(int i=0;i<select.length;++i){
-            cod[alternate][i].copy(cod[using_cod_n][select[i]]);
+            gen[alternate].copy_individual(i, gen[using_cod_n].get(select[i]));
+            //cod[alternate][i].copy(cod[using_cod_n][select[i]]);
         }
 
 
@@ -172,7 +172,7 @@ public class TreeGeneticAlgorithm {
         }
 
         plotValues[0][currentGen] = ft.mid;
-        plotValues[1][currentGen] = ft.best_fitness_result.value;
+        plotValues[1][currentGen] = ft.best_value;
         plotValues[2][currentGen] = best_sol_yet;
         p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
         p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
@@ -182,24 +182,9 @@ public class TreeGeneticAlgorithm {
         //PAINT IF NEEDED
         if(mapUpdated) {
             p.m.WipeMapBackground();
-            p.m.DrawPaths(ft.best_fitness_result.path);
+            p.m.DrawPaths(ft.path_of_best);
             p.log.clear_text();
 
-
-            p.log.add_text("Mejor resultado: "+best_sol_yet+"s\n", Color.BLUE);
-            p.log.add_text("Presión selectiva: " + presion_selectiva_suma + "\n", Color.RED);
-            int dron = 0;
-            int size = cod[using_cod_n][ft.best_codification_index].get_size();
-            p.log.add_text("Dron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
-            for(int i = 0; i < size; ++i){
-                int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
-                p.log.add_text(value+" ", mapReader.PathColors[dron]);
-                //IO.print(value+" ");
-                if(value >= p.n_interest_points){
-                    ++dron;
-                    p.log.add_text("\nDron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
-                }
-            }
         }
 
         using_cod_n = alternate;
@@ -212,14 +197,14 @@ public class TreeGeneticAlgorithm {
         }
         int total_number_of_crosses = chosenForCross.size();
         for(int i = 1; i < total_number_of_crosses; i = i+2){
-            crux.cruzar(cod[using_cod_n][chosenForCross.get(i)], cod[using_cod_n][chosenForCross.get(i-1)]);
+            crux.cross(gen[using_cod_n].get(chosenForCross.get(i)), gen[using_cod_n].get(chosenForCross.get(i-1)));
         }
 
         //MUTACIÓN
         for(int i = 0; i < p.nIndInGen; ++i){
-            if(Math.random() < p.mutationprobability) mut.mutate(cod[using_cod_n][i]);
+            if(Math.random() < p.mutationprobability) mut.mutate(gen[using_cod_n].get(i));
         }
-        */
+
     ++currentGen;
     }
 

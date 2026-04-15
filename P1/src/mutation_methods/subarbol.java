@@ -6,7 +6,7 @@ import codification.NodeFactory;
 import codification.TreeNode;
 
 public class subarbol implements BaseMutation{
-    public void Mutate(IndividualCodification cod) throws Exception{
+    public void mutate(IndividualCodification cod) throws Exception{
         NodeFactory.parent_and_child_node_return node = NodeFactory.choose_random_node_n_parent(cod.node_tree);
 
         switch(node.option_chosen){

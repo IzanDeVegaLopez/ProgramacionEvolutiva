@@ -3,7 +3,7 @@ package codification;
 import Error.UnreachableCode;
 
 public class Generation {
-    IndividualCodification[] all_individuals;
+    public IndividualCodification[] all_individuals;
 
     private final static int min_depth = 1;
     private final static int max_depth = 5;
@@ -42,5 +42,16 @@ public class Generation {
                 all_individuals[i*individuos_por_nivel+j].node_tree = NodeFactory.create_random_grow_tree(0, i);
             }
         }
+    }
+
+    public void copy_individual(int idx, IndividualCodification cod) throws Exception{
+        if(idx < 0 || idx >= all_individuals.length) throw new UnreachableCode("idx in copy_individual was out of range");
+
+        all_individuals[idx].impersonate(cod);
+    }
+    public IndividualCodification get(int idx) throws Exception{
+        if(idx < 0 || idx >= all_individuals.length) throw new UnreachableCode("idx in copy_individual was out of range");
+
+        return all_individuals[idx];
     }
 }

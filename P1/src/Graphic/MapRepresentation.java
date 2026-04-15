@@ -49,7 +49,7 @@ public class MapRepresentation extends MyPanel{
             }
         }
     }
-    public void DrawPaths(Vector<Vector2>[] paths){
+    public void DrawPaths(Vector<Vector2> paths){
         CompoundColor[][] tileColors = new CompoundColor[myTiles.length][myTiles[0].length];
         for (int i = 0; i<myTiles.length;++i){
             for (int j = 0; j<myTiles[0].length;++j){
@@ -59,13 +59,11 @@ public class MapRepresentation extends MyPanel{
 
         //IO.print("NEW DRAWING STARTED\n");
         int colorIdx = 0;
-        for (Vector<Vector2> path : paths) {
-            for (Vector2 step : path) {
-                tileColors[step.y][step.x].addColor(mapReader.PathColors[colorIdx]);
-                //IO.print("("+step.x+","+step.y+"), ");
-            }//IO.print("'\n");
-            colorIdx++;
-        }
+        for (Vector2 step : paths) {
+            tileColors[step.y][step.x].addColor(mapReader.PathColors[colorIdx]);
+            //IO.print("("+step.x+","+step.y+"), ");
+        }//IO.print("'\n");
+        colorIdx++;
         //IO.print('\n');
 
         for (int i = 0; i<myTiles.length;i++){
