@@ -18,10 +18,10 @@ public class RoverExecutionContext {
     int lookingAtIdx = 0;
     Vector2 currentTile = new Vector2(1,1);
     public void rotate(rotationDirection rotDir){
-        if(rotDir== RoverExecutionContext.rotationDirection.RD_RIGHT){
+        if(rotDir== rotationDirection.RD_RIGHT){
             lookingAtIdx = lookingAtIdx-1;
             if(lookingAtIdx < 0) lookingAtIdx += 3;
-        }else if(rotDir==RoverExecutionContext.rotationDirection.RD_LEFT){
+        }else if(rotDir==rotationDirection.RD_LEFT){
             lookingAtIdx = lookingAtIdx+1 %4;
         }
     }
@@ -37,6 +37,9 @@ public class RoverExecutionContext {
     public int get_sample_dist() throws Exception {
         throw new UnreachableCode("Unimplemented");
         //return 0;
+    }
+    public int get_energy_level() throws Exception{
+        throw new UnreachableCode("Unimplemented");
     }
 
     public void advance(){

@@ -1,6 +1,7 @@
 package codification;
 
 import Error.UnreachableCode;
+import utils.my_utils;
 
 public class NodeFactory {
     final static float leaf_node_probability = 0.7f;
@@ -83,6 +84,10 @@ public class NodeFactory {
     };
     public enum branch_node_types{
         BNT_SEQUENCE_NODE,
+        BNT_SAND_NODE,
+        BNT_OBSTACLE_NODE,
+        BNT_SAMPLE_NODE,
+        BNT_ENERGY_LEVEL_CHECK_NODE,
         BNT_COUNT
     };
     public static TreeNode create_node(leaf_node_types ant) throws Exception{
@@ -101,9 +106,15 @@ public class NodeFactory {
         };
     }
 
+    public static final int max_random_value_for_numeric_condition_values = 100;
     public static BranchNode create_childless_branch_node(branch_node_types cnt) throws Exception{
+        int random = my_utils.get_random(max_random_value_for_numeric_condition_values);
         return switch(cnt){
             case BNT_SEQUENCE_NODE -> new SequenceNode();
+            case BNT_SAMPLE_NODE -> new DistMuestraNode(random);
+            case BNT_SAND_NODE -> new DistSandNode(random);
+            case BNT_OBSTACLE_NODE -> new DistObstacleNode(random);
+            case BNT_ENERGY_LEVEL_CHECK_NODE -> new EnergyLevelCheckNode(random);
             default -> throw new UnreachableCode("branch node type was count, that should have never happened");
         };
     }

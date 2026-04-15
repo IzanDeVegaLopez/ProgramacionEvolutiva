@@ -4,4 +4,11 @@ public class DistObstacleNode extends ConditionalNode<DistObstacleNode>{
     public DistObstacleNode(int n){
         super(new ObstacleDist(n));
     }
+    public DistObstacleNode(BooleanMethod b){
+        super(b);
+    }
+    @Override
+    public DistObstacleNode get_deep_copy() throws Exception {
+        return new DistObstacleNode(is_condition_true.get_deep_copy());
+    }
 }
