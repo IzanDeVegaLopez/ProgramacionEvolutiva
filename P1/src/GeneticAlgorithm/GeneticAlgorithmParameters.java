@@ -7,6 +7,7 @@ import org.math.plot.Plot2DPanel;
 
 public class GeneticAlgorithmParameters {
     public MapRepresentation m;
+    public Map[] maps;
     public Plot2DPanel plot2d;
     public ScrollTextField log;
     public int nGen;

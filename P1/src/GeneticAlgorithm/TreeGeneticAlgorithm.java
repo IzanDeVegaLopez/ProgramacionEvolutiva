@@ -2,6 +2,7 @@ package GeneticAlgorithm;
 
 //import elitism_methods.elitismo;
 import codification.Generation;
+import codification.RoverExecutionContext;
 import mutation_methods.*;
 import elitism_methods.elitism;
 import selection_methods.*;
@@ -29,6 +30,8 @@ public class TreeGeneticAlgorithm {
     cross_method crux;
     BaseMutation mut;
     double presion_selectiva_suma;
+
+    RoverExecutionContext ctx = new RoverExecutionContext();
 
     elitism elt;
     public TreeGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
@@ -137,7 +140,7 @@ public class TreeGeneticAlgorithm {
         //FITNESS
         boolean mapUpdated = false;
 
-        FitnessReturnType ft = FitnessCalculator.calculate_fitness(gen[using_cod_n]);
+        FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
         if(ft.best_value < best_sol_yet){
             best_sol_yet = ft.best_value;
             mapUpdated = true;
@@ -180,12 +183,12 @@ public class TreeGeneticAlgorithm {
         //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
 
         //PAINT IF NEEDED
+        /*
         if(mapUpdated) {
             p.m.WipeMapBackground();
             p.m.DrawPaths(ft.path_of_best);
             p.log.clear_text();
-
-        }
+        }*/
 
         using_cod_n = alternate;
 
@@ -208,115 +211,86 @@ public class TreeGeneticAlgorithm {
     ++currentGen;
     }
 
-    void loopGeneticAlgorithm(GeneticAlgorithmParameters p){
-        while(currentGen < p.nGen) {
-            int alternate = (using_cod_n + 1) %2;
-            //FITNESS
-            boolean mapUpdated = false;
-/*
-            FitnessReturnClass ft = fit_calculator.calculate_fitness(cod[using_cod_n]);
-            if(ft.best_fitness_result.value < best_sol_yet){
-                best_sol_yet = ft.best_fitness_result.value;
-                mapUpdated = true;
-            }
+    void loopGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
+        int alternate = (using_cod_n + 1) %2;
+        //FITNESS
+        boolean mapUpdated = false;
 
-            //ELITISMO------------------------------------------------------------------------------------------------
-            if(n_elites > 0) {
-                //INTRODUCE LAST ELITES
-                int[] worst = new elitism().choose_worst(n_elites, ft.totalValue);
-                //int worst_total_value = 0;
-                for (int i = 0; i < worst.length; ++i) {
-                    //worst_total_value -= results[0][worst[i]] - ((p.m.m.nCamaras-results[1][worst[i]]) *p.m.m.penalty);
-                    //worst_total_value += elite_values[0][i] - (p.m.m.nCamaras-elite_values[1][i])*p.m.m.penalty;
-                    cod[using_cod_n][worst[i]].copy(elite_elems[i]);
-                    ft.totalValue[worst[i]] = elite_values[i];
-                }
-                //worst_total_value *= (float) (n_elites) / (float) (p.nIndInGen);
-                //int graphicResult = best_sol_yet - ((p.m.m.nCamaras- bestSol.totalNPenalties) *p.m.m.penalty);
-                //mid += worst_total_value;
-                ft.best_fitness_result.value = best_sol_yet;
-                //CHOSE NEW ELITES
-                int[] best = new elitism().choose_elite(n_elites, ft.totalValue);
-                for (int i = 0; i < best.length; ++i) {
-                    elite_elems[i].copy(cod[using_cod_n][best[i]]);
-                    elite_values[i] = ft.totalValue[best[i]];
-                }
-            }
-            //--------------------------------------------------------------------------------------------------------
-
-            //SELECCIÓN
-            int[] select = select_method.chooseEntities(ft.totalValue);
-            //Copy the selected entities into the next generation slot
-            for(int i=0;i<select.length;++i){
-                cod[alternate][i].copy(cod[using_cod_n][select[i]]);
-            }
-
-            presion_selectiva_suma += select_method.get_selection_enforcer();
-            //IO.println(select_method.get_selection_enforcer());
-
-
-            //PINTAR
-            //eliminate all lines
-            //paint 3 lines again
-            for(int i = 2; i >=0; --i){
-                p.plot2d.removePlot(0);
-            }
-
-            plotValues[0][currentGen] = ft.mid;
-            plotValues[1][currentGen] = ft.best_fitness_result.value;
-            plotValues[2][currentGen] = best_sol_yet;
-            p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
-            p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
-            p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
-            //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
-
-            if(mapUpdated) {
-                p.m.WipeMapBackground();
-                p.m.DrawPaths(ft.best_fitness_result.path);
-                p.log.clear_text();
-
-                p.log.add_text("Mejor resultado: " + best_sol_yet + "s.\n", Color.BLUE);
-                p.log.add_text("Tiempo por drón: ", Color.BLUE);
-                for(int i = 0; i < p.n_drones; ++i){
-                    p.log.add_text(Double.toString(ft.best_fitness_result.route_duration_per_drone[i])+"s, ", mapReader.PathColors[i]);
-                }
-                p.log.add_text("\n");
-                p.log.add_text("Presión selectiva: " + presion_selectiva_suma/currentGen + "\n", Color.RED);
-                int dron = 0;
-                int size = cod[using_cod_n][ft.best_codification_index].get_size();
-                p.log.add_text("Dron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
-                for(int i = 0; i < size; ++i){
-                    int value = cod[using_cod_n][ft.best_codification_index].get_value(i);
-                    p.log.add_text(value+" ", mapReader.PathColors[dron]);
-                    //IO.print(value+" ");
-                    if(value >= p.n_interest_points){
-                        ++dron;
-                        p.log.add_text("\nDron "+(dron+1)+" (x"+manhattan_distance_fitness_calculator.dron_multiplier[dron]+"): ", mapReader.PathColors[dron]);
-                    }
-                }
-                //IO.print("\n");
-            }
-
-            using_cod_n = alternate;
-
-            //CRUCE
-            //--> param probabilidad de cruce
-            ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
-            for(int i = 0; i < p.nIndInGen; ++i){
-                if(Math.random() <= p.crossProbability) chosenForCross.add(i);
-            }
-            int total_number_of_crosses = chosenForCross.size();
-            for(int i = 1; i < total_number_of_crosses; i = i+2){
-                crux.cruzar(cod[using_cod_n][chosenForCross.get(i)], cod[using_cod_n][chosenForCross.get(i-1)]);
-            }
-
-            //MUTACIÓN
-            for(int i = 0; i < p.nIndInGen; ++i){
-                if(Math.random() < p.mutationprobability) mut.mutate(cod[using_cod_n][i]);
-            }
-            */
-            ++currentGen;
+        FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
+        if(ft.best_value < best_sol_yet){
+            best_sol_yet = ft.best_value;
+            mapUpdated = true;
         }
+
+        //ELITISMO------------------------------------------------------------------------------------------------
+        if(n_elites > 0) {
+            //INTRODUCE LAST ELITES
+            int[] worst = new elitism().choose_worst(n_elites, ft.fit);
+            for (int i = 0; i < worst.length; ++i) {
+                gen[using_cod_n].copy_individual(worst[i], elite_elems.get(i));
+                ft.fit[worst[i]] = elite_values[i];
+            }
+            ft.best_value = best_sol_yet;
+            //CHOSE NEW ELITES
+            int[] best = new elitism().choose_elite(n_elites, ft.fit);
+            for (int i = 0; i < best.length; ++i) {
+                elite_elems.copy_individual(i, gen[using_cod_n].get(best[i]));
+                elite_values[i] = ft.fit[best[i]];
+            }
+        }
+        //--------------------------------------------------------------------------------------------------------
+
+        //SELECCIÓN
+        int[] select = select_method.chooseEntities(ft.fit);
+        //Copy the selected entities into the next generation slot
+        for(int i=0;i<select.length;++i){
+            gen[alternate].copy_individual(i, gen[using_cod_n].get(select[i]));
+        }
+
+        presion_selectiva_suma += select_method.get_selection_enforcer();
+
+        //PINTAR
+        //eliminate all lines
+        //paint 3 lines again
+        for(int i = 2; i >=0; --i){
+            p.plot2d.removePlot(0);
+        }
+
+        plotValues[0][currentGen] = ft.mid;
+        plotValues[1][currentGen] = ft.best_value;
+        plotValues[2][currentGen] = best_sol_yet;
+        p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
+        p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
+        p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
+        //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
+
+        //PAINT IF NEEDED
+        /*
+        if(mapUpdated) {
+            p.m.WipeMapBackground();
+            p.m.DrawPaths(ft.path_of_best);
+            p.log.clear_text();
+        }*/
+
+        using_cod_n = alternate;
+
+        //CRUCE
+        //--> param probabilidad de cruce
+        ArrayList<Integer> chosenForCross = new ArrayList<Integer>(0);
+        for(int i = 0; i < p.nIndInGen; ++i){
+            if(Math.random() <= p.crossProbability) chosenForCross.add(i);
+        }
+        int total_number_of_crosses = chosenForCross.size();
+        for(int i = 1; i < total_number_of_crosses; i = i+2){
+            crux.cross(gen[using_cod_n].get(chosenForCross.get(i)), gen[using_cod_n].get(chosenForCross.get(i-1)));
+        }
+
+        //MUTACIÓN
+        for(int i = 0; i < p.nIndInGen; ++i){
+            if(Math.random() < p.mutationprobability) mut.mutate(gen[using_cod_n].get(i));
+        }
+
+        ++currentGen;
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
     }

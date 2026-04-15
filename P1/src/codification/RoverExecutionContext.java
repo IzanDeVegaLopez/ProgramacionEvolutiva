@@ -1,9 +1,11 @@
 package codification;
 
+import Mapas.Map;
 import utils.Vector2;
 import Error.UnreachableCode;
 
 public class RoverExecutionContext {
+    static final int total_energy = 150;
     public enum rotationDirection{
         RD_LEFT,
         RD_RIGHT
@@ -17,6 +19,7 @@ public class RoverExecutionContext {
     };
     int lookingAtIdx = 0;
     Vector2 currentTile = new Vector2(1,1);
+    int energy_remaining = total_energy;
     public void rotate(rotationDirection rotDir){
         if(rotDir== rotationDirection.RD_RIGHT){
             lookingAtIdx = lookingAtIdx-1;
@@ -44,5 +47,25 @@ public class RoverExecutionContext {
 
     public void advance(){
         currentTile.add(DIRECTIONS[lookingAtIdx]);
+    }
+
+    public static class RecorridoReturnType{
+        public int muestras_recogidas = 0;
+        public int casillas_exploradas = 0;
+        public int recompensa_visual = 0;
+        public int arena = 0;
+        public int colisiones = 0;
+    }
+    public void reset(){
+        currentTile = new Vector2(1,1);
+        lookingAtIdx = 0;
+        energy_remaining = total_energy;
+    }
+    public RecorridoReturnType do_simulation(Map m, IndividualCodification cod) throws Exception{
+        reset();
+        while(energy_remaining > 0) {
+            cod.execute(this);
+        }
+        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
     }
 }

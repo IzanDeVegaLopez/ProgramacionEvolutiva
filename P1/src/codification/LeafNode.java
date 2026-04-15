@@ -17,4 +17,9 @@ public class LeafNode<T extends LeafNode<T>> implements TreeNode<T>{
     public T get_deep_copy() throws Exception{
         throw new UnreachableCode("This function cannot be called, it must always be one of the function that overrides this");
     }
+
+    @Override
+    public int get_n_childs(){
+        return 0;
+    }
 }

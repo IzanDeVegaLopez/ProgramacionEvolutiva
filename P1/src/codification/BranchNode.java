@@ -17,4 +17,9 @@ public class BranchNode<T extends BranchNode<T>> implements TreeNode<T>{
     public T get_deep_copy() throws Exception {
         throw new UnreachableCode("This function cannot be called, it must always be one of the function that overrides this");
     }
+
+    @Override
+    public int get_n_childs(){
+        return 2 + L_child.get_n_childs()+ R_child.get_n_childs();
+    }
 }

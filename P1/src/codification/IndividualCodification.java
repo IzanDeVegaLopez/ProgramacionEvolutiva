@@ -11,4 +11,7 @@ public class IndividualCodification  {
     public void impersonate(TreeNode other) throws Exception{
         node_tree = other.get_deep_copy();
     }
+    public int get_number_of_child_nodes(){
+        return node_tree.get_n_childs();
+    }
 }

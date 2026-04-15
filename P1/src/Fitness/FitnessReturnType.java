@@ -7,9 +7,8 @@ import java.util.Vector;
 public class FitnessReturnType {
     //Fitness per individual on generation
     public double[] fit;
-    public double best_value;
-    public int best_value_idx;
+    public double best_value = 0;
+    //public int best_value_idx;
     public double mid;
-    public Vector<Vector2> path_of_best;
- //   public double total_value;
+    //public Vector<Vector2> path_of_best;
 }
