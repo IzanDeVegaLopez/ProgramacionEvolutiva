@@ -63,7 +63,7 @@ public class mapReader {
     public static Color[]colorPerValue = new Color[]{
             new Color(0,0,0), //0,1
             new Color(0,0,255),//5
-            new Color(0,255,0),//10
+            new Color(215, 180, 125),//10
             new Color(200,200,0),//15
             new Color(255,0,0)//20
     };//15

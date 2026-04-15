@@ -32,9 +32,18 @@ public class MapRepresentation extends MyPanel{
         for(int i = 0; i < y; ++i) {
             for (int j = 0; j < x; ++j) {
                 //Si esta ocupada pintala negra
-                int val = m.ocupiedTiles[i][j] == TileContents.WALL ? 0 : 255;
-                myTiles[i][j] = new MyPanel(val);
-                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j] / 5], 2);
+                switch (m.ocupiedTiles[i][j]){
+                    case TileContents.WALL:
+                        myTiles[i][j] = new MyPanel(50);
+                        break;
+                    case TileContents.SAND:
+                        myTiles[i][j] = new MyPanel(215, 180, 125);
+                        break;
+                    default:
+                        myTiles[i][j] = new MyPanel(255);
+                        break;
+                }
+                Border mborder = BorderFactory.createLineBorder(new Color(50,50,50), 1);
                 myTiles[i][j].setBorder(mborder);
                 this.add(myTiles[i][j]);
             }
@@ -114,7 +123,17 @@ public class MapRepresentation extends MyPanel{
         for(int i = 0; i < myTiles.length; ++i){
             for(int j = 0; j < myTiles[0].length; ++j){
                 myTiles[i][j].removeAll();
-                myTiles[i][j].setBackground(m.ocupiedTiles[i][j] == TileContents.WALL ? Color.BLACK : Color.WHITE);
+                switch (m.ocupiedTiles[i][j]){
+                    case TileContents.WALL:
+                        myTiles[i][j].setBackground(new Color(50,50,50));
+                        break;
+                    case TileContents.SAND:
+                        myTiles[i][j].setBackground(new Color(215, 180, 125));
+                        break;
+                    default:
+                        myTiles[i][j].setBackground(new Color(255,255,255));
+                        break;
+                }
             }
         }
         revalidate();
