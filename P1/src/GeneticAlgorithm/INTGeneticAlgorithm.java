@@ -6,6 +6,7 @@ import Mapas.mapReader;
 import elitism_methods.elitism;
 //import fitness.*;
 //import mutation_methods.*;
+import mutation_methods.BaseMutation;
 import selection_methods.*;
 
 import java.awt.*;
@@ -21,6 +22,7 @@ public class INTGeneticAlgorithm {
     int n_elites;
     double best_sol_yet = Double.POSITIVE_INFINITY;
     selection_method select_method;
+    BaseMutation mutation_method;
     //manhattan_distance_fitness_calculator fit_calculator;
     //base_cross_method crux;
     //mutation_base mut;
@@ -36,7 +38,21 @@ public class INTGeneticAlgorithm {
     }
     public void choose_mutation_method(int i){
         switch(i) {
-
+            case 0:
+                mutation_method = new mutation_methods.funcional();
+                break;
+            case 1:
+                mutation_method = new mutation_methods.hoist();
+                break;
+            case 2:
+                mutation_method = new mutation_methods.random();
+                break;
+            case 3:
+                mutation_method = new mutation_methods.subarbol();
+                break;
+            case 4:
+                mutation_method = new mutation_methods.terminal();
+                break;
         }
     }
     public void choose_selection_method(int i){
@@ -88,7 +104,7 @@ public class INTGeneticAlgorithm {
         using_cod_n = 0;
         int alternate = (using_cod_n+1)%2;
         //cod = new codificacion_entera[][]{new codificacion_entera[p.nIndInGen],new codificacion_entera[p.nIndInGen]};
-        int n_elems_total = p.n_drones-1 + p.n_interest_points;
+//        int n_elems_total = p.n_drones-1 + p.n_interest_points;
         for(int i = 0; i < p.nIndInGen; ++i){
             /*
             cod[using_cod_n][i] = new codificacion_entera(n_elems_total);
@@ -111,7 +127,7 @@ public class INTGeneticAlgorithm {
     void initialize_elites(GeneticAlgorithmParameters p){
         n_elites = (int)(p.elite_ratio * p.nIndInGen);
         //elite_elems = new codificacion_entera[n_elites];
-        int n_elems_total = p.n_drones -1 + p.n_interest_points;
+//        int n_elems_total = p.n_drones -1 + p.n_interest_points;
         for(int i = 0; i < n_elites; ++i){
             //elite_elems[i] = new codificacion_entera(n_elems_total);
             //elite_elems[i].initialize_with_stair_shape();
@@ -127,7 +143,6 @@ public class INTGeneticAlgorithm {
         //fit_calculator = new manhattan_distance_fitness_calculator(p.m.m);
 
         choose_selection_method(p.selectionType);
-        choose_cross_method(p.crossType);
         choose_mutation_method(p.mutationType);
 
         initialize_codification(p);

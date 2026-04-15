@@ -34,8 +34,8 @@ public class MainMenu extends JFrame{
     JComboBox selectionTypeComboBox;
     JComboBox crossMethodComboBox;
     JComboBox mutationMethodComboBox;
-    NumericField tiles_of_interest_field;
-    NumericField number_of_drones;
+//    NumericField tiles_of_interest_field;
+//    NumericField number_of_drones;
     //JComboBox codificationTypeComboBox;
     //JLabel maxValue;
     //JLabel enforcingValue;
@@ -88,21 +88,12 @@ public class MainMenu extends JFrame{
         selectionHash.put("Restos",4);
         selectionHash.put("Ranking",5);
 
-        crossHash = new HashMap<>();
-        crossHash.put("CO",0);
-        crossHash.put("CX",1);
-        crossHash.put("ERX",2);
-        crossHash.put("Invented",3);
-        crossHash.put("OX",4);
-        crossHash.put("OXPP",5);
-        crossHash.put("PMX",6);
-
         mutationHash = new HashMap<>();
-        mutationHash.put("Heuristic", 0);
-        mutationHash.put("Insertion", 1);
-        mutationHash.put("Interchange", 2);
-        mutationHash.put("Invented", 3);
-        mutationHash.put("Inversion", 4);
+        mutationHash.put("Funcional", 0);
+        mutationHash.put("Poda", 1);
+        mutationHash.put("Aleatorio", 2);
+        mutationHash.put("Subárbol", 3);
+        mutationHash.put("Terminal", 4);
 
     }
 
@@ -160,11 +151,11 @@ public class MainMenu extends JFrame{
         p1.setLayout(new BoxLayout(p1,BoxLayout.X_AXIS));
         p1.add(createLabel("Método de Selección"));
         p1.add(selectionTypeComboBox= createMenuDesplegable(new String[]{"Ruleta", "Torneo", "Estocástico", "Truncamiento", "Restos", "Ranking"}));
-        //Operadores de cruce
-        MyPanel p2 = new MyPanel();
-        p2.setLayout(new BoxLayout(p2,BoxLayout.X_AXIS));
-        p2.add(createLabel("Operadores de cruce"));
-        p2.add(crossMethodComboBox= createMenuDesplegable(new String[]{"CO", "CX", "ERX", "Invented", "OX", "OXPP", "PMX"}));
+//        //Operadores de cruce
+//        MyPanel p2 = new MyPanel();
+//        p2.setLayout(new BoxLayout(p2,BoxLayout.X_AXIS));
+//        p2.add(createLabel("Operadores de cruce"));
+//        p2.add(crossMethodComboBox= createMenuDesplegable(new String[]{"CO", "CX", "ERX", "Invented", "OX", "OXPP", "PMX"}));
         //Mutación
         MyPanel p3 = new MyPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.X_AXIS));
@@ -200,28 +191,28 @@ public class MainMenu extends JFrame{
         p8.add(createLabel("Semilla"));
         p8.add(seedField= createNumericField(3000));
 
-        MyPanel p9 = new MyPanel();
-        p9.setLayout(new BoxLayout(p9,BoxLayout.X_AXIS));
-        p9.add(createLabel("Tiles con Cámara"));
-        p9.add(tiles_of_interest_field= createNumericField(40));
+//        MyPanel p9 = new MyPanel();
+//        p9.setLayout(new BoxLayout(p9,BoxLayout.X_AXIS));
+//        p9.add(createLabel("Tiles con Cámara"));
+//        p9.add(tiles_of_interest_field= createNumericField(40));
 
-        MyPanel p10 = new MyPanel();
-        p10.setLayout(new BoxLayout(p10,BoxLayout.X_AXIS));
-        p10.add(createLabel("Número de drones"));
-        p10.add(number_of_drones = createNumericField(1));
+//        MyPanel p10 = new MyPanel();
+//        p10.setLayout(new BoxLayout(p10,BoxLayout.X_AXIS));
+//        p10.add(createLabel("Número de drones"));
+//        p10.add(number_of_drones = createNumericField(1));
 
 
         //panelConjunto.add(p);
         panelConjunto.add(p1);
-        panelConjunto.add(p2);
+//        panelConjunto.add(p2);
         panelConjunto.add(p3);
         panelConjunto.add(p4);
         panelConjunto.add(p5);
         panelConjunto.add(p6);
         panelConjunto.add(p7);
         panelConjunto.add(p8);
-        panelConjunto.add(p9);
-        panelConjunto.add(p10);
+//        panelConjunto.add(p9);
+//        panelConjunto.add(p10);
         return panelConjunto;
     }
 
@@ -308,13 +299,13 @@ public class MainMenu extends JFrame{
                 g.crossProbability = Float.parseFloat(crossProbability.textField.getText()) / 100.0f;
                 g.mutationprobability = Float.parseFloat(mutationProbability.textField.getText()) / 100.0f;
                 //
-                g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
+//                g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
                 g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());
                 g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
 
-                g.n_interest_points = Integer.parseInt(tiles_of_interest_field.textField.getText());
-                g.n_drones = Integer.parseInt(number_of_drones.textField.getText());
+//                g.n_interest_points = Integer.parseInt(tiles_of_interest_field.textField.getText());
+//                g.n_drones = Integer.parseInt(number_of_drones.textField.getText());
 
                 g.log = logs;
 

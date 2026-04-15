@@ -14,11 +14,10 @@ public class GeneticAlgorithmParameters {
     public float crossProbability;
     public float mutationprobability;
     //method changing things
-    public int crossType;
     public int mutationType;
     public int selectionType;
     public float elite_ratio;
 
-    public int n_drones;
-    public int n_interest_points;
+//    public int n_drones;
+//    public int n_interest_points;
 }
