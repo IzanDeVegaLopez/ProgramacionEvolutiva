@@ -1,6 +1,7 @@
 package codification;
 
 import utils.Vector2;
+import Error.UnreachableCode;
 
 public class RoverExecutionContext {
     public enum rotationDirection{
@@ -17,12 +18,25 @@ public class RoverExecutionContext {
     int lookingAtIdx = 0;
     Vector2 currentTile = new Vector2(1,1);
     public void rotate(rotationDirection rotDir){
-        if(rotDir==rotationDirection.RD_RIGHT){
+        if(rotDir== RoverExecutionContext.rotationDirection.RD_RIGHT){
             lookingAtIdx = lookingAtIdx-1;
             if(lookingAtIdx < 0) lookingAtIdx += 3;
-        }else if(rotDir==rotationDirection.RD_LEFT){
+        }else if(rotDir==RoverExecutionContext.rotationDirection.RD_LEFT){
             lookingAtIdx = lookingAtIdx+1 %4;
         }
+    }
+
+    public int get_sand_dist() throws Exception {
+        throw new UnreachableCode("Unimplemented");
+        //return 0;
+    }
+    public int get_obstacle_dist() throws Exception {
+        throw new UnreachableCode("Unimplemented");
+        //return 0;
+    }
+    public int get_sample_dist() throws Exception {
+        throw new UnreachableCode("Unimplemented");
+        //return 0;
     }
 
     public void advance(){
