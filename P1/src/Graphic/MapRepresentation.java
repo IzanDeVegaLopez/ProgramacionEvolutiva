@@ -29,12 +29,12 @@ public class MapRepresentation extends MyPanel{
         this.setMaximumSize(new Dimension(xx,yy));
         this.setMinimumSize(new Dimension(xx,yy));
         myTiles = new JPanel[y][x];
-        for(int i = 0; i < y; ++i){
-            for(int j = 0; j < x; ++j){
+        for(int i = 0; i < y; ++i) {
+            for (int j = 0; j < x; ++j) {
                 //Si esta ocupada pintala negra
                 int val = m.ocupiedTiles[i][j] == TileContents.WALL ? 0 : 255;
                 myTiles[i][j] = new MyPanel(val);
-                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j]/5], 2);
+                Border mborder = BorderFactory.createLineBorder(mapReader.colorPerValue[m.importanceMap[i][j] / 5], 2);
                 myTiles[i][j].setBorder(mborder);
                 this.add(myTiles[i][j]);
             }
@@ -72,6 +72,30 @@ public class MapRepresentation extends MyPanel{
             mark.setMinimumSize(new Dimension(20,20));
             myTiles[point.y][point.x].add(mark);
             ++i;
+        }
+        revalidate();
+        repaint();
+    }
+    public void DrawPoints(Vector2[] points, Color c, int rad){
+        int i = 0;
+        for (Vector2 point : points){
+            CircularPanel mark = new CircularPanel(c," ",1.0f,1.0f, 20);
+            mark.setMinimumSize(new Dimension(rad,rad));
+            myTiles[point.y][point.x].add(mark);
+            ++i;
+        }
+        revalidate();
+        repaint();
+    }
+    public void DrawSamples(){
+        for (int i = 0; i<myTiles.length;++i) {
+            for (int j = 0; j < myTiles[0].length; ++j) {
+                if (m.ocupiedTiles[i][j] == TileContents.SAMPLE) {
+                    CircularPanel mark = new CircularPanel(new Color(225, 175, 75), " ", 1.0f, 1.0f, 20);
+                    mark.setMinimumSize(new Dimension(20, 20));
+                    myTiles[i][j].add(mark);
+                }
+            }
         }
         revalidate();
         repaint();

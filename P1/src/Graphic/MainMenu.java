@@ -142,6 +142,7 @@ public class MainMenu extends JFrame{
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
         m.WipeMap();
+        m.DrawSamples();
         return m;
     }
 
