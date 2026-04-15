@@ -1,6 +1,7 @@
 import Graphic.MainMenu;
 
-
-void main() {
-    new MainMenu();
+class Main {
+    public static void main() throws Exception {
+        new MainMenu();
+    }
 }

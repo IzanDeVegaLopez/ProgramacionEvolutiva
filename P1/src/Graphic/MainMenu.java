@@ -61,7 +61,7 @@ public class MainMenu extends JFrame{
         //pack();
     }
 
-    public MainMenu(){
+    public MainMenu() throws Exception{
         super("PEV P2");
         config();
 
@@ -160,7 +160,7 @@ public class MainMenu extends JFrame{
         MyPanel p3 = new MyPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.X_AXIS));
         p3.add(createLabel("Mutación"));
-        p3.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"Heuristic", "Insertion", "Interchange", "Invented", "Inversion"}));
+        p3.add(mutationMethodComboBox = createMenuDesplegable(new String[]{"Funcional", "Poda", "Aleatorio", "Subárbol", "Terminal"}));
 
         //Tamaño Población
         MyPanel p4 = new MyPanel();
@@ -246,7 +246,7 @@ public class MainMenu extends JFrame{
         return t;
     }
 
-    JPanel createGraphicsMenu(){
+    JPanel createGraphicsMenu() throws Exception{
         JPanel pan = new JPanel();
         pan.setLayout(new BorderLayout());
 
@@ -309,7 +309,12 @@ public class MainMenu extends JFrame{
 
                 g.log = logs;
 
-                INTGeneticAlgorithm algorithm = new INTGeneticAlgorithm(g);
+                try {
+                    TreeGeneticAlgorithm algorithm = new TreeGeneticAlgorithm(g);
+                }catch(Exception except){
+                    except.printStackTrace();
+                    System.out.println("Something went wrong while executting TreeGeneticAlgorithm in line 313 of MainMenu.java");
+                }
                 /*
                 float[] Enforcing_n_Max = codeType==0 ?
                         new BINGeneticAlgorithm(g).getMidSelectionEnforcer_n_getMax() :

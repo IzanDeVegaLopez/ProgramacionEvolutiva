@@ -8,7 +8,7 @@ public class Generation {
     private final static int min_depth = 1;
     private final static int max_depth = 5;
 
-    public enum randomization{
+    public static enum randomization{
         RANDOMIZE
     }
     public Generation(int n_individuals){

@@ -1,21 +1,19 @@
 package GeneticAlgorithm;
 
 //import elitism_methods.elitismo;
-import Mapas.mapReader;
-//import mutation_methods.*;
+import codification.Generation;
+import mutation_methods.*;
 import elitism_methods.elitism;
-//import fitness.*;
-//import mutation_methods.*;
-import mutation_methods.BaseMutation;
 import selection_methods.*;
+import crossmethods.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public class INTGeneticAlgorithm {
+public class TreeGeneticAlgorithm {
     //2 buffers y van alternando
     //codificacion_entera[][] cod;
     //codificacion_entera[] elite_elems;
+    Generation[] gen = new Generation[2];
     int using_cod_n = 0;
     double[][] plotValues;
     int currentGen = 0;
@@ -24,13 +22,13 @@ public class INTGeneticAlgorithm {
     selection_method select_method;
     BaseMutation mutation_method;
     //manhattan_distance_fitness_calculator fit_calculator;
-    //base_cross_method crux;
+    cross_method crux;
     //mutation_base mut;
     double presion_selectiva_suma;
     double[] elite_values;// 0 value, 1 penalty
 
     elitism elt;
-    public INTGeneticAlgorithm(GeneticAlgorithmParameters p){
+    public TreeGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
         startGeneticAlgorithm(p);
         do_first_gen(p);
         loopGeneticAlgorithm(p);
@@ -83,9 +81,8 @@ public class INTGeneticAlgorithm {
             }
         }
     }
-    public void choose_cross_method(int i){
-        switch(i) {
-        }
+    public void choose_cross_method(){
+        crux = new basic_tree_cross_method();
     }
     public void initialize_plot(GeneticAlgorithmParameters p){
         //Cretion plot array
@@ -100,28 +97,11 @@ public class INTGeneticAlgorithm {
             p.plot2d.addLinePlot("ABSOLUT BEST",Color.BLUE, plotValues[3], plotValues[2]);
         }
     }
-    void initialize_codification(GeneticAlgorithmParameters p){
+    void initialize_codification(GeneticAlgorithmParameters p) throws Exception{
         using_cod_n = 0;
         int alternate = (using_cod_n+1)%2;
-        //cod = new codificacion_entera[][]{new codificacion_entera[p.nIndInGen],new codificacion_entera[p.nIndInGen]};
-//        int n_elems_total = p.n_drones-1 + p.n_interest_points;
-        for(int i = 0; i < p.nIndInGen; ++i){
-            /*
-            cod[using_cod_n][i] = new codificacion_entera(n_elems_total);
-            cod[using_cod_n][i].initialize_with_stair_shape();
-
-            cod[alternate][i] = new codificacion_entera(n_elems_total);
-            cod[alternate][i].initialize_with_stair_shape();
-
-            // stronger randomization
-            for(int k = 0; k < n_elems_total; ++k){
-                int a = (int)Math.floor((Math.random() * n_elems_total));
-                int b = (int)Math.floor((Math.random() * n_elems_total));
-                cod[using_cod_n][i].swap(a, b);
-            }
-            */
-        }
-        //IO.print("Parate aquí señor");
+        gen[0] = new Generation(p.nIndInGen, Generation.randomization.RANDOMIZE);
+        gen[1] = new Generation(p.nIndInGen);
     }
 
     void initialize_elites(GeneticAlgorithmParameters p){
@@ -136,7 +116,7 @@ public class INTGeneticAlgorithm {
 
         elt = new elitism();
     }
-    void startGeneticAlgorithm(GeneticAlgorithmParameters p){
+    void startGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
         currentGen = 0;
         using_cod_n = 0;
 
@@ -349,10 +329,8 @@ public class INTGeneticAlgorithm {
             for(int i = 0; i < p.nIndInGen; ++i){
                 if(Math.random() < p.mutationprobability) mut.mutate(cod[using_cod_n][i]);
             }
+            */
             ++currentGen;
-
-            if(currentGen%100==0) hard_reset_half();
-        */
         }
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p){
