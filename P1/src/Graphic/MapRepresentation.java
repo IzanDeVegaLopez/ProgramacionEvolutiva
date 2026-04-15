@@ -102,6 +102,7 @@ public class MapRepresentation extends MyPanel{
                 if (m.ocupiedTiles[i][j] == TileContents.SAMPLE) {
                     CircularPanel mark = new CircularPanel(new Color(225, 175, 75), " ", 1.0f, 1.0f, 20);
                     mark.setMinimumSize(new Dimension(20, 20));
+                    mark.setMaximumSize(new Dimension(20, 20));
                     myTiles[i][j].add(mark);
                 }
             }

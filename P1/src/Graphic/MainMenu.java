@@ -114,6 +114,7 @@ public class MainMenu extends JFrame{
 
         String[] s = new String[]{"MAPA 3","MAPA 2","MAPA 1"};
         mapsTabs = new JTabbedPane();
+        mapsTabs.setMinimumSize(new Dimension(500,500));
         mapRepresentation = new MapRepresentation[3];
         pan.add(mapsTabs);
         pan.add(createAllMenusDesplegables());

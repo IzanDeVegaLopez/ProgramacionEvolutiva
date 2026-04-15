@@ -34,6 +34,6 @@ public class CircularPanel extends JPanel {
         g.setColor(c);
         //int max = Math.max((int)(proportional_width*g.getClipBounds().width), (int)(proportional_height*g.getClipBounds().height));
         //g.fillOval(0, 0, max, max);
-            g.fillOval(0,0,(int)(proportional_width*g.getClipBounds().width), (int)(proportional_height*g.getClipBounds().height));
+            g.fillOval(0,0,(int)(proportional_width*g.getClipBounds().width), (int)(proportional_height*g.getClipBounds().height)/2);
     }
 }
