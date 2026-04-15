@@ -20,13 +20,15 @@ public class RoverExecutionContext {
     int lookingAtIdx = 0;
     Vector2 currentTile = new Vector2(1,1);
     int energy_remaining = total_energy;
-    public void rotate(rotationDirection rotDir){
+    public void rotate(rotationDirection rotDir) throws Exception{
         if(rotDir== rotationDirection.RD_RIGHT){
             lookingAtIdx = lookingAtIdx-1;
             if(lookingAtIdx < 0) lookingAtIdx += 3;
         }else if(rotDir==rotationDirection.RD_LEFT){
             lookingAtIdx = lookingAtIdx+1 %4;
         }
+
+        throw new UnreachableCode("Agregar penalización por mareo, restar energía");
     }
 
     public int get_sand_dist() throws Exception {
@@ -45,8 +47,9 @@ public class RoverExecutionContext {
         throw new UnreachableCode("Unimplemented");
     }
 
-    public void advance(){
+    public void advance() throws Exception{
         currentTile.add(DIRECTIONS[lookingAtIdx]);
+        throw new UnreachableCode("Implementar choque contra muros, restar energia, coger samples");
     }
 
     public static class RecorridoReturnType{
