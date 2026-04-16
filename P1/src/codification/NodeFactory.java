@@ -57,7 +57,7 @@ public class NodeFactory {
         return created_branch_node;
     }
 
-    private static LeafNode create_random_leaf_node() throws Exception{
+    public static LeafNode create_random_leaf_node() throws Exception{
         int random_idx = utils.my_utils.
                 get_random(leaf_node_types.LNT_COUNT.ordinal());
         return create_leaf_node(leaf_node_types.values()[random_idx]);

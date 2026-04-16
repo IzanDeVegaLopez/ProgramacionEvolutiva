@@ -11,7 +11,7 @@ public class subarbol implements BaseMutation{
 
         switch(node.option_chosen){
             case NodeFactory.options.stay:{
-                cod.impersonate(NodeFactory.create_random_tree(0,5));
+                cod.impersonate(NodeFactory.create_random_tree(node.depth,5));
                 break;
             }
             case NodeFactory.options.go_left:{
@@ -22,6 +22,8 @@ public class subarbol implements BaseMutation{
                 node.parent.R_child = NodeFactory.create_random_tree(node.depth, 5);
                 break;
             }
+            default:
+                throw new UnreachableCode("This should have never happened, non valid enum option chosen in subarbol.mutate");
         }
     }
 }
