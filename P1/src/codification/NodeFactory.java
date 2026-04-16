@@ -62,14 +62,14 @@ public class NodeFactory {
                 get_random(leaf_node_types.LNT_COUNT.ordinal());
         return create_leaf_node(leaf_node_types.values()[random_idx]);
     }
-    private static LeafNode create_random_leaf_node_advance_double_prob() throws Exception{
+    public static LeafNode create_random_leaf_node_advance_double_prob() throws Exception{
         int random_idx = utils.my_utils.
                 get_random(leaf_node_types.LNT_COUNT.ordinal()+1);
         if(leaf_node_types.LNT_COUNT.ordinal()==random_idx) return create_leaf_node(leaf_node_types.LNT_ADVANCE);
         return create_leaf_node(leaf_node_types.values()[random_idx]);
     }
     //This may create a branch node or a leaf node
-    private static BranchNode create_random_childless_branch_node() throws Exception{
+    public static BranchNode create_random_childless_branch_node() throws Exception{
         int random_idx = utils.my_utils.
                 get_random(branch_node_types.BNT_COUNT.ordinal());
         return create_childless_branch_node(branch_node_types.values()[random_idx]);
@@ -207,5 +207,39 @@ public class NodeFactory {
             ++depth;
         }
         return new parent_and_child_node_return(null, options.stay, depth);
+    }
+
+    public static parent_and_child_node_return choose_random_branch(TreeNode t_node) throws Exception{
+        TreeNode aux0 = t_node;
+        int depth = 0;
+        if(aux0.is_leaf()) return new parent_and_child_node_return(null, options.stay, depth);
+
+        BranchNode parent = null;
+        BranchNode aux = (BranchNode)aux0;
+        options last_opt = options.stay;
+        while(!aux.L_child.is_leaf() && !aux.R_child.is_leaf()){
+            int random_idx = utils.my_utils.get_random(options.stay.ordinal());
+            options opt = options.values()[random_idx];
+            switch(opt){
+                case options.stay: {
+                    return new parent_and_child_node_return(parent, last_opt, depth);
+                }
+                case options.go_left : {
+                    parent = aux;
+                    aux = (BranchNode)aux.L_child;
+                    break;
+                }
+                case options.go_right : {
+                    parent = aux;
+                    aux = (BranchNode)aux.R_child;
+                    break;
+                }
+                default:
+                    throw new UnreachableCode("Count is not a real option, this should not have been chosen");
+            }
+            last_opt = opt;
+            ++depth;
+        }
+        return new parent_and_child_node_return(parent, last_opt, depth);
     }
 }
