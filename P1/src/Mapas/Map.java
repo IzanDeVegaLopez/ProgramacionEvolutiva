@@ -59,6 +59,13 @@ public class Map {
         }
     }
 
+    public TileContents get_tile(Vector2 v){
+        return get_tile(v.x,v.y);
+    }
+    public TileContents get_tile(int x, int y){
+        return ocupiedTiles[y][x];
+    }
+
     /**
      * Selects a number of random unique empty tiles from the map.
      * @param n The number of random empty tiles to return.

@@ -1,6 +1,7 @@
 package codification;
 
 import Mapas.Map;
+import Mapas.TileContents;
 import utils.Vector2;
 import Error.UnreachableCode;
 
@@ -19,6 +20,7 @@ public class RoverExecutionContext {
     };
     int lookingAtIdx = 0;
     Vector2 currentTile = new Vector2(1,1);
+    Map current_map;
     int energy_remaining = total_energy;
     public void rotate(rotationDirection rotDir) throws Exception{
         if(rotDir== rotationDirection.RD_RIGHT){
@@ -32,8 +34,15 @@ public class RoverExecutionContext {
     }
 
     public int get_sand_dist() throws Exception {
-        throw new UnreachableCode("Unimplemented");
-        //return 0;
+        int dist = 1;
+        Vector2 looking_at_tile = currentTile.add(DIRECTIONS[lookingAtIdx]);
+        while(current_map.validTile(looking_at_tile)){
+            TileContents tile = current_map.get_tile(looking_at_tile);
+            if(tile == TileContents.SAND) break;
+            looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
+            ++dist;
+        }
+        return dist;
     }
     public int get_obstacle_dist() throws Exception {
         throw new UnreachableCode("Unimplemented");
