@@ -1,6 +1,7 @@
 import Graphic.MainMenu;
 
-
-void main() {
-    new MainMenu();
+public class Main {
+    public static void main(String[] args) {
+        new MainMenu();
+    }
 }
