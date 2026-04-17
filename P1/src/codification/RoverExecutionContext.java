@@ -11,7 +11,8 @@ public class RoverExecutionContext {
     static final int total_energy = 150;
     public enum rotationDirection{
         RD_LEFT,
-        RD_RIGHT
+        RD_RIGHT,
+        DEFAULT
     }
     public static Vector2 DIRECTIONS [] =
     {
@@ -24,6 +25,10 @@ public class RoverExecutionContext {
     Vector2 currentTile = new Vector2(1,1);
     Map current_map;
     int energy_remaining = total_energy;
+    int sample_count;
+
+    int turn_count = 0;
+    rotationDirection last_rotation = rotationDirection.DEFAULT;
     public void rotate(rotationDirection rotDir) throws Exception{
         if(rotDir== rotationDirection.RD_RIGHT){
             lookingAtIdx = lookingAtIdx-1;
@@ -31,8 +36,19 @@ public class RoverExecutionContext {
         }else if(rotDir==rotationDirection.RD_LEFT){
             lookingAtIdx = lookingAtIdx+1 %4;
         }
+        --energy_remaining;
 
-        throw new UnreachableCode("Agregar penalización por mareo, restar energía");
+        if (last_rotation == rotDir){
+            if (++turn_count > 3){
+                energy_remaining -=20;
+                turn_count = 0;
+            }
+        }
+        else turn_count = 0;
+        last_rotation = rotDir;
+
+
+//        throw new UnreachableCode("Agregar penalización por mareo, restar energía");
     }
     public void rotate(rotationDirection rotDir, with_tiles t) throws Exception{
         rotate(rotDir);
@@ -78,8 +94,24 @@ public class RoverExecutionContext {
     }
 
     public void advance() throws Exception{
-        currentTile.add(DIRECTIONS[lookingAtIdx]);
-        throw new UnreachableCode("Implementar choque contra muros, restar energia, coger samples");
+        Vector2 newTile = currentTile.clone();
+        newTile.add(DIRECTIONS[lookingAtIdx]);
+        switch (current_map.get_tile(newTile)){
+            case SAMPLE:
+                ++sample_count;
+            case EMPTY:
+                --energy_remaining;
+                currentTile = newTile.clone();
+                break;
+            case SAND:
+                energy_remaining-=10;
+                currentTile = newTile.clone();
+                break;
+            case WALL:
+                energy_remaining-=2;
+                System.out.print("owie");
+                break;
+        }
     }
     public void advance(with_tiles t) throws Exception{
         currentTile.add(DIRECTIONS[lookingAtIdx]);
