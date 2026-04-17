@@ -7,10 +7,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 
-public class ScrollTextField extends JScrollPane {
+public class ScrollTextField {
     JTextPane my_text_area;
+    JScrollPane my_scroll_pane;
     public ScrollTextField(){
-        super(my_text_area = new JTextPane(), JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        my_text_area = new JTextPane();
+        my_scroll_pane = new JScrollPane(my_text_area, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         my_text_area.setText("");
         my_text_area.setFont(new Font("Arial", Font.BOLD, 24));
     }
