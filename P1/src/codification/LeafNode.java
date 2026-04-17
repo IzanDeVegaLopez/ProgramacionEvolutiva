@@ -7,6 +7,10 @@ public class LeafNode<T extends LeafNode<T>> implements TreeNode<T>{
     public void execute_action(RoverExecutionContext ctx) throws Exception {
         throw new UnreachableCode("This function must be overriden by other node classes, cannot be called by itself");
     }
+    @Override
+    public void execute_action(RoverExecutionContext ctx, RoverExecutionContext.with_tiles t) throws Exception {
+        throw new UnreachableCode("This function must be overriden by other node classes, cannot be called by itself");
+    }
 
     @Override
     public boolean is_leaf() {

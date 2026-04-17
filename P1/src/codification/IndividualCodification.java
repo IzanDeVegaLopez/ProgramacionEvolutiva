@@ -5,6 +5,9 @@ public class IndividualCodification  {
     public void execute(RoverExecutionContext ctx) throws Exception{
         node_tree.execute_action(ctx);
     }
+    public void execute(RoverExecutionContext ctx, RoverExecutionContext.with_tiles t) throws Exception{
+        node_tree.execute_action(ctx, t);
+    }
     public void impersonate(IndividualCodification other) throws Exception{
         node_tree = other.node_tree.get_deep_copy();
     }

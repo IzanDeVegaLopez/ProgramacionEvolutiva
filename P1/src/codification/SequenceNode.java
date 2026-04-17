@@ -7,6 +7,12 @@ public class SequenceNode extends BranchNode<SequenceNode> {
         L_child.execute_action(ctx);
         R_child.execute_action(ctx);
     }
+    @Override
+    public void execute_action(RoverExecutionContext ctx, RoverExecutionContext.with_tiles t) throws Exception{
+        L_child.execute_action(ctx, t);
+        R_child.execute_action(ctx, t);
+    }
+
 
     @Override
     public SequenceNode get_deep_copy() throws Exception{

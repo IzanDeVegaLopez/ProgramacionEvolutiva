@@ -5,6 +5,8 @@ import Mapas.TileContents;
 import utils.Vector2;
 import Error.UnreachableCode;
 
+import java.util.Vector;
+
 public class RoverExecutionContext {
     static final int total_energy = 150;
     public enum rotationDirection{
@@ -31,6 +33,9 @@ public class RoverExecutionContext {
         }
 
         throw new UnreachableCode("Agregar penalización por mareo, restar energía");
+    }
+    public void rotate(rotationDirection rotDir, with_tiles t) throws Exception{
+        rotate(rotDir);
     }
 
     public int get_sand_dist() throws Exception {
@@ -76,6 +81,10 @@ public class RoverExecutionContext {
         currentTile.add(DIRECTIONS[lookingAtIdx]);
         throw new UnreachableCode("Implementar choque contra muros, restar energia, coger samples");
     }
+    public void advance(with_tiles t) throws Exception{
+        currentTile.add(DIRECTIONS[lookingAtIdx]);
+        throw new UnreachableCode("Implementar choque contra muros, restar energia, coger samples");
+    }
 
     public static class RecorridoReturnType{
         public int muestras_recogidas = 0;
@@ -83,6 +92,13 @@ public class RoverExecutionContext {
         public int recompensa_visual = 0;
         public int arena = 0;
         public int colisiones = 0;
+    }
+    public static enum with_tiles{
+        WITH_TILES
+    }
+    public static class RecorridoReturnTypeWithTilesReached{
+        public RecorridoReturnType rrt;
+        public Vector<Vector2> all_tiles_reached;
     }
     public void reset(){
         currentTile = new Vector2(1,1);
@@ -93,6 +109,13 @@ public class RoverExecutionContext {
         reset();
         while(energy_remaining > 0) {
             cod.execute(this);
+        }
+        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
+    }
+    public RecorridoReturnTypeWithTilesReached do_simulation(Map m, IndividualCodification cod, with_tiles t) throws Exception{
+        reset();
+        while(energy_remaining > 0){
+            cod.execute(this, t);
         }
         throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
     }

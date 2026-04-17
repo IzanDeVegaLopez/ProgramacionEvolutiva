@@ -18,4 +18,12 @@ public class ConditionalNode<T extends ConditionalNode<T>> extends BranchNode<T>
             R_child.execute_action(ctx);
         }
     }
+    @Override
+    public void execute_action(RoverExecutionContext ctx, RoverExecutionContext.with_tiles t) throws Exception {
+        if(is_condition_true.check_condition(ctx)){
+            L_child.execute_action(ctx, t);
+        }else{
+            R_child.execute_action(ctx, t);
+        }
+    }
 }
