@@ -7,7 +7,7 @@ public class mapStorage {
         maps[n] = m;
     }
     public static Map get_map(int n){
-        if (n>maps.length) return new Map(new int[0][0], new TileContents[0][0]);
+        if (n>maps.length) return new Map(new TileContents[0][0]);
         return maps[n];
     }
 }

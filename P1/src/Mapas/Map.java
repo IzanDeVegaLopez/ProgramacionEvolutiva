@@ -7,20 +7,17 @@ import java.util.Random;
 import java.util.Vector;
 
 public class Map {
-    public int [][] importanceMap;
     public TileContents[][] ocupiedTiles;
     //Para llevar la cuenta de cuales he tocado ya con una cámara en este recorrido
     public boolean[][] tainted;
     //Last position is reserved for start position
     public int penalty=500;
 
-    public Map(int[][] imp, TileContents[][] ocup){
-        importanceMap = imp;
+    public Map(TileContents[][] ocup){
         ocupiedTiles = ocup;
         tainted = new boolean[ocup.length][ocup[0].length];
     }
     public Map(){
-        importanceMap = new int[0][0];
         ocupiedTiles = new TileContents[0][0];
         tainted = new boolean[0][0];
     }
@@ -33,9 +30,6 @@ public class Map {
     }
     public boolean tileWithinBounds(Vector2 pos){
         return tileWithinBounds(pos.x,pos.y);
-    }
-    public double get_tile_cost(Vector2 v){
-        return importanceMap[v.y][v.x];
     }
     public boolean validTile(int x, int y){
         return x >= 0 && y >= 0 &&
@@ -107,7 +101,6 @@ public class Map {
     public boolean set_contents(int x, int y, TileContents contents){
         if (!usableTile(x,y)) return false;
         ocupiedTiles[y][x] = contents;
-        importanceMap[y][x] = contents.weight;
         return true;
     }
 }

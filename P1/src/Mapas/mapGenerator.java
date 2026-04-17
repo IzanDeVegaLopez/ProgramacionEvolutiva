@@ -17,12 +17,12 @@ public class mapGenerator {
                 else if (rand.nextDouble() < 0.15) ocup_map[i][j] = TileContents.SAMPLE;
                 else if (rand.nextDouble() < 0.08) ocup_map[i][j] = TileContents.SAND;
                 else ocup_map[i][j] = TileContents.EMPTY;
-                importance_map[i][j] = ocup_map[i][j].weight;
+                //importance_map[i][j] = ocup_map[i][j].weight;
             }
         }
         ocup_map[1][1] = TileContents.EMPTY;
-        importance_map[1][1] = TileContents.EMPTY.weight;
+        //importance_map[1][1] = TileContents.EMPTY.weight;
 
-        return new Map(importance_map,ocup_map);
+        return new Map(ocup_map);
     }
 }

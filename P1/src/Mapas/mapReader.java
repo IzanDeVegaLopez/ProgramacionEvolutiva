@@ -109,7 +109,7 @@ public class mapReader {
                     b[i][j] = 1==myReader.nextInt() ? TileContents.WALL : TileContents.EMPTY;
                 }
             }
-            return new Map(importanceMaps[mapID], b);
+            return new Map(b);
 
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
