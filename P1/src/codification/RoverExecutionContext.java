@@ -45,15 +45,31 @@ public class RoverExecutionContext {
         return dist;
     }
     public int get_obstacle_dist() throws Exception {
-        throw new UnreachableCode("Unimplemented");
+        int dist = 1;
+        Vector2 looking_at_tile = currentTile.add(DIRECTIONS[lookingAtIdx]);
+        while(current_map.tileWithinBounds(looking_at_tile)){
+            TileContents tile = current_map.get_tile(looking_at_tile);
+            if(tile == TileContents.WALL) break;
+            looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
+            ++dist;
+        }
+        return dist;
         //return 0;
     }
     public int get_sample_dist() throws Exception {
-        throw new UnreachableCode("Unimplemented");
+        int dist = 1;
+        Vector2 looking_at_tile = currentTile.add(DIRECTIONS[lookingAtIdx]);
+        while(current_map.validTile(looking_at_tile)){
+            TileContents tile = current_map.get_tile(looking_at_tile);
+            if(tile == TileContents.SAMPLE) break;
+            looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
+            ++dist;
+        }
+        return dist;
         //return 0;
     }
     public int get_energy_level() throws Exception{
-        throw new UnreachableCode("Unimplemented");
+        return energy_remaining;
     }
 
     public void advance() throws Exception{

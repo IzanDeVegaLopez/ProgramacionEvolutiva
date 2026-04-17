@@ -27,6 +27,13 @@ public class Map {
     public boolean validTile(Vector2 v){
         return validTile(v.x,v.y);
     }
+    public boolean tileWithinBounds(int x, int y){
+        return x >= 0 && y >= 0 &&
+                y < ocupiedTiles.length && x < ocupiedTiles[0].length;
+    }
+    public boolean tileWithinBounds(Vector2 pos){
+        return tileWithinBounds(pos.x,pos.y);
+    }
     public double get_tile_cost(Vector2 v){
         return importanceMap[v.y][v.x];
     }
