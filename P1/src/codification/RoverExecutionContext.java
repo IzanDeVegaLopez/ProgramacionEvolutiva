@@ -25,16 +25,26 @@ public class RoverExecutionContext {
     Vector2 currentTile = new Vector2(1,1);
     Map current_map;
     int energy_remaining = total_energy;
-    int sample_count;
 
     int turn_count = 0;
     rotationDirection last_rotation = rotationDirection.DEFAULT;
+
+    Vector<Vector2> tiles = new Vector<>();
+
+    boolean add_reward = false;
+
+    int sample_count = 0;
+    int tile_count = 0;
+    int reward_shaping = 0;
+    int sand_count = 0;
+    int crash_count = 0;
+
     public void rotate(rotationDirection rotDir) throws Exception{
         if(rotDir== rotationDirection.RD_RIGHT){
             lookingAtIdx = lookingAtIdx-1;
             if(lookingAtIdx < 0) lookingAtIdx += 3;
         }else if(rotDir==rotationDirection.RD_LEFT){
-            lookingAtIdx = lookingAtIdx+1 %4;
+            lookingAtIdx = (lookingAtIdx+1) %4;
         }
         --energy_remaining;
 
@@ -60,7 +70,7 @@ public class RoverExecutionContext {
         while(current_map.validTile(looking_at_tile)){
             TileContents tile = current_map.get_tile(looking_at_tile);
             if(tile == TileContents.SAND) break;
-            looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
+            looking_at_tile = looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
             ++dist;
         }
         return dist;
@@ -71,7 +81,7 @@ public class RoverExecutionContext {
         while(current_map.tileWithinBounds(looking_at_tile)){
             TileContents tile = current_map.get_tile(looking_at_tile);
             if(tile == TileContents.WALL) break;
-            looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
+            looking_at_tile = looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
             ++dist;
         }
         return dist;
@@ -83,9 +93,10 @@ public class RoverExecutionContext {
         while(current_map.validTile(looking_at_tile)){
             TileContents tile = current_map.get_tile(looking_at_tile);
             if(tile == TileContents.SAMPLE) break;
-            looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
+            looking_at_tile = looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
             ++dist;
         }
+        if(current_map.get_tile(looking_at_tile) == TileContents.SAMPLE) add_reward = true;
         return dist;
         //return 0;
     }
@@ -95,27 +106,66 @@ public class RoverExecutionContext {
 
     public void advance() throws Exception{
         Vector2 newTile = currentTile.clone();
-        newTile.add(DIRECTIONS[lookingAtIdx]);
+        newTile = newTile.add(DIRECTIONS[lookingAtIdx]);
         switch (current_map.get_tile(newTile)){
             case SAMPLE:
                 ++sample_count;
             case EMPTY:
-                --energy_remaining;
                 currentTile = newTile.clone();
+                --energy_remaining;
+                if (!current_map.tainted[currentTile.y][currentTile.x])
+                    ++tile_count;
                 break;
             case SAND:
                 energy_remaining-=10;
                 currentTile = newTile.clone();
+                ++sand_count;
+                if (!current_map.tainted[currentTile.y][currentTile.x])
+                    ++tile_count;
                 break;
             case WALL:
                 energy_remaining-=2;
+                ++crash_count;
                 System.out.print("owie");
                 break;
         }
+        if (add_reward) reward_shaping++;
+        current_map.tainted[currentTile.y][currentTile.x] = true;
+        add_reward = false;
     }
     public void advance(with_tiles t) throws Exception{
-        currentTile.add(DIRECTIONS[lookingAtIdx]);
-        throw new UnreachableCode("Implementar choque contra muros, restar energia, coger samples");
+        Vector2 newTile = currentTile.clone();
+        newTile = newTile.add(DIRECTIONS[lookingAtIdx]);
+        switch (current_map.get_tile(newTile)) {
+            case SAMPLE:
+                ++sample_count;
+            case EMPTY:
+                currentTile = newTile.clone();
+                --energy_remaining;
+                if (!current_map.tainted[currentTile.y][currentTile.x]) {
+                    tiles.add(newTile.clone());
+                    ++tile_count;
+                }
+                break;
+            case SAND:
+                energy_remaining -= 10;
+                currentTile = newTile.clone();
+                ++sand_count;
+                if (!current_map.tainted[currentTile.y][currentTile.x]) {
+                    tiles.add(newTile.clone());
+                    ++tile_count;
+                }
+                break;
+            case WALL:
+                energy_remaining -= 2;
+                ++crash_count;
+                System.out.print("owie");
+                break;
+        }
+        if (add_reward) reward_shaping++;
+        current_map.tainted[currentTile.y][currentTile.x] = true;
+        add_reward = false;
+//        throw new UnreachableCode("Implementar choque contra muros, restar energia, coger samples");
     }
 
     public static class RecorridoReturnType{
@@ -124,6 +174,14 @@ public class RoverExecutionContext {
         public int recompensa_visual = 0;
         public int arena = 0;
         public int colisiones = 0;
+
+        public RecorridoReturnType(int sampleCount, int tileCount, int rewardShaping, int sandCount, int crashCount) {
+            muestras_recogidas = sampleCount;
+            casillas_exploradas = tileCount;
+            recompensa_visual = rewardShaping;
+            arena = sandCount;
+            colisiones = crashCount;
+        }
     }
     public static enum with_tiles{
         WITH_TILES
@@ -131,6 +189,10 @@ public class RoverExecutionContext {
     public static class RecorridoReturnTypeWithTilesReached{
         public RecorridoReturnType rrt;
         public Vector<Vector2> all_tiles_reached;
+        public RecorridoReturnTypeWithTilesReached(RecorridoReturnType r, Vector<Vector2> t){
+            rrt = r;
+            all_tiles_reached = t;
+        }
     }
     public void reset(){
         currentTile = new Vector2(1,1);
@@ -139,16 +201,24 @@ public class RoverExecutionContext {
     }
     public RecorridoReturnType do_simulation(Map m, IndividualCodification cod) throws Exception{
         reset();
+        current_map = m;
+        current_map.resetTainted();
         while(energy_remaining > 0) {
             cod.execute(this);
         }
-        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
+
+        return new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count);
+//        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
     }
     public RecorridoReturnTypeWithTilesReached do_simulation(Map m, IndividualCodification cod, with_tiles t) throws Exception{
         reset();
+        current_map = m;
         while(energy_remaining > 0){
             cod.execute(this, t);
         }
-        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
+        return new RecorridoReturnTypeWithTilesReached(
+                new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count),
+                tiles);
+//        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
     }
 }
