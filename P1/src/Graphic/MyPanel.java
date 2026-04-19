@@ -16,4 +16,10 @@ public class MyPanel extends JPanel {
         setBackground(new Color(255,255,255));
         setVisible(true);
     }
+    public void setColor(int n){
+        setBackground(new Color(n,n,n));
+    }
+    public void setColor(int r, int g, int b){
+        setBackground(new Color(r,g,b));
+    }
 }

@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.*;
 import java.util.HashMap;
+import java.util.Vector;
 
 import GeneticAlgorithm.*;
 
@@ -14,6 +15,7 @@ import Mapas.Map;
 import Mapas.TileContents;
 import Mapas.mapStorage;
 import org.math.plot.*;
+import utils.Vector2;
 
 import static Mapas.mapGenerator.generateMap;
 
@@ -133,8 +135,7 @@ public class MainMenu extends JFrame{
 
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
-        m.WipeMap();
-        m.DrawSamples();
+        m.recolor_map(new Vector<Vector2>(0));
         return m;
     }
 
