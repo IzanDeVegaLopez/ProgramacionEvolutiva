@@ -126,7 +126,7 @@ public class RoverExecutionContext {
             case WALL:
                 energy_remaining-=2;
                 ++crash_count;
-                System.out.print("owie");
+//                System.out.println("owie");
                 break;
         }
         if (add_reward) reward_shaping++;
@@ -159,7 +159,7 @@ public class RoverExecutionContext {
             case WALL:
                 energy_remaining -= 2;
                 ++crash_count;
-                System.out.print("owie");
+//                System.out.println("owie");
                 break;
         }
         if (add_reward) reward_shaping++;
