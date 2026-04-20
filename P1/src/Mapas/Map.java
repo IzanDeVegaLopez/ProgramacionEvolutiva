@@ -102,5 +102,8 @@ public class Map {
         if (!usableTile(x,y)) return false;
         ocupiedTiles[y][x] = contents;
         return true;
+    }   
+    public boolean set_contents(Vector2 v, TileContents contents){
+        return set_contents(v.x,v.y,contents);
     }
 }
