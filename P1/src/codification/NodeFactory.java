@@ -125,6 +125,7 @@ public class NodeFactory {
     }
 
     public static TreeNode choose_random_node(TreeNode t_node) throws Exception{
+        if(t_node == null) throw new UnreachableCode("Node was null in call to choose_random_node");
         TreeNode aux = t_node;
         while(!aux.is_leaf()){
             int random_idx = utils.my_utils.get_random(options.count.ordinal());
@@ -141,6 +142,7 @@ public class NodeFactory {
                 default:
                     throw new UnreachableCode("Count is not a real option, this should not have been chosen");
             }
+            if(aux==null) throw new UnreachableCode("aux was null in iteration in call to choose_random_node");
         }
         return aux;
     }

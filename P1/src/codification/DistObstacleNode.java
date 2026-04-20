@@ -9,6 +9,9 @@ public class DistObstacleNode extends ConditionalNode<DistObstacleNode>{
     }
     @Override
     public DistObstacleNode get_deep_copy() throws Exception {
-        return new DistObstacleNode(is_condition_true.get_deep_copy());
+        DistObstacleNode node = new DistObstacleNode(is_condition_true.get_deep_copy());
+        node.L_child = L_child.get_deep_copy();
+        node.R_child = R_child.get_deep_copy();
+        return node;
     }
 }

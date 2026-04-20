@@ -11,6 +11,9 @@ public class DistSandNode extends ConditionalNode<DistSandNode>{
     }
     @Override
     public DistSandNode get_deep_copy() throws Exception {
-        return new DistSandNode(is_condition_true.get_deep_copy());
+        DistSandNode node = new DistSandNode(is_condition_true.get_deep_copy());
+        node.L_child = L_child.get_deep_copy();
+        node.R_child = R_child.get_deep_copy();
+        return node;
     }
 }

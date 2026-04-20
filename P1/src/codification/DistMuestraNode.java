@@ -9,6 +9,9 @@ public class DistMuestraNode extends ConditionalNode<DistMuestraNode>{
     }
     @Override
     public DistMuestraNode get_deep_copy() throws Exception {
-        return new DistMuestraNode(is_condition_true.get_deep_copy());
+        DistMuestraNode node = new DistMuestraNode(is_condition_true.get_deep_copy());
+        node.L_child = L_child.get_deep_copy();
+        node.R_child = R_child.get_deep_copy();
+        return node;
     }
 }

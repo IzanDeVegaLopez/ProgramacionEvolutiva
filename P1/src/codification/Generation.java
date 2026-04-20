@@ -35,7 +35,7 @@ public class Generation {
         int individuos_por_nivel = n_individuals /(max_depth-min_depth+1);
         int half_individuos_por_nivel = individuos_por_nivel/2;
         int col = 0;
-        for(int i = min_depth; i < max_depth; ++i){
+        for(int i = min_depth; i <= max_depth; ++i){
             for(int j = 0; j < half_individuos_por_nivel; ++j){
                 all_individuals[col*individuos_por_nivel+j].node_tree = NodeFactory.create_random_complete_tree(0, i);
             }

@@ -28,7 +28,6 @@ public class TreeGeneticAlgorithm {
     BaseMutation mutation_method;
     //manhattan_distance_fitness_calculator fit_calculator;
     cross_method crux;
-    BaseMutation mut;
     double presion_selectiva_suma;
 
     RoverExecutionContext ctx = new RoverExecutionContext();
@@ -37,7 +36,9 @@ public class TreeGeneticAlgorithm {
     public TreeGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
         startGeneticAlgorithm(p);
         do_first_gen(p);
-        loopGeneticAlgorithm(p);
+        while(currentGen < p.nGen) {
+            loopGeneticAlgorithm(p);
+        }
         endGeneticAlgorithm(p);
     }
     public void choose_mutation_method(int i){
@@ -127,12 +128,15 @@ public class TreeGeneticAlgorithm {
 
         choose_selection_method(p.selectionType);
         choose_mutation_method(p.mutationType);
+        choose_cross_method();
 
         initialize_codification(p);
 
         initialize_plot(p);
 
         initialize_elites(p);
+
+
     }
 
     void do_first_gen(GeneticAlgorithmParameters p) throws Exception{
@@ -180,7 +184,7 @@ public class TreeGeneticAlgorithm {
         p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
         p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
         p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
-        //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
+        System.out.print("Gen 0: "+ft.mid+" "+best_sol_yet+" "+ ft.best_value+'\n');
 
         //PAINT IF NEEDED
         /*
@@ -205,7 +209,7 @@ public class TreeGeneticAlgorithm {
 
         //MUTACIÓN
         for(int i = 0; i < p.nIndInGen; ++i){
-            if(Math.random() < p.mutationprobability) mut.mutate(gen[using_cod_n].get(i));
+            if(Math.random() < p.mutationprobability) mutation_method.mutate(gen[using_cod_n].get(i));
         }
 
     ++currentGen;
@@ -262,6 +266,7 @@ public class TreeGeneticAlgorithm {
         p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
         p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
         p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
+        System.out.print("Gen "+currentGen+": "+ft.mid+" "+best_sol_yet+" "+ ft.best_value+'\n');
         //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
 
         //PAINT IF NEEDED
@@ -287,7 +292,7 @@ public class TreeGeneticAlgorithm {
 
         //MUTACIÓN
         for(int i = 0; i < p.nIndInGen; ++i){
-            if(Math.random() < p.mutationprobability) mut.mutate(gen[using_cod_n].get(i));
+            if(Math.random() < p.mutationprobability) mutation_method.mutate(gen[using_cod_n].get(i));
         }
 
         ++currentGen;

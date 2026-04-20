@@ -9,6 +9,9 @@ public class EnergyLevelCheckNode extends ConditionalNode<EnergyLevelCheckNode>{
     }
     @Override
     public EnergyLevelCheckNode get_deep_copy() throws Exception {
-        return new EnergyLevelCheckNode(is_condition_true.get_deep_copy());
+        EnergyLevelCheckNode node = new EnergyLevelCheckNode(is_condition_true.get_deep_copy());
+        node.L_child = L_child.get_deep_copy();
+        node.R_child = R_child.get_deep_copy();
+        return node;
     }
 }
