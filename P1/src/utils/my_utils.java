@@ -24,4 +24,9 @@ public class my_utils {
     public static int get_random(int non_inclusive_max){
         return (int) Math.floor(Math.random()*(non_inclusive_max));
     }
+    public static String write_n_tabs(int n){
+        StringBuilder ss= new StringBuilder();
+        ss.append("\t".repeat(Math.max(0, n)));
+        return ss.toString();
+    }
 }

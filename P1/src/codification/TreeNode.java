@@ -6,5 +6,5 @@ public interface TreeNode<T extends TreeNode<T>> {
     public boolean is_leaf();
     public T get_deep_copy() throws Exception;
     public int get_n_childs();
-    public String write_me_down() throws Exception;
+    public String write_me_down(int depth) throws Exception;
 }

@@ -15,8 +15,8 @@ public class DistMuestraNode extends ConditionalNode<DistMuestraNode>{
         return node;
     }
     @Override
-    public String write_me_down()throws Exception{
-        return "if Dist To Muestra < "+ is_condition_true.value_compared +" do{\n" + L_child.write_me_down() + "\n} else { \n"+R_child.write_me_down()+"\n}";
+    public String write_me_down(int depth)throws Exception{
+        return utils.my_utils.write_n_tabs(depth)+"if Dist To Muestra < "+ is_condition_true.value_compared +" do{\n" + L_child.write_me_down(depth+1) + "\n"+utils.my_utils.write_n_tabs(depth)+"} else { \n"+R_child.write_me_down(depth+1)+"\n"+utils.my_utils.write_n_tabs(depth)+"}";
     }
 
 }

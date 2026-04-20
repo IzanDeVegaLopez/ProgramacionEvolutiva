@@ -28,7 +28,7 @@ public class BranchNode<T extends BranchNode<T>> implements TreeNode<T>{
     }
 
     @Override
-    public String write_me_down() throws Exception{
+    public String write_me_down(int depth) throws Exception{
         throw new UnreachableCode("Unimplemented");
     }
 }

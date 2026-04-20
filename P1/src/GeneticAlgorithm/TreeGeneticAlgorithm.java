@@ -3,6 +3,7 @@ package GeneticAlgorithm;
 //import elitism_methods.elitismo;
 import Mapas.mapStorage;
 import codification.Generation;
+import codification.IndividualCodification;
 import codification.RoverExecutionContext;
 import mutation_methods.*;
 import elitism_methods.elitism;
@@ -19,6 +20,7 @@ public class TreeGeneticAlgorithm {
     //codificacion_entera[] elite_elems;
     Generation[] gen = new Generation[2];
     Generation elite_elems;
+    IndividualCodification best;
     double[] elite_values;// 0 value, 1 penalty
     int using_cod_n = 0;
     double[][] plotValues;
@@ -110,6 +112,7 @@ public class TreeGeneticAlgorithm {
         int alternate = (using_cod_n+1)%2;
         gen[0] = new Generation(p.nIndInGen, Generation.randomization.RANDOMIZE);
         gen[1] = new Generation(p.nIndInGen);
+        best = new IndividualCodification();
     }
 
     void initialize_elites(GeneticAlgorithmParameters p){
@@ -142,13 +145,11 @@ public class TreeGeneticAlgorithm {
 
     void do_first_gen(GeneticAlgorithmParameters p) throws Exception{
         int alternate = (using_cod_n + 1) %2;
-        //FITNESS
-        boolean mapUpdated = false;
 
         FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
         if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
-            mapUpdated = true;
+            best.impersonate(gen[using_cod_n].get(ft.best_value_idx));
         }
 
         //ELITISMO------------------------------------------------------------------------------------------------
@@ -219,14 +220,11 @@ public class TreeGeneticAlgorithm {
     void loopGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
         mapStorage.reset_maps();
         int alternate = (using_cod_n + 1) %2;
-        
-        //FITNESS
-        boolean mapUpdated = false;
 
         FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
         if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
-            mapUpdated = true;
+            best.impersonate(gen[using_cod_n].get(ft.best_value_idx));
         }
 
         //ELITISMO------------------------------------------------------------------------------------------------
@@ -300,6 +298,7 @@ public class TreeGeneticAlgorithm {
 
         ++currentGen;
     }
-    void endGeneticAlgorithm(GeneticAlgorithmParameters p){
+    void endGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
+        p.log.set_text(best.node_tree.write_me_down(0));
     }
 }

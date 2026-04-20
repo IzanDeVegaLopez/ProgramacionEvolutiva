@@ -23,7 +23,7 @@ public class SequenceNode extends BranchNode<SequenceNode> {
     }
 
     @Override
-    public String write_me_down()throws Exception{
-        return "Bloque do{\n" + L_child.write_me_down() + "\n and then \n"+R_child.write_me_down()+"\n}";
+    public String write_me_down(int depth)throws Exception{
+        return utils.my_utils.write_n_tabs(depth)+"Bloque do{\n" + L_child.write_me_down(depth+1) + "\n"+utils.my_utils.write_n_tabs(depth)+" and then \n"+R_child.write_me_down(depth+1)+"\n"+utils.my_utils.write_n_tabs(depth)+"}";
     }
 }

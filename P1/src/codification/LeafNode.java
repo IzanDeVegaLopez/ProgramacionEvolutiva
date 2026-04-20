@@ -27,7 +27,7 @@ public class LeafNode<T extends LeafNode<T>> implements TreeNode<T>{
         return 0;
     }
     @Override
-    public String write_me_down() throws Exception{
+    public String write_me_down(int depth) throws Exception{
         throw new UnreachableCode("Unimplemented");
     }
 }

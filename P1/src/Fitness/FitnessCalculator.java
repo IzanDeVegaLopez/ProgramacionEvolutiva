@@ -17,7 +17,10 @@ public class FitnessCalculator {
             if(cod.node_tree==null) throw new UnreachableCode("The codification with index "+i+" has a null first tree node");
             ret.fit[i] = calulate_one_individual_fitness(m, cod, ctx);
             ret.mid += ret.fit[i];
-            ret.best_value = Math.max(ret.fit[i], ret.best_value);
+            if(ret.fit[i] > ret.best_value){
+                ret.best_value = ret.fit[i];
+                ret.best_value_idx = i;
+            }
             ++i;
         }
         ret.mid /= gen.all_individuals.length;

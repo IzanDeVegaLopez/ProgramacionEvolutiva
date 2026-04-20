@@ -16,7 +16,7 @@ public class AdvanceNode extends LeafNode<AdvanceNode> {
     }
 
     @Override
-    public String write_me_down()throws Exception{
-        return "Advance";
+    public String write_me_down(int depth)throws Exception{
+        return utils.my_utils.write_n_tabs(depth)+"Advance";
     }
 }
