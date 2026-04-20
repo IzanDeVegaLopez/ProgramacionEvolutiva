@@ -21,4 +21,9 @@ public class SequenceNode extends BranchNode<SequenceNode> {
         copy.R_child = R_child.get_deep_copy();
         return copy;
     }
+
+    @Override
+    public String write_me_down()throws Exception{
+        return "Bloque do{\n" + L_child.write_me_down() + "\n and then \n"+R_child.write_me_down()+"\n}";
+    }
 }

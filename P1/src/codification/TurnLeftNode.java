@@ -13,4 +13,9 @@ public class TurnLeftNode extends LeafNode<TurnLeftNode> {
     public TurnLeftNode get_deep_copy() throws Exception{
         return new TurnLeftNode();
     }
+
+    @Override
+    public String write_me_down()throws Exception{
+        return "TurnLeft";
+    }
 }

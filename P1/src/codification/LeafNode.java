@@ -26,4 +26,8 @@ public class LeafNode<T extends LeafNode<T>> implements TreeNode<T>{
     public int get_n_childs(){
         return 0;
     }
+    @Override
+    public String write_me_down() throws Exception{
+        throw new UnreachableCode("Unimplemented");
+    }
 }

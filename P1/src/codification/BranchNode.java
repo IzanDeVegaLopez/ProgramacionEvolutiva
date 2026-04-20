@@ -26,4 +26,9 @@ public class BranchNode<T extends BranchNode<T>> implements TreeNode<T>{
     public int get_n_childs(){
         return 2 + L_child.get_n_childs()+ R_child.get_n_childs();
     }
+
+    @Override
+    public String write_me_down() throws Exception{
+        throw new UnreachableCode("Unimplemented");
+    }
 }

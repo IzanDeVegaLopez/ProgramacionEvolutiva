@@ -14,4 +14,9 @@ public class AdvanceNode extends LeafNode<AdvanceNode> {
     public AdvanceNode get_deep_copy() throws Exception{
         return new AdvanceNode();
     }
+
+    @Override
+    public String write_me_down()throws Exception{
+        return "Advance";
+    }
 }
