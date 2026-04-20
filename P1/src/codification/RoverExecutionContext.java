@@ -97,7 +97,7 @@ public class RoverExecutionContext {
             looking_at_tile = looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
             ++dist;
         }
-        if(current_map.get_tile(looking_at_tile) == TileContents.SAMPLE) add_reward = true;
+        if(current_map.validTile(looking_at_tile) && current_map.get_tile(looking_at_tile) == TileContents.SAMPLE) add_reward = true;
         return dist;
         //return 0;
     }
