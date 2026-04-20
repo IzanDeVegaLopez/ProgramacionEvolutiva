@@ -9,6 +9,7 @@ import java.util.Vector;
 
 public class RoverExecutionContext {
     static final int total_energy = 150;
+    static final int total_ticks = 150;
     public enum rotationDirection{
         RD_LEFT,
         RD_RIGHT,
@@ -201,24 +202,25 @@ public class RoverExecutionContext {
     }
     public RecorridoReturnType do_simulation(Map m, IndividualCodification cod) throws Exception{
         reset();
+        int ticks = 0;
         current_map = m;
         current_map.resetTainted();
-        while(energy_remaining > 0) {
+        while(ticks < total_ticks && energy_remaining > 0) {
             cod.execute(this);
+            ++ticks;
         }
-
         return new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count);
-//        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
     }
     public RecorridoReturnTypeWithTilesReached do_simulation(Map m, IndividualCodification cod, with_tiles t) throws Exception{
         reset();
+        int ticks = 0;
         current_map = m;
-        while(energy_remaining > 0){
+        while(ticks < total_ticks && energy_remaining > 0){
             cod.execute(this, t);
+            ++ticks;
         }
         return new RecorridoReturnTypeWithTilesReached(
                 new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count),
                 tiles);
-//        throw new UnreachableCode("Falta devolver el valor, y hacer todas las comprobaciones de casillas en las respectivas funciones de moverse y girar");
     }
 }
