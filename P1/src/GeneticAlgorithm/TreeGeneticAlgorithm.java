@@ -24,7 +24,7 @@ public class TreeGeneticAlgorithm {
     double[][] plotValues;
     int currentGen = 0;
     int n_elites;
-    double best_sol_yet = Double.POSITIVE_INFINITY;
+    double best_sol_yet = Double.NEGATIVE_INFINITY;
     selection_method select_method;
     BaseMutation mutation_method;
     //manhattan_distance_fitness_calculator fit_calculator;
@@ -146,7 +146,7 @@ public class TreeGeneticAlgorithm {
         boolean mapUpdated = false;
 
         FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
-        if(ft.best_value < best_sol_yet){
+        if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
             mapUpdated = true;
         }
@@ -224,7 +224,7 @@ public class TreeGeneticAlgorithm {
         boolean mapUpdated = false;
 
         FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
-        if(ft.best_value < best_sol_yet){
+        if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
             mapUpdated = true;
         }
