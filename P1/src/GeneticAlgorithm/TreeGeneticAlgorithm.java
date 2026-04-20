@@ -1,6 +1,7 @@
 package GeneticAlgorithm;
 
 //import elitism_methods.elitismo;
+import Mapas.mapStorage;
 import codification.Generation;
 import codification.RoverExecutionContext;
 import mutation_methods.*;
@@ -216,7 +217,9 @@ public class TreeGeneticAlgorithm {
     }
 
     void loopGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
+        mapStorage.reset_maps();
         int alternate = (using_cod_n + 1) %2;
+        
         //FITNESS
         boolean mapUpdated = false;
 
