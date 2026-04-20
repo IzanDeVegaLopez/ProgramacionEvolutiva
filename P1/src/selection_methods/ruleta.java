@@ -4,7 +4,7 @@ public class ruleta implements selection_method{
     public tabla_frecuencias t;
 
     @Override
-    public int[] chooseEntities(double[] fitness){
+    public int[] chooseEntities(double[] fitness) throws Exception{
         int[] selected = new int[fitness.length];
         t = new tabla_frecuencias(fitness);
         for (int i = 0; i<selected.length; i++){
