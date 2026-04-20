@@ -1,25 +1,30 @@
 package selection_methods;
 
+import Error.UnreachableCode;
+
 public class ranking implements selection_method{
     public double pressure = 1.5;
     public tabla_frecuencias t;
-    public int[] chooseEntities(double[] fitness) {
+
+    @Override
+    public int[] chooseEntities(double[] fitness) throws Exception {
         int[] selected = new int[fitness.length];
 
         // In this array, an element with index n represents the rank of
         // fitness[n].
         int[] indexes_by_order = new int [fitness.length];
         for (int i = 0; i<fitness.length; i++) {
-            double min = Double.MAX_VALUE;
-            int minInd = Integer.MAX_VALUE;
+            double max = Double.NEGATIVE_INFINITY;
+            int maxInd = -1;
             for (int j = 0; j < fitness.length; j++) {
-                if (fitness[j] < min) {
-                    min = fitness[j];
-                    minInd = j;
+                if (fitness[j] > max) {
+                    max = fitness[j];
+                    maxInd = j;
                 }
             }
-            indexes_by_order[minInd] = i;
-            fitness[minInd] = Double.MAX_VALUE;
+            if(maxInd==-1) throw new UnreachableCode("Index of maximum was not set on ranking chooseEntities()");
+            indexes_by_order[maxInd] = i;
+            fitness[maxInd] = Double.MAX_VALUE;
         }
 
         double[] rates = new double[fitness.length];

@@ -3,7 +3,9 @@ package selection_methods;
 public class torneo implements selection_method{
     int muestra = 3;
     public tabla_frecuencias_de_minimos t;
-    public int[] chooseEntities(double[] fitness){
+
+    @Override
+    public int[] chooseEntities(double[] fitness) throws Exception{
         int[] selected = new int[fitness.length];
         /// Contiene los *índices* de los elementos seleccionados.
         int[] muestra_seleccionada = new int[muestra];

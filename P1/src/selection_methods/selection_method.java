@@ -9,6 +9,6 @@ enum methods{
     ranking
 }
 public interface selection_method {
-    public abstract int[] chooseEntities(double[] fitness);
+    public abstract int[] chooseEntities(double[] fitness) throws Exception;
     public abstract double get_selection_enforcer();
 }

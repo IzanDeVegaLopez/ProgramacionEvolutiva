@@ -3,10 +3,11 @@ package selection_methods;
 public class restos implements selection_method{
     methods metodo_restantes = methods.ruleta;
     selection_method aux_method;
-    public tabla_frecuencias_de_minimos t;
-    public int[] chooseEntities(double[] fitness){
+    public tabla_frecuencias t;
+    @Override
+    public int[] chooseEntities(double[] fitness) throws Exception{
         int[] selected = new int[fitness.length];
-        t = new tabla_frecuencias_de_minimos(fitness);
+        t = new tabla_frecuencias(fitness);
         int index = 0;
         double[] fit = fitness.clone();
         for (int i = 0; i< fit.length;i++){

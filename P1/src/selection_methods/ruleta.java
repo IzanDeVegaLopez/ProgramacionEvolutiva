@@ -1,10 +1,12 @@
 package selection_methods;
 
 public class ruleta implements selection_method{
-    public tabla_frecuencias_de_minimos t;
+    public tabla_frecuencias t;
+
+    @Override
     public int[] chooseEntities(double[] fitness){
         int[] selected = new int[fitness.length];
-        t = new tabla_frecuencias_de_minimos(fitness);
+        t = new tabla_frecuencias(fitness);
         for (int i = 0; i<selected.length; i++){
             float temp = (float)Math.random();
             int index = 0;
