@@ -262,12 +262,18 @@ public class MainMenu extends JFrame{
         central_panel.add(plot2D);
 
         // ADD LOGS
-        logs = new ScrollTextField();
-        central_panel.add(logs.my_scroll_pane);
+        JPanel _text_panel = new JPanel();
+
+        logs = new ScrollTextField(1200,500);
         logs.set_text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        _text_panel.add(logs.my_scroll_pane);
+        //Dimension dd = new Dimension(500,300);
+        //_text_panel.setMinimumSize(dd);
+        //_text_panel.setMaximumSize(dd);
+        //_text_panel.setBounds(300,300,500,500);
+        central_panel.add(_text_panel);
+
         // ADD BUTTOM BUTTONS
-
-
         JPanel infoPan = new JPanel();
         infoPan.setLayout(new BoxLayout(infoPan, BoxLayout.X_AXIS));
 
