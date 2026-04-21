@@ -40,10 +40,6 @@ public class MapRepresentation extends MyPanel{
         recolor_map(new Vector<Vector2>(0));
     }
     public void recolor_map(Vector<Vector2> marked_tiles){
-        for(Vector2 v : marked_tiles){
-            add_circle_to_tile(v, new Color(255,0,0), new Vector2(30,30));
-        }
-
         int y = m.ocupiedTiles.length, x=m.ocupiedTiles[0].length;
         for(int i = 0; i < y; ++i) {
             for (int j = 0; j < x; ++j) {
@@ -57,9 +53,7 @@ public class MapRepresentation extends MyPanel{
                         myTiles[i][j].setColor(215, 180, 125);
                         break;
                     case TileContents.SAMPLE:
-                        if(myTiles[i][j].getComponentCount() == 0) {
-                            add_circle_to_tile(new Vector2(j,i), new Color(225,175,75), new Vector2(20,20));
-                        }
+                        add_circle_to_tile(new Vector2(j,i), new Color(225,175,75), new Vector2(20,20));
                     case TileContents.EMPTY:
                         myTiles[i][j].setColor(255);
                         break;
@@ -67,11 +61,16 @@ public class MapRepresentation extends MyPanel{
             }
         }
 
+        for(Vector2 v : marked_tiles){
+            add_circle_to_tile(v, new Color(255,0,0), new Vector2(30,30));
+        }
+
         revalidate();
         repaint();
     }
 
     public void add_circle_to_tile(Vector2 tile, Color c, Vector2 size){
+        myTiles[tile.y][tile.x].removeAll();
         CircularPanel mark = new CircularPanel(c, " ", 1.0f, 1.0f, 20);
         mark.setMinimumSize(new Dimension(size.x, size.y));
         mark.setMaximumSize(new Dimension(size.x, size.y));

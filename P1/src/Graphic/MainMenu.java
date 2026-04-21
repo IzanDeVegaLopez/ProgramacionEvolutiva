@@ -317,7 +317,6 @@ public class MainMenu extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 GeneticAlgorithmParameters g = new GeneticAlgorithmParameters();
                 g.plot2d = plot2D;
-                g.m = mapRepresentation[2-mapsTabs.getSelectedIndex()];
                 //
                 g.nGen = (int)Double.parseDouble(nGensField.textField.getText());
                 g.nIndInGen = (int)Double.parseDouble(nIndInGenField.textField.getText());
@@ -329,10 +328,7 @@ public class MainMenu extends JFrame{
                 g.mutationType = mutationHash.get(mutationMethodComboBox.getSelectedItem().toString());
                 g.elite_ratio = elitismBox.isSelected() ? Float.parseFloat(elitismRatio.textField.getText())/100.0f : 0;
 
-                g.maps = new Map[3];
-                for(int i = 0; i < g.maps.length; ++i){
-                    g.maps[i] = mapRepresentation[i].m;
-                }
+                g.maps = mapRepresentation;
 //                g.n_interest_points = Integer.parseInt(tiles_of_interest_field.textField.getText());
 //                g.n_drones = Integer.parseInt(number_of_drones.textField.getText());
 

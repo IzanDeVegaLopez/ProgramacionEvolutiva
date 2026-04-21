@@ -206,12 +206,12 @@ public class RoverExecutionContext {
         crash_count = 0;
         reward_shaping = 0;
         sample_count = 0;
+        current_map.resetTainted();
     }
     public RecorridoReturnType do_simulation(Map m, IndividualCodification cod) throws Exception{
+        current_map = m;
         reset();
         int ticks = 0;
-        current_map = m;
-        current_map.resetTainted();
         while(ticks < total_ticks && energy_remaining > 0) {
             cod.execute(this);
             ++ticks;
@@ -219,9 +219,10 @@ public class RoverExecutionContext {
         return new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count);
     }
     public RecorridoReturnTypeWithTilesReached do_simulation(Map m, IndividualCodification cod, with_tiles t) throws Exception{
-        reset();
-        int ticks = 0;
         current_map = m;
+        reset();
+        tiles.add(new Vector2(1,1));
+        int ticks = 0;
         while(ticks < total_ticks && energy_remaining > 0){
             cod.execute(this, t);
             ++ticks;

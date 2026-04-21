@@ -1,5 +1,6 @@
 package Fitness;
 
+import Graphic.MapRepresentation;
 import Mapas.Map;
 import codification.Generation;
 import codification.IndividualCodification;
@@ -10,7 +11,7 @@ import utils.Vector2;
 import java.util.Vector;
 
 public class FitnessCalculator {
-    public static FitnessReturnType calculate_fitness(Map[] m, Generation gen, RoverExecutionContext ctx, double bloating_coef) throws Exception {
+    public static FitnessReturnType calculate_fitness(MapRepresentation[] m, Generation gen, RoverExecutionContext ctx, double bloating_coef) throws Exception {
         FitnessReturnType ret = new FitnessReturnType();
         ret.best_value = Double.NEGATIVE_INFINITY;
         ret.fit = new double[gen.all_individuals.length];
@@ -30,10 +31,10 @@ public class FitnessCalculator {
         return ret;
     }
 
-    public static double calulate_one_individual_fitness(Map[] m, IndividualCodification cod, RoverExecutionContext ctx, double bloating_coef) throws Exception {
+    public static double calulate_one_individual_fitness(MapRepresentation[] m, IndividualCodification cod, RoverExecutionContext ctx, double bloating_coef) throws Exception {
         double total_fitness = 0;
-        for (Map _m : m) {
-            total_fitness += calculate_fitness_given_map(_m, cod, ctx);
+        for (MapRepresentation _m : m) {
+            total_fitness += calculate_fitness_given_map(_m.m, cod, ctx);
         }
         int n_nodes = cod.get_number_of_child_nodes();
         return total_fitness / m.length - n_nodes * bloating_coef;
