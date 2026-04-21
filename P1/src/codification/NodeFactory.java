@@ -111,10 +111,10 @@ public class NodeFactory {
         int random = my_utils.get_random(max_random_value_for_numeric_condition_values);
         return switch(cnt){
             case BNT_SEQUENCE_NODE -> new SequenceNode();
-            case BNT_SAMPLE_NODE -> new DistMuestraNode(random);
-            case BNT_SAND_NODE -> new DistSandNode(random);
-            case BNT_OBSTACLE_NODE -> new DistObstacleNode(random);
-            case BNT_ENERGY_LEVEL_CHECK_NODE -> new EnergyLevelCheckNode(random);
+            case BNT_SAMPLE_NODE -> new DistMuestraNode(my_utils.get_random(10));
+            case BNT_SAND_NODE -> new DistSandNode(my_utils.get_random(10));
+            case BNT_OBSTACLE_NODE -> new DistObstacleNode(my_utils.get_random(10));
+            case BNT_ENERGY_LEVEL_CHECK_NODE -> new EnergyLevelCheckNode(my_utils.get_random(100));
             default -> throw new UnreachableCode("branch node type was count, that should have never happened");
         };
     }
