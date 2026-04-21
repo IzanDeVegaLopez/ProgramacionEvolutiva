@@ -37,7 +37,7 @@ public class FitnessCalculator {
             total_fitness += calculate_fitness_given_map(_m.m, cod, ctx);
         }
         int n_nodes = cod.get_number_of_child_nodes();
-        return total_fitness / m.length - n_nodes * bloating_coef;
+        return (total_fitness / m.length) - (n_nodes * bloating_coef);
     }
 
     public static double calculate_fitness_given_map(Map m, IndividualCodification cod, RoverExecutionContext ctx) throws Exception {
