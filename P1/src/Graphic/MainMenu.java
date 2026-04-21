@@ -31,6 +31,8 @@ public class MainMenu extends JFrame{
     JCheckBox elitismBox;
     //JCheckBox ponderadoBox;
     NumericField mutationProbability;
+    NumericField maxDepth;
+    NumericField bloat_coef;
     NumericField crossProbability;
     NumericField seedField;
     JComboBox selectionTypeComboBox;
@@ -115,7 +117,7 @@ public class MainMenu extends JFrame{
         int height = 15;
         int width = 15;
         for (int i = 0; i<3;i++){
-            mapStorage.add_map(generateMap(width,height,Long.parseLong(seedField.textField.getText())+i),i);
+            mapStorage.add_map(generateMap(width,height,(int)Double.parseDouble(seedField.textField.getText())+i),i);
         }
         for(int i = s.length-1; i >= 0; --i){
             mapRepresentation[i] = createMap(i);
@@ -127,7 +129,7 @@ public class MainMenu extends JFrame{
         MyPanel elitismPanel = new MyPanel();
         elitismPanel.setLayout(new BoxLayout(elitismPanel,BoxLayout.X_AXIS));
         elitismPanel.add(createLabel("Elitismo (%): "));
-        elitismPanel.add(elitismRatio = createNumericField(20));
+        elitismPanel.add(elitismRatio = createNumericField(3));
         pan.add(elitismPanel);
 
         return pan;
@@ -167,24 +169,37 @@ public class MainMenu extends JFrame{
         MyPanel p4 = new MyPanel();
         p4.setLayout(new BoxLayout(p4,BoxLayout.X_AXIS));
         p4.add(createLabel("Tamaño Población"));
-        p4.add(nIndInGenField = createNumericField(100));
+        p4.add(nIndInGenField = createNumericField(300));
         //Generaciones
         MyPanel p5 = new MyPanel();
         p5.setLayout(new BoxLayout(p5,BoxLayout.X_AXIS));
         p5.add(createLabel("Número generaciones"));
-        p5.add(nGensField = createNumericField(200));
+        p5.add(nGensField = createNumericField(400));
 
         //Porcentaje Mutación
         MyPanel p6 = new MyPanel();
         p6.setLayout(new BoxLayout(p6,BoxLayout.X_AXIS));
         p6.add(createLabel("Porcentaje mutación (%)"));
-        p6.add(mutationProbability= createNumericField(5));
+        p6.add(mutationProbability= createNumericField(20));
+
+        //Profundidad maxima
+        MyPanel pPMax = new MyPanel();
+        pPMax.setLayout(new BoxLayout(pPMax,BoxLayout.X_AXIS));
+        pPMax.add(createLabel("Profundidad Máxima"));
+        pPMax.add(maxDepth= createNumericField(6));
+
+        //Bloat Coef
+        MyPanel pBloat = new MyPanel();
+        pBloat.setLayout(new BoxLayout(pBloat,BoxLayout.X_AXIS));
+        pBloat.add(createLabel("Coef. Bloating"));
+        pBloat.add(bloat_coef = createNumericField(1.5));
+
 
         //Porcentaje Cruce
         MyPanel p7 = new MyPanel();
         p7.setLayout(new BoxLayout(p7,BoxLayout.X_AXIS));
         p7.add(createLabel("Porcentaje cruce (%)"));
-        p7.add(crossProbability= createNumericField(60));
+        p7.add(crossProbability = createNumericField(90));
 
         //Seed
         MyPanel p8 = new MyPanel();
@@ -240,7 +255,7 @@ public class MainMenu extends JFrame{
         return cmb;
     }
 
-    NumericField createNumericField(int startVal){
+    NumericField createNumericField(double startVal){
         NumericField t = new NumericField(startVal);
         t.setMaximumSize(new Dimension(menuDesplegableSizeX + NumericField.x*2, boxSizeY));
         t.setMinimumSize(new Dimension(menuDesplegableSizeX + NumericField.x*2, boxSizeY));
@@ -302,10 +317,10 @@ public class MainMenu extends JFrame{
                 g.plot2d = plot2D;
                 g.m = mapRepresentation[2-mapsTabs.getSelectedIndex()];
                 //
-                g.nGen = Integer.parseInt(nGensField.textField.getText());
-                g.nIndInGen = Integer.parseInt(nIndInGenField.textField.getText());
-                g.crossProbability = Float.parseFloat(crossProbability.textField.getText()) / 100.0f;
-                g.mutationprobability = Float.parseFloat(mutationProbability.textField.getText()) / 100.0f;
+                g.nGen = (int)Double.parseDouble(nGensField.textField.getText());
+                g.nIndInGen = (int)Double.parseDouble(nIndInGenField.textField.getText());
+                g.crossProbability =(int) Double.parseDouble(crossProbability.textField.getText()) / 100.0f;
+                g.mutationprobability =(int) Double.parseDouble(mutationProbability.textField.getText()) / 100.0f;
                 //
 //                g.crossType = crossHash.get(crossMethodComboBox.getSelectedItem().toString());
                 g.selectionType = selectionHash.get(selectionTypeComboBox.getSelectedItem().toString());

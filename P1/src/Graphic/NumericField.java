@@ -8,7 +8,7 @@ import java.awt.event.*;
 public class NumericField extends MyPanel{
     public static int x=40, y=60;
     public JTextField textField;
-    public NumericField(int startValue){
+    public NumericField(double startValue){
         super(255,255,255);
         textField = new JTextField("0", 10);
         JButton incrementButton = new JButton("+");
@@ -23,7 +23,7 @@ public class NumericField extends MyPanel{
         incrementButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int value = Integer.parseInt(textField.getText());
+                int value = (int)Double.parseDouble(textField.getText());
                 textField.setText(String.valueOf(value + 1));
             }
         });
@@ -31,7 +31,7 @@ public class NumericField extends MyPanel{
         decrementButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int value = Integer.parseInt(textField.getText());
+                int value = (int)Double.parseDouble(textField.getText());
                 textField.setText(String.valueOf(value - 1));
             }
         });
