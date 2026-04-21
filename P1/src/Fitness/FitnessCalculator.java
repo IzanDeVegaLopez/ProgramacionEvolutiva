@@ -5,6 +5,9 @@ import codification.Generation;
 import codification.IndividualCodification;
 import Error.UnreachableCode;
 import codification.RoverExecutionContext;
+import utils.Vector2;
+
+import java.util.Vector;
 
 public class FitnessCalculator {
     static final double bloating_coef=1.5f;
@@ -41,5 +44,9 @@ public class FitnessCalculator {
                 2*ret.recompensa_visual -
                 30* ret.arena -
                 10*ret.colisiones;
+    }
+    public static RoverExecutionContext.RecorridoReturnTypeWithTilesReached calculate_fitness_given_map_get_tiles(Map m, IndividualCodification cod, RoverExecutionContext ctx) throws Exception{
+        RoverExecutionContext.RecorridoReturnTypeWithTilesReached ret = ctx.do_simulation(m, cod, RoverExecutionContext.with_tiles.WITH_TILES);
+        return ret;
     }
 }

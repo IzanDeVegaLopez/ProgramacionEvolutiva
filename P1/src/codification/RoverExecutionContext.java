@@ -200,6 +200,12 @@ public class RoverExecutionContext {
         currentTile = new Vector2(1,1);
         lookingAtIdx = 0;
         energy_remaining = total_energy;
+        tile_count = 0;
+        tiles = new Vector<Vector2>(0);
+        sand_count = 0;
+        crash_count = 0;
+        reward_shaping = 0;
+        sample_count = 0;
     }
     public RecorridoReturnType do_simulation(Map m, IndividualCodification cod) throws Exception{
         reset();
