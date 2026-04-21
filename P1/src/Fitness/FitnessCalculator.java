@@ -10,9 +10,7 @@ import utils.Vector2;
 import java.util.Vector;
 
 public class FitnessCalculator {
-    static final double bloating_coef = 1.5f;
-
-    public static FitnessReturnType calculate_fitness(Map[] m, Generation gen, RoverExecutionContext ctx) throws Exception {
+    public static FitnessReturnType calculate_fitness(Map[] m, Generation gen, RoverExecutionContext ctx, double bloating_coef) throws Exception {
         FitnessReturnType ret = new FitnessReturnType();
         ret.best_value = Double.NEGATIVE_INFINITY;
         ret.fit = new double[gen.all_individuals.length];
@@ -20,7 +18,7 @@ public class FitnessCalculator {
         for (IndividualCodification cod : gen.all_individuals) {
             if (cod.node_tree == null)
                 throw new UnreachableCode("The codification with index " + i + " has a null first tree node");
-            ret.fit[i] = calulate_one_individual_fitness(m, cod, ctx);
+            ret.fit[i] = calulate_one_individual_fitness(m, cod, ctx,bloating_coef);
             ret.mid += ret.fit[i];
             if (ret.fit[i] > ret.best_value) {
                 ret.best_value = ret.fit[i];
@@ -32,7 +30,7 @@ public class FitnessCalculator {
         return ret;
     }
 
-    public static double calulate_one_individual_fitness(Map[] m, IndividualCodification cod, RoverExecutionContext ctx) throws Exception {
+    public static double calulate_one_individual_fitness(Map[] m, IndividualCodification cod, RoverExecutionContext ctx, double bloating_coef) throws Exception {
         double total_fitness = 0;
         for (Map _m : m) {
             total_fitness += calculate_fitness_given_map(_m, cod, ctx);

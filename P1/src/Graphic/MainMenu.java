@@ -227,6 +227,8 @@ public class MainMenu extends JFrame{
         panelConjunto.add(p6);
         panelConjunto.add(p7);
         panelConjunto.add(p8);
+        panelConjunto.add(pPMax);
+        panelConjunto.add(pBloat);
 //        panelConjunto.add(p9);
 //        panelConjunto.add(p10);
         return panelConjunto;
@@ -335,6 +337,9 @@ public class MainMenu extends JFrame{
 //                g.n_drones = Integer.parseInt(number_of_drones.textField.getText());
 
                 g.log = logs;
+
+                g.max_depth = (int) Double.parseDouble(maxDepth.textField.getText());
+                g.bloating_coef = Double.parseDouble(bloat_coef.textField.getText());
 
                 try {
                     TreeGeneticAlgorithm algorithm = new TreeGeneticAlgorithm(g);

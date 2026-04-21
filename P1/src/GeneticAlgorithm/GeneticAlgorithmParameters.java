@@ -18,6 +18,8 @@ public class GeneticAlgorithmParameters {
     public int mutationType;
     public int selectionType;
     public float elite_ratio;
+    public double bloating_coef;
+    public int max_depth;
 
 //    public int n_drones;
 //    public int n_interest_points;

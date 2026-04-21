@@ -6,7 +6,6 @@ public class Generation {
     public IndividualCodification[] all_individuals;
 
     private final static int min_depth = 1;
-    private final static int max_depth = 5;
 
     public static enum randomization{
         RANDOMIZE
@@ -21,15 +20,15 @@ public class Generation {
         }
         return gen;
     }
-    public Generation(int n_individuals, randomization rand) throws Exception{
+    public Generation(int n_individuals, int max_depth, randomization rand) throws Exception{
         all_individuals = initialize_gen(n_individuals);
         switch(rand){
-            case randomization.RANDOMIZE -> create_by_ramped_and_half(n_individuals);
+            case randomization.RANDOMIZE -> create_by_ramped_and_half(n_individuals, max_depth);
             default -> throw new UnreachableCode("How da fuck did ya reach here");
         }
     }
 
-    public void create_by_ramped_and_half(int n_individuals) throws Exception{
+    public void create_by_ramped_and_half(int n_individuals, int max_depth) throws Exception{
         if(max_depth < min_depth)
             throw new UnreachableCode("Max depth is lesser than min depth");
         int individuos_por_nivel = n_individuals /(max_depth-min_depth+1);

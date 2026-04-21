@@ -110,7 +110,7 @@ public class TreeGeneticAlgorithm {
     void initialize_codification(GeneticAlgorithmParameters p) throws Exception{
         using_cod_n = 0;
         int alternate = (using_cod_n+1)%2;
-        gen[0] = new Generation(p.nIndInGen, Generation.randomization.RANDOMIZE);
+        gen[0] = new Generation(p.nIndInGen, p.max_depth, Generation.randomization.RANDOMIZE);
         gen[1] = new Generation(p.nIndInGen);
         best = new IndividualCodification();
     }
@@ -146,7 +146,7 @@ public class TreeGeneticAlgorithm {
     void do_first_gen(GeneticAlgorithmParameters p) throws Exception{
         int alternate = (using_cod_n + 1) %2;
 
-        FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
+        FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx, p.bloating_coef);
         if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
             best.impersonate(gen[using_cod_n].get(ft.best_value_idx));
@@ -221,7 +221,7 @@ public class TreeGeneticAlgorithm {
         mapStorage.reset_maps();
         int alternate = (using_cod_n + 1) %2;
 
-        FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx);
+        FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx, p.bloating_coef);
         if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
             best.impersonate(gen[using_cod_n].get(ft.best_value_idx));
