@@ -309,5 +309,6 @@ public class TreeGeneticAlgorithm {
                     "\nCasillas Exploradas: "+fit_ret.rrt.casillas_exploradas +
                     "\nMuestras Recogidas: "+fit_ret.rrt.muestras_recogidas
         );
+        p.log.add_text("\nResultado Final: "+ FitnessCalculator.calculate_fitness_given_results(fit_ret.rrt), Color.BLUE);
     }
 }
