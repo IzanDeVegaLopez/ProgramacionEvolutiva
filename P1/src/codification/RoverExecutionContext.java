@@ -116,6 +116,7 @@ public class RoverExecutionContext {
         newTile = newTile.add(DIRECTIONS[lookingAtIdx]);
         switch (current_map.get_tile(newTile)){
             case SAMPLE:
+                current_map.set_contents(newTile, TileContents.EMPTY);
                 ++sample_count;
             case EMPTY:
                 currentTile = newTile.clone();
