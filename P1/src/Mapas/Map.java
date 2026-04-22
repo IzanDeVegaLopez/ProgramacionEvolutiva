@@ -106,4 +106,14 @@ public class Map {
     public boolean set_contents(Vector2 v, TileContents contents){
         return set_contents(v.x,v.y,contents);
     }
+    public Map clone(){
+        TileContents[][] new_contents = new TileContents[ocupiedTiles.length]
+                [ocupiedTiles.length>0 ? ocupiedTiles[0].length : 0];
+        for (int i = 0; i<ocupiedTiles.length;i++){
+            for (int j = 0; j< ocupiedTiles[i].length;j++){
+                new_contents[i][j] = ocupiedTiles[i][j];
+            }
+        }
+        return new Map(new_contents);
+    }
 }

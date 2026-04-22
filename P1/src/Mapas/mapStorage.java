@@ -8,13 +8,15 @@ public class mapStorage {
     private static Map[] maps = new Map[3];
     public static void add_map(Map m, int n){
         map_blueprints[n] = m;
-        reset_maps();
     }
     public static Map get_map(int n){
         if (n>maps.length) return new Map(new TileContents[0][0]);
         return maps[n];
     }
     public static void reset_maps(){
-        System.arraycopy(map_blueprints, 0, maps, 0, 3);
+
+        for (int i = 0; i<3; i++){
+            maps[i] = map_blueprints[i].clone();
+        }
     }
 }

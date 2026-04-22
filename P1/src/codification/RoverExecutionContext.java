@@ -209,6 +209,7 @@ public class RoverExecutionContext {
         crash_count = 0;
         reward_shaping = 0;
         sample_count = 0;
+        Vector2 final_tile = new Vector2(1,1);
         current_map.resetTainted();
     }
     public RecorridoReturnType do_simulation(Map m, IndividualCodification cod) throws Exception{

@@ -119,6 +119,7 @@ public class MainMenu extends JFrame{
         for (int i = 0; i<3;i++){
             mapStorage.add_map(generateMap(width,height,(int)Double.parseDouble(seedField.textField.getText())+i),i);
         }
+        mapStorage.reset_maps();
         for(int i = s.length-1; i >= 0; --i){
             mapRepresentation[i] = createMap(i);
             mapsTabs.addTab(s[i],mapRepresentation[i]);
@@ -361,6 +362,7 @@ public class MainMenu extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 mapStorage.add_map(generateMap(15,15,Long.parseLong(seedField.textField.getText())),
                         2-mapsTabs.getSelectedIndex());
+                mapStorage.reset_maps();
                 mapRepresentation[2-mapsTabs.getSelectedIndex()] = createMap(2-mapsTabs.getSelectedIndex());
                 mapsTabs.setComponentAt(mapsTabs.getSelectedIndex(),mapRepresentation[2-mapsTabs.getSelectedIndex()]);
 //                mapRepresentation[2-mapsTabs.getSelectedIndex()].WipeMap();
