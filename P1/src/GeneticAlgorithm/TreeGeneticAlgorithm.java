@@ -115,7 +115,7 @@ public class TreeGeneticAlgorithm {
         best = new IndividualCodification();
     }
 
-    void initialize_elites(GeneticAlgorithmParameters p){
+    void initialize_elites(GeneticAlgorithmParameters p) throws Exception{
         n_elites = (int)(p.elite_ratio * p.nIndInGen);
 
         elite_elems = new Generation(n_elites);

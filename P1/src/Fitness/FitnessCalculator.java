@@ -17,7 +17,7 @@ public class FitnessCalculator {
         ret.best_value = Double.NEGATIVE_INFINITY;
         ret.fit = new double[gen.all_individuals.length];
         for (int i = 0; i < gen.all_individuals.length; ++i) {
-            if (gen.all_individuals[i].node_tree == null)
+            if (gen.all_individuals[i].node_tree == null) //continue;
                 throw new UnreachableCode("The codification with index " + i + " has a null first tree node");
             ret.fit[i] = calulate_one_individual_fitness(m, gen.all_individuals[i], ctx,bloating_coef);
             ret.mid += ret.fit[i];

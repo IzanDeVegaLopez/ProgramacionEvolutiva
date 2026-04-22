@@ -9,5 +9,5 @@ public class FitnessReturnType {
     public double[] fit;
     public double best_value = 0;
     public int best_value_idx = -1;
-    public double mid;
+    public double mid = 0;
 }

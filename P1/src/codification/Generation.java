@@ -10,13 +10,14 @@ public class Generation {
     public static enum randomization{
         RANDOMIZE
     }
-    public Generation(int n_individuals){
+    public Generation(int n_individuals)throws Exception{
         all_individuals = initialize_gen(n_individuals);
     }
-    public IndividualCodification[] initialize_gen(int n_individuals){
+    public IndividualCodification[] initialize_gen(int n_individuals) throws Exception{
         IndividualCodification[] gen = new IndividualCodification[n_individuals];
         for(int i = 0; i < gen.length; ++i){
             gen[i] = new IndividualCodification();
+            gen[i].node_tree = NodeFactory.create_random_leaf_node_advance_double_prob();
         }
         return gen;
     }
@@ -32,8 +33,18 @@ public class Generation {
         if(max_depth < min_depth)
             throw new UnreachableCode("Max depth is lesser than min depth");
         int individuos_por_nivel = n_individuals /(max_depth-min_depth+1);
-        int half_individuos_por_nivel = individuos_por_nivel/2;
-        int col = 0;
+
+        for(int profundidad = min_depth; profundidad <= max_depth; ++profundidad) {
+            // HALF-AND-HALF: La mitad de este grupo será "Full" y la otra "Grow"
+            for (int i = 0; i < individuos_por_nivel; ++i) {
+                if (i <= individuos_por_nivel / 2) {
+                    all_individuals[(profundidad-1)*individuos_por_nivel+i].node_tree = NodeFactory.create_random_complete_tree(0, profundidad);
+                } else {
+                    all_individuals[(profundidad-1)*individuos_por_nivel+i].node_tree = NodeFactory.create_random_grow_tree(0, profundidad);
+                }
+            }
+        }
+/*
         for(int i = min_depth; i <= max_depth; ++i){
             for(int j = 0; j < half_individuos_por_nivel; ++j){
                 all_individuals[col*individuos_por_nivel+j].node_tree = NodeFactory.create_random_complete_tree(0, i);
@@ -43,6 +54,7 @@ public class Generation {
             }
             ++col;
         }
+*/
     }
 
     public void copy_individual(int idx, IndividualCodification cod) throws Exception{
