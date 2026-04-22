@@ -150,14 +150,16 @@ public class TreeGeneticAlgorithm {
         if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
             best.impersonate(gen[using_cod_n].get(ft.best_value_idx));
+            System.out.print("\n Best value chosen Yet => "+ best_sol_yet + " in Gen "+ currentGen+"\n");
+            //endGeneticAlgorithm(p);
         }
 
         //ELITISMO------------------------------------------------------------------------------------------------
         //CHOSE FIRST GEN ELITES
-        int[] best = new elitism().choose_elite(n_elites, ft.fit);
-        for (int i = 0; i < best.length; ++i) {
-            elite_elems.copy_individual(i,gen[using_cod_n].get(best[i]));
-            elite_values[i] = ft.fit[best[i]];
+        int[] elites_chosen = new elitism().choose_elite(n_elites, ft.fit);
+        for (int i = 0; i < elites_chosen.length; ++i) {
+            elite_elems.copy_individual(i,gen[using_cod_n].get(elites_chosen[i]));
+            elite_values[i] = ft.fit[elites_chosen[i]];
         }
         //--------------------------------------------------------------------------------------------------------
 
@@ -186,15 +188,7 @@ public class TreeGeneticAlgorithm {
         p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
         p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
         p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
-        System.out.print("Gen 0: "+ft.mid+" "+best_sol_yet+" "+ ft.best_value+'\n');
-
-        //PAINT IF NEEDED
-        /*
-        if(mapUpdated) {
-            p.m.WipeMapBackground();
-            p.m.DrawPaths(ft.path_of_best);
-            p.log.clear_text();
-        }*/
+        //System.out.print("Gen 0: "+ft.mid+" "+best_sol_yet+" "+ ft.best_value+'\n');
 
         using_cod_n = alternate;
 
@@ -224,7 +218,9 @@ public class TreeGeneticAlgorithm {
         FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx, p.bloating_coef);
         if(ft.best_value > best_sol_yet){
             best_sol_yet = ft.best_value;
+            System.out.print("\n Best value chosen Yet => "+ best_sol_yet + " in Gen "+ currentGen+"\n");
             best.impersonate(gen[using_cod_n].get(ft.best_value_idx));
+            //endGeneticAlgorithm(p);
         }
 
         //ELITISMO------------------------------------------------------------------------------------------------
@@ -237,10 +233,10 @@ public class TreeGeneticAlgorithm {
             }
             ft.best_value = best_sol_yet;
             //CHOSE NEW ELITES
-            int[] best = new elitism().choose_elite(n_elites, ft.fit);
-            for (int i = 0; i < best.length; ++i) {
-                elite_elems.copy_individual(i, gen[using_cod_n].get(best[i]));
-                elite_values[i] = ft.fit[best[i]];
+            int[] elites_chosen = new elitism().choose_elite(n_elites, ft.fit);
+            for (int i = 0; i < elites_chosen.length; ++i) {
+                elite_elems.copy_individual(i, gen[using_cod_n].get(elites_chosen[i]));
+                elite_values[i] = ft.fit[elites_chosen[i]];
             }
         }
         //--------------------------------------------------------------------------------------------------------
@@ -267,7 +263,7 @@ public class TreeGeneticAlgorithm {
         p.plot2d.addLinePlot("MID",Color.GREEN, plotValues[3],plotValues[0]);
         p.plot2d.addLinePlot("BEST IN GEN" ,Color.RED, plotValues[3], plotValues[1]);
         p.plot2d.addLinePlot("ABSOLUTE BEST",Color.BLUE, plotValues[3], plotValues[2]);
-        System.out.print("Gen "+currentGen+": "+ft.mid+" "+best_sol_yet+" "+ ft.best_value+'\n');
+        //System.out.print("Gen "+currentGen+": "+ft.mid+" "+best_sol_yet+" "+ ft.best_value+'\n');
         //IO.print(mid+" "+max+" "+ bestSol.totalValue+'\n');
 
         //PAINT IF NEEDED
@@ -312,6 +308,7 @@ public class TreeGeneticAlgorithm {
             );
             p.log.add_text("\nResultado Final: "+ FitnessCalculator.calculate_fitness_given_results(fit_ret.rrt), Color.BLUE);
         }
+        p.log.add_text("\n\nMejor Resultado: " + best_sol_yet, Color.RED);
 
     }
 }

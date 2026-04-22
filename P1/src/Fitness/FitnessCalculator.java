@@ -15,17 +15,15 @@ public class FitnessCalculator {
         FitnessReturnType ret = new FitnessReturnType();
         ret.best_value = Double.NEGATIVE_INFINITY;
         ret.fit = new double[gen.all_individuals.length];
-        int i = 0;
-        for (IndividualCodification cod : gen.all_individuals) {
-            if (cod.node_tree == null)
+        for (int i = 0; i < gen.all_individuals.length; ++i) {
+            if (gen.all_individuals[i].node_tree == null)
                 throw new UnreachableCode("The codification with index " + i + " has a null first tree node");
-            ret.fit[i] = calulate_one_individual_fitness(m, cod, ctx,bloating_coef);
+            ret.fit[i] = calulate_one_individual_fitness(m, gen.all_individuals[i], ctx,bloating_coef);
             ret.mid += ret.fit[i];
             if (ret.fit[i] > ret.best_value) {
                 ret.best_value = ret.fit[i];
                 ret.best_value_idx = i;
             }
-            ++i;
         }
         ret.mid /= gen.all_individuals.length;
         return ret;
