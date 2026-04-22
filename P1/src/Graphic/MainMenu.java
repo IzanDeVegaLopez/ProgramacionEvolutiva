@@ -360,7 +360,7 @@ public class MainMenu extends JFrame{
         but2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mapStorage.add_map(generateMap(15,15,Long.parseLong(seedField.textField.getText())),
+                mapStorage.add_map(generateMap(15,15,(int)Double.parseDouble(seedField.textField.getText())),
                         2-mapsTabs.getSelectedIndex());
                 mapStorage.reset_maps();
                 mapRepresentation[2-mapsTabs.getSelectedIndex()] = createMap(2-mapsTabs.getSelectedIndex());

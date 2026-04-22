@@ -28,7 +28,7 @@ public class MapRepresentation extends MyPanel{
         this.setMaximumSize(new Dimension(xx,yy));
         this.setMinimumSize(new Dimension(xx,yy));
         myTiles = new MyPanel[y][x];
-        Border mborder = BorderFactory.createLineBorder(new Color(50,50,50), 1);
+        Border mborder = BorderFactory.createLineBorder(new Color(25,25,25), 1);
         for(int i = 0; i < y; ++i) {
             for (int j = 0; j < x; ++j) {
                 myTiles[i][j] = new MyPanel();
@@ -47,7 +47,7 @@ public class MapRepresentation extends MyPanel{
                 //Si esta ocupada pintala negra
                 switch (m.ocupiedTiles[i][j]){
                     case TileContents.WALL:
-                        myTiles[i][j].setColor(150,0,0);
+                        myTiles[i][j].setColor(150,50,50);
                         break;
                     case TileContents.SAND:
                         myTiles[i][j].setColor(215, 180, 125);
@@ -55,7 +55,7 @@ public class MapRepresentation extends MyPanel{
                     case TileContents.SAMPLE:
                         add_circle_to_tile(new Vector2(j,i), new Color(225,175,75), new Vector2(20,20));
                     case TileContents.EMPTY:
-                        myTiles[i][j].setColor(0);
+                        myTiles[i][j].setColor(50);
                         break;
                 }
             }
