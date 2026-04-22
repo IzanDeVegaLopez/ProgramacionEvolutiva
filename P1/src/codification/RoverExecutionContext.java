@@ -39,6 +39,7 @@ public class RoverExecutionContext {
     int reward_shaping = 0;
     int sand_count = 0;
     int crash_count = 0;
+    Vector2 final_tile = new Vector2(1,1);
 
     public void rotate(rotationDirection rotDir) throws Exception{
         if(rotDir== rotationDirection.RD_RIGHT){
@@ -114,15 +115,11 @@ public class RoverExecutionContext {
             case EMPTY:
                 currentTile = newTile.clone();
                 --energy_remaining;
-                if (!current_map.tainted[currentTile.y][currentTile.x])
-                    ++tile_count;
                 break;
             case SAND:
                 energy_remaining-=10;
                 currentTile = newTile.clone();
                 ++sand_count;
-                if (!current_map.tainted[currentTile.y][currentTile.x])
-                    ++tile_count;
                 break;
             case WALL:
                 energy_remaining-=2;
@@ -130,9 +127,14 @@ public class RoverExecutionContext {
 //                System.out.println("owie");
                 break;
         }
-        if (add_reward) reward_shaping++;
+        if (!current_map.tainted[currentTile.y][currentTile.x])
+            ++tile_count;
         current_map.tainted[currentTile.y][currentTile.x] = true;
+
+        if (add_reward) reward_shaping++;
         add_reward = false;
+
+        final_tile = currentTile.clone();
     }
     public void advance(with_tiles t) throws Exception{
         Vector2 newTile = currentTile.clone();
@@ -144,19 +146,11 @@ public class RoverExecutionContext {
             case EMPTY:
                 currentTile = newTile.clone();
                 --energy_remaining;
-                if (!current_map.tainted[currentTile.y][currentTile.x]) {
-                    tiles.add(newTile.clone());
-                    ++tile_count;
-                }
                 break;
             case SAND:
                 energy_remaining -= 10;
                 currentTile = newTile.clone();
                 ++sand_count;
-                if (!current_map.tainted[currentTile.y][currentTile.x]) {
-                    tiles.add(newTile.clone());
-                    ++tile_count;
-                }
                 break;
             case WALL:
                 energy_remaining -= 2;
@@ -164,9 +158,16 @@ public class RoverExecutionContext {
 //                System.out.println("owie");
                 break;
         }
-        if (add_reward) reward_shaping++;
+        if (!current_map.tainted[currentTile.y][currentTile.x]) {
+            tiles.add(currentTile.clone());
+            ++tile_count;
+        }
         current_map.tainted[currentTile.y][currentTile.x] = true;
+
+        if (add_reward) reward_shaping++;
         add_reward = false;
+
+        final_tile = currentTile.clone();
 //        throw new UnreachableCode("Implementar choque contra muros, restar energia, coger samples");
     }
 
@@ -176,13 +177,15 @@ public class RoverExecutionContext {
         public int recompensa_visual = 0;
         public int arena = 0;
         public int colisiones = 0;
+        public Vector2 final_tile;
 
-        public RecorridoReturnType(int sampleCount, int tileCount, int rewardShaping, int sandCount, int crashCount) {
+        public RecorridoReturnType(int sampleCount, int tileCount, int rewardShaping, int sandCount, int crashCount, Vector2 f) {
             muestras_recogidas = sampleCount;
             casillas_exploradas = tileCount;
             recompensa_visual = rewardShaping;
             arena = sandCount;
             colisiones = crashCount;
+            final_tile = f;
         }
     }
     public static enum with_tiles{
@@ -216,7 +219,7 @@ public class RoverExecutionContext {
             cod.execute(this);
             ++ticks;
         }
-        return new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count);
+        return new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count,final_tile);
     }
     public RecorridoReturnTypeWithTilesReached do_simulation(Map m, IndividualCodification cod, with_tiles t) throws Exception{
         current_map = m;
@@ -228,7 +231,7 @@ public class RoverExecutionContext {
             ++ticks;
         }
         return new RecorridoReturnTypeWithTilesReached(
-                new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count),
+                new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count,final_tile),
                 tiles);
     }
 }

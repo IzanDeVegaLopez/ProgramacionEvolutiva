@@ -37,9 +37,9 @@ public class MapRepresentation extends MyPanel{
                 this.add(myTiles[i][j]);
             }
         }
-        recolor_map(new Vector<Vector2>(0));
+        recolor_map(new Vector<Vector2>(0), new Vector2(1,1));
     }
-    public void recolor_map(Vector<Vector2> marked_tiles){
+    public void recolor_map(Vector<Vector2> marked_tiles, Vector2 final_tile){
         int y = m.ocupiedTiles.length, x=m.ocupiedTiles[0].length;
         for(int i = 0; i < y; ++i) {
             for (int j = 0; j < x; ++j) {
@@ -47,7 +47,7 @@ public class MapRepresentation extends MyPanel{
                 //Si esta ocupada pintala negra
                 switch (m.ocupiedTiles[i][j]){
                     case TileContents.WALL:
-                        myTiles[i][j].setColor(0);
+                        myTiles[i][j].setColor(150,0,0);
                         break;
                     case TileContents.SAND:
                         myTiles[i][j].setColor(215, 180, 125);
@@ -55,15 +55,16 @@ public class MapRepresentation extends MyPanel{
                     case TileContents.SAMPLE:
                         add_circle_to_tile(new Vector2(j,i), new Color(225,175,75), new Vector2(20,20));
                     case TileContents.EMPTY:
-                        myTiles[i][j].setColor(255);
+                        myTiles[i][j].setColor(0);
                         break;
                 }
             }
         }
 
         for(Vector2 v : marked_tiles){
-            add_circle_to_tile(v, new Color(255,0,0), new Vector2(30,30));
+            add_circle_to_tile(v, new Color(200,255,255), new Vector2(30,30));
         }
+        add_circle_to_tile(final_tile, new Color(0,255,255), new Vector2(30,30));
 
         revalidate();
         repaint();
