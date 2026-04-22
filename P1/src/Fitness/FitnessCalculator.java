@@ -2,6 +2,7 @@ package Fitness;
 
 import Graphic.MapRepresentation;
 import Mapas.Map;
+import Mapas.mapStorage;
 import codification.Generation;
 import codification.IndividualCodification;
 import Error.UnreachableCode;
@@ -31,8 +32,9 @@ public class FitnessCalculator {
 
     public static double calulate_one_individual_fitness(MapRepresentation[] m, IndividualCodification cod, RoverExecutionContext ctx, double bloating_coef) throws Exception {
         double total_fitness = 0;
-        for (MapRepresentation _m : m) {
-            total_fitness += calculate_fitness_given_map(_m.m, cod, ctx);
+        mapStorage.reset_maps();
+        for (int i = 0; i<3; i++) {
+            total_fitness += calculate_fitness_given_map(mapStorage.get_map(i), cod, ctx);
         }
         int n_nodes = cod.get_number_of_child_nodes();
         return (total_fitness / m.length) - (n_nodes * bloating_coef);

@@ -212,7 +212,6 @@ public class TreeGeneticAlgorithm {
     }
 
     void loopGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
-        mapStorage.reset_maps();
         int alternate = (using_cod_n + 1) %2;
 
         FitnessReturnType ft = FitnessCalculator.calculate_fitness(p.maps, gen[using_cod_n], ctx, p.bloating_coef);
@@ -296,8 +295,9 @@ public class TreeGeneticAlgorithm {
     }
     void endGeneticAlgorithm(GeneticAlgorithmParameters p) throws Exception{
         p.log.set_text(best.node_tree.write_me_down(0));
+        mapStorage.reset_maps();
         for(int i = 0; i<p.maps.length; ++i) {
-            var fit_ret = FitnessCalculator.calculate_fitness_given_map_get_tiles(p.maps[i].m, best, ctx);
+            var fit_ret = FitnessCalculator.calculate_fitness_given_map_get_tiles(mapStorage.get_map(i), best, ctx);
             p.maps[i].recolor_map(fit_ret.all_tiles_reached,fit_ret.rrt.final_tile);
             p.log.add_text("\nMAP "+(i+1)+":\n" +
                     "\nColisiones: "+fit_ret.rrt.colisiones +
