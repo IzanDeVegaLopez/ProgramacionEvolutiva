@@ -50,10 +50,11 @@ public class FitnessCalculator {
     }
 
     public static double calculate_fitness_given_results(RoverExecutionContext.RecorridoReturnType ret)    {
-            return 500*ret.muestras_recogidas +
-            20*ret.casillas_exploradas +
-            2*ret.recompensa_visual -
-            30*ret.arena -
-            10*ret.colisiones;
+            return 500.0*ret.muestras_recogidas +
+            20.0*ret.casillas_exploradas +
+            2.0*ret.recompensa_visual -
+            30.0*ret.arena -
+            10.0*ret.colisiones +
+            ((ret.casillas_exploradas < 4) ? -1000.0 : 0);
     }
 }
