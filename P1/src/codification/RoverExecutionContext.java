@@ -75,6 +75,8 @@ public class RoverExecutionContext {
             looking_at_tile = looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
             ++dist;
         }
+        if (!current_map.validTile(looking_at_tile)) dist = 100;
+
         return dist;
     }
     public int get_obstacle_dist() throws Exception {
@@ -86,8 +88,6 @@ public class RoverExecutionContext {
             looking_at_tile = looking_at_tile.add(DIRECTIONS[lookingAtIdx]);
             ++dist;
         }
-        if (!current_map.validTile(looking_at_tile)) dist = 100;
-
         return dist;
         //return 0;
     }
