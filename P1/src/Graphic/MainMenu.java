@@ -138,7 +138,8 @@ public class MainMenu extends JFrame{
 
     MapRepresentation createMap(int mapId){
         MapRepresentation m = new MapRepresentation(mapId);
-        m.recolor_map(new Vector<Vector2>(0), new Vector2(1,1));
+        Vector<Vector2> vec = new Vector<Vector2>(0);
+        m.recolor_map(vec,vec, new Vector2(1,1));
         return m;
     }
 

@@ -31,6 +31,7 @@ public class RoverExecutionContext {
     rotationDirection last_rotation = rotationDirection.DEFAULT;
 
     Vector<Vector2> tiles = new Vector<>();
+    Vector<Vector2> tiles_with_sample = new Vector<>();
 
     boolean add_reward = false;
 
@@ -147,6 +148,7 @@ public class RoverExecutionContext {
         newTile = newTile.add(DIRECTIONS[lookingAtIdx]);
         switch (current_map.get_tile(newTile)) {
             case SAMPLE:
+                tiles_with_sample.add(newTile);
                 current_map.set_contents(newTile,TileContents.EMPTY);
                 ++sample_count;
             case EMPTY:
@@ -200,9 +202,11 @@ public class RoverExecutionContext {
     public static class RecorridoReturnTypeWithTilesReached{
         public RecorridoReturnType rrt;
         public Vector<Vector2> all_tiles_reached;
-        public RecorridoReturnTypeWithTilesReached(RecorridoReturnType r, Vector<Vector2> t){
+        public Vector<Vector2> tiles_with_sample_reached;
+        public RecorridoReturnTypeWithTilesReached(RecorridoReturnType r, Vector<Vector2> t, Vector<Vector2> twsr){
             rrt = r;
             all_tiles_reached = t;
+            tiles_with_sample_reached = twsr;
         }
     }
     public void reset(){
@@ -211,6 +215,7 @@ public class RoverExecutionContext {
         energy_remaining = total_energy;
         tile_count = 0;
         tiles = new Vector<Vector2>(0);
+        tiles_with_sample = new Vector<Vector2>(0);
         sand_count = 0;
         crash_count = 0;
         reward_shaping = 0;
@@ -239,6 +244,7 @@ public class RoverExecutionContext {
         }
         return new RecorridoReturnTypeWithTilesReached(
                 new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count,final_tile),
-                tiles);
+                tiles,
+                tiles_with_sample);
     }
 }

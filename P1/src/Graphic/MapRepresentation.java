@@ -37,9 +37,10 @@ public class MapRepresentation extends MyPanel{
                 this.add(myTiles[i][j]);
             }
         }
-        recolor_map(new Vector<Vector2>(0), new Vector2(1,1));
+        Vector<Vector2> vec = new Vector<Vector2>(0);
+        recolor_map(vec,vec, new Vector2(1,1));
     }
-    public void recolor_map(Vector<Vector2> marked_tiles, Vector2 final_tile){
+    public void recolor_map(Vector<Vector2> marked_tiles, Vector<Vector2> tiles_with_sample_reached, Vector2 final_tile){
         int y = m.ocupiedTiles.length, x=m.ocupiedTiles[0].length;
         for(int i = 0; i < y; ++i) {
             for (int j = 0; j < x; ++j) {
@@ -63,6 +64,9 @@ public class MapRepresentation extends MyPanel{
 
         for(Vector2 v : marked_tiles){
             add_circle_to_tile(v, new Color(200,255,255,127), new Vector2(30,30));
+        }
+        for(Vector2 v : tiles_with_sample_reached){
+            add_circle_to_tile(v, new Color(255,0,0,127), new Vector2(30,30));
         }
         add_circle_to_tile(final_tile, new Color(0,255,255), new Vector2(30,30));
 
