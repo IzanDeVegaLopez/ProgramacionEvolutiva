@@ -26,7 +26,7 @@ public class NodeFactory {
     }
     public static TreeNode create_random_complete_tree(int current_depth, int max_depth) throws Exception{
         //NEED A LEAF NODE
-        if(max_depth==current_depth){
+        if(max_depth<=current_depth){
             return create_random_leaf_node_advance_double_prob();
         }
 

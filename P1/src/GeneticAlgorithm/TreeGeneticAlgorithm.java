@@ -299,7 +299,7 @@ public class TreeGeneticAlgorithm {
         for(int i = 0; i<p.maps.length; ++i) {
             var fit_ret = FitnessCalculator.calculate_fitness_given_map_get_tiles(mapStorage.get_map(i), best, ctx);
             p.maps[i].recolor_map(fit_ret.all_tiles_reached,fit_ret.rrt.final_tile);
-            p.log.add_text("\nMAP "+(i+1)+":\n" +
+            p.log.add_text("\n\nMAP "+(i+1)+":" +
                     "\nColisiones: "+fit_ret.rrt.colisiones +
                             "\nArena: "+fit_ret.rrt.arena +
                             "\nRecompensa Visual: "+fit_ret.rrt.recompensa_visual +
@@ -308,7 +308,8 @@ public class TreeGeneticAlgorithm {
             );
             p.log.add_text("\nResultado Final: "+ FitnessCalculator.calculate_fitness_given_results(fit_ret.rrt), Color.BLUE);
         }
-        p.log.add_text("\n\nMejor Resultado: " + best_sol_yet, Color.RED);
+        p.log.add_text("\n\nNº Total de Nodos: " + best.get_number_of_child_nodes());
+        p.log.add_text("\nMejor Resultado: " + best_sol_yet, Color.RED);
 
     }
 }
