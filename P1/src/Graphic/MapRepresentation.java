@@ -62,7 +62,7 @@ public class MapRepresentation extends MyPanel{
         }
 
         for(Vector2 v : marked_tiles){
-            add_circle_to_tile(v, new Color(200,255,255), new Vector2(30,30));
+            add_circle_to_tile(v, new Color(200,255,255,127), new Vector2(30,30));
         }
         add_circle_to_tile(final_tile, new Color(0,255,255), new Vector2(30,30));
 
