@@ -24,7 +24,7 @@ public class Generation {
     public Generation(int n_individuals, int max_depth, randomization rand) throws Exception{
         all_individuals = initialize_gen(n_individuals);
         switch(rand){
-            case randomization.RANDOMIZE -> create_by_ramped_and_half(n_individuals, max_depth);
+            case RANDOMIZE -> create_by_ramped_and_half(n_individuals, max_depth);
             default -> throw new UnreachableCode("How da fuck did ya reach here");
         }
     }

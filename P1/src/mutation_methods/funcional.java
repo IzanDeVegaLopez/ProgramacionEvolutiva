@@ -12,17 +12,17 @@ public class funcional implements BaseMutation{
         if(node.parent == null) return;
 
         switch(node.option_chosen){
-            case NodeFactory.options.stay:{
+            case stay:{
                 throw new UnreachableCode("This should have never happened, non valid enum option chosen in subarbol.mutate, it must always be left or right, we are choosing a path");
             }
-            case NodeFactory.options.go_left:{
+            case go_left:{
                 BranchNode bn = NodeFactory.create_random_childless_branch_node();
                 bn.L_child = ((BranchNode)node.parent.L_child).L_child;
                 bn.R_child = ((BranchNode)node.parent.L_child).R_child;
                 node.parent.L_child = bn;
                 break;
             }
-            case NodeFactory.options.go_right:{
+            case go_right:{
                 BranchNode bn = NodeFactory.create_random_childless_branch_node();
                 bn.L_child = ((BranchNode)node.parent.R_child).L_child;
                 bn.R_child = ((BranchNode)node.parent.R_child).R_child;

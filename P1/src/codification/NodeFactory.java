@@ -131,13 +131,13 @@ public class NodeFactory {
             int random_idx = utils.my_utils.get_random(options.count.ordinal());
             options opt = options.values()[random_idx];
             switch(opt){
-                case options.go_left :
+                case go_left :
                     aux = ((BranchNode)aux).L_child;
                 break;
-                case options.go_right :
+                case go_right :
                     aux = ((BranchNode)aux).R_child;
                 break;
-                case options.stay :
+                case stay :
                     return aux;
                 default:
                     throw new UnreachableCode("Count is not a real option, this should not have been chosen");
@@ -165,15 +165,15 @@ public class NodeFactory {
             int random_idx = utils.my_utils.get_random(options.count.ordinal());
             options opt = options.values()[random_idx];
             switch(opt){
-                case options.go_left :
+                case go_left :
                     parent = ((BranchNode)aux);
                     aux = parent.L_child;
                     break;
-                case options.go_right :
+                case go_right :
                     parent = ((BranchNode)aux);
                     aux = parent.R_child;
                     break;
-                case options.stay :
+                case stay :
                     return new parent_and_child_node_return(parent, last_opt, depth);
                 default:
                     throw new UnreachableCode("Count is not a real option, this should not have been chosen");
@@ -189,14 +189,14 @@ public class NodeFactory {
             int random_idx = utils.my_utils.get_random(options.stay.ordinal());
             options opt = options.values()[random_idx];
             switch(opt){
-                case options.go_left : {
+                case go_left : {
                     BranchNode bn = ((BranchNode) aux);
                     if (bn.L_child.is_leaf())
                         return new parent_and_child_node_return(bn, options.go_left, depth);
                     aux = bn.L_child;
                     break;
                 }
-                case options.go_right : {
+                case go_right : {
                     BranchNode bn = ((BranchNode) aux);
                     if (bn.R_child.is_leaf())
                         return new parent_and_child_node_return(bn, options.go_right, depth);
@@ -223,15 +223,15 @@ public class NodeFactory {
             int random_idx = utils.my_utils.get_random(options.stay.ordinal());
             options opt = options.values()[random_idx];
             switch(opt){
-                case options.stay: {
+                case stay: {
                     return new parent_and_child_node_return(parent, last_opt, depth);
                 }
-                case options.go_left : {
+                case go_left : {
                     parent = aux;
                     aux = (BranchNode)aux.L_child;
                     break;
                 }
-                case options.go_right : {
+                case go_right : {
                     parent = aux;
                     aux = (BranchNode)aux.R_child;
                     break;
