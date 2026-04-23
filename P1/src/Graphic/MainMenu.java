@@ -362,10 +362,10 @@ public class MainMenu extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 mapStorage.add_map(generateMap(15,15,(int)Double.parseDouble(seedField.textField.getText())),
-                        2-mapsTabs.getSelectedIndex());
+                        mapsTabs.getSelectedIndex());
                 mapStorage.reset_maps();
-                mapRepresentation[2-mapsTabs.getSelectedIndex()] = createMap(2-mapsTabs.getSelectedIndex());
-                mapsTabs.setComponentAt(mapsTabs.getSelectedIndex(),mapRepresentation[2-mapsTabs.getSelectedIndex()]);
+                mapRepresentation[mapsTabs.getSelectedIndex()] = createMap(mapsTabs.getSelectedIndex());
+                mapsTabs.setComponentAt(mapsTabs.getSelectedIndex(),mapRepresentation[mapsTabs.getSelectedIndex()]);
 //                mapRepresentation[2-mapsTabs.getSelectedIndex()].WipeMap();
 //                mapRepresentation[2-mapsTabs.getSelectedIndex()].DrawPoints(
 //                    mapRepresentation[2-mapsTabs.getSelectedIndex()].m.getRandomTiles(
