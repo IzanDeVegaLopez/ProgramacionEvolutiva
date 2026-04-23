@@ -47,15 +47,15 @@ public class MapRepresentation extends MyPanel{
                 myTiles[i][j].removeAll();
                 //Si esta ocupada pintala negra
                 switch (m.ocupiedTiles[i][j]){
-                    case TileContents.WALL:
+                    case WALL:
                         myTiles[i][j].setColor(150,50,50);
                         break;
-                    case TileContents.SAND:
+                    case SAND:
                         myTiles[i][j].setColor(215, 180, 125);
                         break;
-                    case TileContents.SAMPLE:
+                    case SAMPLE:
                         add_circle_to_tile(new Vector2(j,i), new Color(225,175,75), new Vector2(20,20));
-                    case TileContents.EMPTY:
+                    case EMPTY:
                         myTiles[i][j].setColor(50);
                         break;
                 }
