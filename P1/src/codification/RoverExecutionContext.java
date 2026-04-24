@@ -8,6 +8,7 @@ import Error.UnreachableCode;
 import java.util.Vector;
 
 public class RoverExecutionContext {
+    int ticks;
     static final int total_energy = 150;
     static final int total_ticks = 150;
     public enum rotationDirection{
@@ -43,6 +44,9 @@ public class RoverExecutionContext {
     Vector2 final_tile = new Vector2(1,1);
 
     public void rotate(rotationDirection rotDir) throws Exception{
+        if(ticks <= 0) return;
+        --ticks;
+
         if(rotDir== rotationDirection.RD_RIGHT){
             lookingAtIdx = lookingAtIdx-1;
             if(lookingAtIdx < 0) lookingAtIdx += 3;
@@ -59,9 +63,6 @@ public class RoverExecutionContext {
         }
         else turn_count = 0;
         last_rotation = rotDir;
-
-
-//        throw new UnreachableCode("Agregar penalización por mareo, restar energía");
     }
     public void rotate(rotationDirection rotDir, with_tiles t) throws Exception{
         rotate(rotDir);
@@ -113,6 +114,8 @@ public class RoverExecutionContext {
     }
 
     public void advance() throws Exception{
+        if(ticks <= 0) return;
+        --ticks;
         Vector2 newTile = currentTile.clone();
         newTile = newTile.add(DIRECTIONS[lookingAtIdx]);
         switch (current_map.get_tile(newTile)){
@@ -144,6 +147,9 @@ public class RoverExecutionContext {
         final_tile = currentTile.clone();
     }
     public void advance(with_tiles t) throws Exception{
+        if(ticks <= 0) return;
+        --ticks;
+
         Vector2 newTile = currentTile.clone();
         newTile = newTile.add(DIRECTIONS[lookingAtIdx]);
         switch (current_map.get_tile(newTile)) {
@@ -226,10 +232,9 @@ public class RoverExecutionContext {
     public RecorridoReturnType do_simulation(Map m, IndividualCodification cod) throws Exception{
         current_map = m;
         reset();
-        int ticks = 0;
-        while(ticks < total_ticks && energy_remaining > 0) {
+        ticks = total_ticks;
+        while(ticks > 0 && energy_remaining > 0) {
             cod.execute(this);
-            ++ticks;
         }
         return new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count,final_tile);
     }
@@ -237,10 +242,9 @@ public class RoverExecutionContext {
         current_map = m;
         reset();
         tiles.add(new Vector2(1,1));
-        int ticks = 0;
-        while(ticks < total_ticks && energy_remaining > 0){
+        ticks = total_ticks;
+        while(ticks > 0 && energy_remaining > 0){
             cod.execute(this, t);
-            ++ticks;
         }
         return new RecorridoReturnTypeWithTilesReached(
                 new RecorridoReturnType(sample_count,tile_count,reward_shaping,sand_count,crash_count,final_tile),

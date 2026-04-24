@@ -64,7 +64,7 @@ public class NodeFactory {
     }
     public static LeafNode create_random_leaf_node_advance_double_prob() throws Exception{
         int random_idx = utils.my_utils.
-                get_random(leaf_node_types.LNT_COUNT.ordinal()+1);
+        get_random(leaf_node_types.LNT_COUNT.ordinal()+1);
         if(leaf_node_types.LNT_COUNT.ordinal()==random_idx) return create_leaf_node(leaf_node_types.LNT_ADVANCE);
         return create_leaf_node(leaf_node_types.values()[random_idx]);
     }
